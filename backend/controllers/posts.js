@@ -77,8 +77,30 @@ const getAllPosts = (req, res)=>{
     });
 }
 
-
+const getAllPostByAuthor = (req, res)=>{
+    let authorId =  req.token.userId;
+    postModel.find({author: authorId}).then((posts) => {
+        if(!posts){
+            return res.status(404).json({
+                success: false,
+                message: `The author: ${authorId} has no Posts`,
+              });
+        }
+        res.status(200).json({
+            success: true,
+            message: `All the Posts for the author: ${authorId}`,
+            posts: posts,
+          });
+    }).catch((err) => {
+        res.status(500).json({
+            success: false,
+            message: `Server Error`,
+            err: err.message,
+          });
+    });
+};
 module.exports = {
     createPost,
-    getAllPosts
+    getAllPosts,
+    getAllPostByAuthor
 }
