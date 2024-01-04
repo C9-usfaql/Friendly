@@ -123,9 +123,32 @@ const getPostById = (req, res)=>{
     });
 }
 
+const updatePostById = (req, res)=>{
+    const postId = req.params.id;
+    postModel.findByIdAndUpdate({_id : postId}, req.body).then((newPost) => {
+        if(!newPost){
+            return res.status(404).json({
+                success: false,
+                message: `The Post with id => ${postId} not found`,
+              });
+        }
+        res.status(201).json({
+            success: true,
+            message: `Post updated`,
+            post: newPost,
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            success: false,
+            message: `Server Error`,
+            err: err.message,
+          });
+    });
+}
 module.exports = {
     createPost,
     getAllPosts,
     getAllPostByAuthor,
-    getPostById
+    getPostById,
+    updatePostById
 }
