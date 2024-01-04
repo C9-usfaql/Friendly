@@ -145,10 +145,36 @@ const updatePostById = (req, res)=>{
           });
     });
 }
+
+
+const deletePostById = (req, res) =>{
+    const idPost = req.params.id;
+    
+    postModel.findByIdAndDelete(idPost).then((post) => {
+        if(!post){
+            return res.status(404).json({
+                success: false,
+                message: `The Post with id => ${idPost} not found`,
+              });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: `Post deleted`,
+          });
+    }).catch((err) => {
+        res.status(500).json({
+            success: false,
+            message: `Server Error`,
+            err: err.message,
+          });
+    });
+}
 module.exports = {
     createPost,
     getAllPosts,
     getAllPostByAuthor,
     getPostById,
-    updatePostById
+    updatePostById,
+    deletePostById
 }
