@@ -1,0 +1,32 @@
+body{
+    margin: 0;
+}
+.Nav{
+    display: flex;
+    background-color: white;
+    min-height: 7vh;
+    justify-content: space-between;
+
+}
+
+.logo-div{
+    min-width: 10%;
+}
+.logo{
+    max-width: 64px;
+    place-content: left;
+}
+
+.nav-div{
+    display: flex;
+    gap: 16px;
+    min-width: 10%;
+    text-align : "center";
+    place-items: center;
+    font-size: 19px;
+    text-decoration: none;
+}
+a{
+    text-decoration: none;
+    color: #4464AD;
+}
