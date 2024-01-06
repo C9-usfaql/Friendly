@@ -5,22 +5,29 @@ body{
     display: flex;
     background-color: white;
     min-height: 7vh;
-    justify-content: space-between;
 
 }
 
 .logo-div{
     min-width: 10%;
 }
+
 .logo{
-    max-width: 64px;
+    max-width: 50px;
     place-content: left;
 }
 
+.avatar-div{
+    min-width: 10%;
+}
+.avatar{
+    max-width: 64px;
+    place-content: right;
+}
 .nav-div{
     display: flex;
     gap: 16px;
-    min-width: 10%;
+    min-width: 90%;
     text-align : "center";
     place-items: center;
     font-size: 19px;

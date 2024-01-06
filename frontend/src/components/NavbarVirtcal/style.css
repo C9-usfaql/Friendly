@@ -1,0 +1,17 @@
+.nav-bar-vertical{
+    background-color: white;
+    text-align: center;
+    width: 15%;
+    border-radius: 10px;
+}
+
+.menu{
+    display: flex;
+    place-items: center;
+    margin-left: 10%;
+    gap: 10px;
+    margin-top: 10%;
+}
+.profile{
+    margin-bottom: 10%;
+}
