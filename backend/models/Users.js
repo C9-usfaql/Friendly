@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const userModel = new mongoose.Schema({
     firstName : {type: String, require : true},
     lastName : {type : String, require: true},
-    image : {type : String},
+    image : {type : String, default : "https://icons.veryicon.com/png/o/miscellaneous/standard/avatar-15.png"},
     dataBirth : {type : String, require: true},
     phoneNumber : {type : Number},
     county : {type: String},

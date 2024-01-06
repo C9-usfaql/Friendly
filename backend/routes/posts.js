@@ -1,5 +1,7 @@
 const express = require("express");
 const {createPost, getAllPosts, getAllPostByAuthor, getPostById, updatePostById, deletePostById} = require("../controllers/posts");
+const {createLike} = require("../controllers/likes");
+const {createNewComment} = require("../controllers/comments");
 const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
 
@@ -12,4 +14,6 @@ postsRouter.get("/search_2/:id",authentication, getPostById);
 postsRouter.put("/:id",authentication, updatePostById);
 postsRouter.delete("/:id",authentication, deletePostById);
 
+postsRouter.post("/:id/like", authentication, createLike);
+postsRouter.post("/:id/comment", authentication, createNewComment);
 module.exports = postsRouter;
