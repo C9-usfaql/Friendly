@@ -118,6 +118,7 @@ const getAllPosts = (req, res) => {
     .find()
     .populate("likes")
     .populate("comments")
+    .populate("author")
     .then((posts) => {
       console.log(posts);
       if (posts.length) {
