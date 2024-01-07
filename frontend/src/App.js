@@ -11,7 +11,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const[userId,setUserId]=useState(localStorage.getItem("userId"));
   return (
-    <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId}}>
+    <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId}}>
 
     <div className="App">
     <Navbar/>

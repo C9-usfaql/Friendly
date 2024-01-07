@@ -14,6 +14,6 @@ postsRouter.get("/search_2/:id",authentication, getPostById);
 postsRouter.put("/:id",authentication, updatePostById);
 postsRouter.delete("/:id",authentication, deletePostById);
 
-postsRouter.post("/:id/like", authentication, createLike);
+postsRouter.get("/:id/like", authentication, createLike);
 postsRouter.post("/:id/comment", authentication, createNewComment);
 module.exports = postsRouter;
