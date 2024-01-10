@@ -114,7 +114,17 @@ function Posts() {
                 {/* End line */}
                 
                 {/* Start Div Content Post */}
-
+                {editAllow &&  selectedPostId === post._id ? <> <input id={post._id} defaultValue={post.content} onChange={(e)=>{
+                    setContentPostAfterEdit(e.target.value)
+                }} /> <button onClick={()=>{
+                    axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
+                        console.log(result);
+                        setModalVisible(false);
+                        setEditAllow(false);
+                    }).catch((err) => {
+                        
+                    });
+                }}>Save</button></>: <div className='content-post'>{post.content}</div>}
                 
                 <div>
                     {
