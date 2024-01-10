@@ -12,7 +12,6 @@ const Navbar = ()=>{
     };
     useEffect(()=>{
         axios.get(`http://localhost:5000/users/${userId}`,config).then((result) => {
-            console.log("User Data =>", result);
             setImageUrl(result.data.user.image)
         }).catch((err) => {
                 console.log(err);

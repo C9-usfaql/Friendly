@@ -49,40 +49,29 @@ let formattedDate = formatDate(now);
  
 const createPost = (req, res) => {
   const { content,image, author } = req.body;
-  console.log("Image Path =====>", image);
-    const post = new postModel({
+  // console.log("Image Path =====>", image);
+  // console.log("from BE req:",content,image, author);
+    const newPost = new postModel({
       content,
       image,
       author,
       datePost: formattedDate,
     });
-    post
+   newPost
       .save()
       .then((result) => {
-        UserModel.findById(
-          { _id: author },
-          { $push: { posts: result._id } },
-          { new: true }
-        ).then((result) => {
-          res.status(201).json({
-            success: true,
-            message: "Post Created Successfully",
-            author: result,
-          });
-        }).catch((err) => {
-          res.status(500).json({
-            success: false,
-            message: `Server Error`,
-            err: err.message,
-          });
+        // console.log(result);
+        res.status(201).json({
+          success: true,
+          message: "Post Created Successfully",
+          data: result,
         });
-      
       })
       .catch((err) => {
         res.status(500).json({
           success: false,
-          message: `Server Error`,
-          err: err.message,
+          message: `Server Error` + err.message,
+          err: err,
         });
       });
 
