@@ -11,7 +11,9 @@ function Posts() {
     const { data, setData } = useContext(dataContext);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [editAllow, setEditAllow] = useState(false);
     const [selectedPostId, setSelectedPostId] = useState(null);
+    const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
     const openModal = (postId) => {
         setSelectedPostId(postId);
         setModalVisible(true);
@@ -66,7 +68,7 @@ function Posts() {
                     <div style={{display : 'flex', flexDirection:"column"}}>
 
                     
-                    <div id={`${post._id}`}  style={{width:"fit-content", height:"fit-content"}} onClick={(e)=>{
+                    <button id={`${post._id}`}  style={{width:"fit-content", height:"fit-content"}} onClick={(e)=>{
                     
                         if(modalVisible){
                             closeModal()
@@ -77,15 +79,28 @@ function Posts() {
 
                     }
                        }>
-                        <i class="gg-menu"></i>
-                       </div>
+                        Menu
+                        {/* <i class="gg-menu"></i> */}
+                       </button>
 
                 {modalVisible && selectedPostId === post._id && (
                     <div id="id01" className="w3-modal" style={{ display: 'block' }}>
                     <div className="w3-modal-content">
                         <div className="w3-container">
-                        <p>Edit</p>
-                        <p>Delete</p>
+                        <button onClick={()=>{
+                            setEditAllow(true);
+                        }}>Edit</button>
+                        <button onClick={()=>{
+                            axios.delete(`http://localhost:5000/posts/${post._id}`,config).then((result) => {
+                                axios.get("http://localhost:5000/posts/", config).then((result) => {
+                                    setData(result.data.posts);
+                                }).catch((err) => {
+                                    
+                                });
+                            }).catch((err) => {
+                                
+                            });
+                        }}>Delete</button>
                         </div>
                     </div>
                     </div>
@@ -99,7 +114,8 @@ function Posts() {
                 {/* End line */}
                 
                 {/* Start Div Content Post */}
-                <div className='content-post'>{post.content}</div>
+
+                
                 <div>
                     {
      post.image && <div style={{  width: "98%",backgroundColor:"#e6e6e6",marginLeft:"1%", height: "100%" }}>
@@ -154,7 +170,7 @@ function Posts() {
 
                     {/* Start The like button in the post */}
                     
-                    <div className='interact-button' onClick={()=>{
+                    <div className='interact-button' onClick={()=>{ 
                         searchid()
                     }}>
 
