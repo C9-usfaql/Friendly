@@ -5,6 +5,7 @@ import Login from "./components/Login/Login"
 import Register from "./components/Register/Register"
 import Main from "./components/Main/Main"
 import { useState , createContext} from "react";
+import Profile from "./components/Profile/Profile";
 export const userContext = createContext();
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -20,6 +21,7 @@ function App() {
     <Route path="/login" element={<Login/>}/>
     <Route path="/register" element={<Register/>}/>
     <Route path="/" element={<Main/>}/>
+    <Route path="/profile" element={<Profile/>}/>
     </Routes>
     </div>
 

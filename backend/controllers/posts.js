@@ -1,4 +1,5 @@
 const postModel = require("../models/Post");
+const UserModel = require("../models/Users");
 const { initializeApp } = require("firebase/app");
 const {
   getStorage,
@@ -45,48 +46,10 @@ function formatDate(date) {
 
 let now = new Date();
 let formattedDate = formatDate(now);
-let imagePath = "flower.jpg";
-
+ 
 const createPost = (req, res) => {
-  const { content, image, author } = req.body;
-  if (imagePath) {
-    const storageRef = ref(storage, "flower.jpg");
-    const uploadTask = uploadBytesResumable(storageRef, "flower.jpg");
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        console.log(snapshot.task);
-      },
-      (error) => {},
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const post = new postModel({
-            content,
-            image: downloadURL,
-            author,
-            datePost: formattedDate,
-          });
-          post
-            .save()
-            .then((result) => {
-              res.status(201).json({
-                success: true,
-                message: "Post Created Successfully",
-                author: result,
-              });
-            })
-            .catch((err) => {
-              res.status(500).json({
-                success: false,
-                message: `Server Error`,
-                err: err.message,
-              });
-            });
-        });
-      }
-    );
-  } else {
+  const { content,image, author } = req.body;
+  console.log("Image Path =====>", image);
     const post = new postModel({
       content,
       image,
@@ -96,11 +59,24 @@ const createPost = (req, res) => {
     post
       .save()
       .then((result) => {
-        res.status(201).json({
-          success: true,
-          message: "Post Created Successfully",
-          author: result,
+        UserModel.findById(
+          { _id: author },
+          { $push: { posts: result._id } },
+          { new: true }
+        ).then((result) => {
+          res.status(201).json({
+            success: true,
+            message: "Post Created Successfully",
+            author: result,
+          });
+        }).catch((err) => {
+          res.status(500).json({
+            success: false,
+            message: `Server Error`,
+            err: err.message,
+          });
         });
+      
       })
       .catch((err) => {
         res.status(500).json({
@@ -109,8 +85,11 @@ const createPost = (req, res) => {
           err: err.message,
         });
       });
-  }
+
 };
+ 
+
+
 
 const getAllPosts = (req, res) => {
   const userId = req.token.userId;
@@ -120,7 +99,6 @@ const getAllPosts = (req, res) => {
     .populate("comments")
     .populate("author")
     .then((posts) => {
-      console.log(posts);
       if (posts.length) {
         res.status(200).json({
           success: true,
@@ -257,4 +235,4 @@ module.exports = {
   getPostById,
   updatePostById,
   deletePostById,
-};
+}

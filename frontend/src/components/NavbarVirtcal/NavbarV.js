@@ -1,8 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import "./style.css"
+import axios from 'axios';
+import { userContext } from "../../App"
 function NavbarV() {
+    const { token, userId } = useContext(userContext);
+    const [nameUser, setNameUser] = useState(null);
+    const [imageUser, setImageUser] = useState(null);
+    const [lengthFollower, setLengthFollower] = useState(null);
+    const [lengthFollowing, setLengthFollowing] = useState(null);
+    const [lengthPosts, setLengthPosts] = useState(null);
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+    useEffect(()=>{
+        axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+            setNameUser(result.data.user.firstName + " "+ result.data.user.lastName);
+            setImageUser(result.data.user.image);
+            setLengthFollower(result.data.user.follower.length);
+            setLengthFollowing(result.data.user.following.length);
+            setLengthPosts(result.data.user.posts.length);
+        }).catch((err) => {
+            
+        });
+    },[])
+    
   return (
     <div className='contenter-nav'>
+        <div className='nav-bar'>
+            <div class="container" >
+                <img src={require(`../Image/cover.jpg`)} className='cover-image'/>
+                <img src={`${imageUser}`} className='user-image'/>
+            </div>
+            <div class="container-userinfo">
+            <div className='nameUser'>{nameUser}</div>
+            <div className='id-user'>{userId}</div>
+            </div>
+            
+
+            <div className='container-info-profile' style={{display:"flex", flexDirection:"row", margin:"20px", justifyContent:"center", textAlign:"center", gap:"15px"}}>
+                <div>
+                <div>{lengthPosts}</div>
+                <div>Post</div>
+                </div>
+
+                <div>
+                <div>{lengthFollower}</div>
+                <div>Followers</div>
+                </div>
+
+                <div>
+                <div>{lengthFollowing}</div>
+                <div>Following</div>
+                </div>
+            </div>
+
+            <div className='btn-open-profile'>Profile</div>
+        </div>
         <div className='nav-bar'>
             <div className='menu home'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#4464AD" class="bi bi-house" viewBox="0 0 16 16">
@@ -24,7 +77,7 @@ function NavbarV() {
             Profile</div>
         </div>
         <div className='nav-bar'>
-            <div style={{color: "gray", marginBottom: "10px", paddingTop:"10px"}}>Recommended Pages</div>
+            <div style={{fontWeight:"bold", textAlign:"left", margin:"10px", paddingTop:"10px"}}>Recommended Pages</div>
             <div style={{borderBottom: "1px solid rgb(200,200,200)", width:"90%",marginLeft:"5%"}} ></div>
             <div style={{display: "flex", flexDirection: "row", marginTop:"5px",marginLeft:"5px" ,padding: "5px", textAlign:"center", placeItems: "center" ,gap:"10px"}}>
                 

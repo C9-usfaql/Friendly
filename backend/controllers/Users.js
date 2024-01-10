@@ -100,10 +100,35 @@ const login = (req, res) =>{
       err: err.message,
     });
   });
+};
+
+const getUserById = (req, res)=>{
+  const id = req.params.id;
+
+  userModel.findById(id).then((result) => {
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: `The User with id => ${result} not found`,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: `The User ${result} `,
+      user: result,
+    });
+  }).catch((err) => {
+    res.status(500).json({
+      success: false,
+      message: `Server Error`,
+      err: err.message,
+    });
+  });
 }
 
 module.exports = {
     register,
-    login
+    login,
+    getUserById,
   };
   

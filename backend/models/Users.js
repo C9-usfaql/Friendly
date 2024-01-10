@@ -10,6 +10,7 @@ const userModel = new mongoose.Schema({
     gender : {type: String, require: true}, 
     email : {type : String, require: true, unique: true},
     password : {type: String, require : true},
+    posts : [{type: mongoose.Schema.Types.ObjectId, ref: "Posts"}],
     follower : [{type: mongoose.Schema.Types.ObjectId, ref : "Follower"}],
     following : [{type: mongoose.Schema.Types.ObjectId, ref : "Following"}]
 })

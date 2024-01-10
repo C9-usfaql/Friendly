@@ -16,6 +16,30 @@
     flex-direction:column;
     border-radius:10px;
 }
+#myProgress {
+    width: 100%;
+    background-color: grey;
+    display: none;
+}
+#myBar {
+    width: 0%;
+    height: 5px;
+    margin-bottom: 5px;
+    background-color: green;
+  }
+.input-image{
+    width: fit-content;
+    background-color: rgb(221, 221, 221);
+    margin: 5px;
+    padding: 5px;
+    border-radius: 8px;
+    color: black;
+    font-weight: bold;
+    gap: 10px;
+    display: flex;
+    
+    place-content: center;
+}
 .containing-top-post{
     display:flex;
     justify-content:space-between;
@@ -42,7 +66,10 @@
 .content-post{
     text-align: left;
     margin:10px;
-    color:rgb(100,100,100);
+    margin-left: 3%;
+    color:rgb(70,70,70);
+    font-weight: bold;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     -webkit-user-select:text;
     -ms-user-select: text;
     user-select: text; 
@@ -63,9 +90,9 @@
     user-select: none;
 }
 .interact-button{
-    width:33%;
+    width:100%;
+    border-right: 1px solid rgb(170, 170, 170);
     padding:5px;
-    border-radius:10px;
     display:flex;
     flex-direction:row;
     justify-content:center;
@@ -73,6 +100,11 @@
     gap:10px;
 }
 
+
+
+.comment{
+    border: 0;
+}
 
 .gg-comment {
     box-sizing: border-box;
@@ -112,3 +144,40 @@
 }
 
 
+.gg-image {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    color: green;
+    width: 20px;
+    height: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 0 2px;
+    border-radius: 2px;
+    
+}
+.gg-image::after,
+.gg-image::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    border: 2px solid green;
+    
+}
+.gg-image::after {
+    transform: rotate(45deg);
+    border-radius: 3px;
+    width: 16px;
+    height: 16px;
+    top: 9px;
+    left: 6px
+}
+.gg-image::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    top: 2px;
+    left: 2px
+}

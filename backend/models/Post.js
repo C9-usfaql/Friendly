@@ -5,7 +5,7 @@ const postModel = new mongoose.Schema({
     image : {type: String},
     author : {type: mongoose.Schema.Types.ObjectId, ref : "User"},
     datePost : {type: String},
-    likes : [{type : mongoose.Schema.Types.ObjectId, ref:"Like"}],
+    likes : [{type : mongoose.Schema.Types.ObjectId, ref:"User"}],
     comments : [{type: mongoose.Schema.Types.ObjectId, ref:"Comment"}]
 })
 
