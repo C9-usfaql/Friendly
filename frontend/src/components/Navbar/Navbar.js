@@ -28,8 +28,8 @@ const Navbar = ()=>{
             <>
                <div style={{minWidth: "60%", minHeight: "50%"}}> <input style={{width: "50%", padding: "1%",borderRadius: "10px", border: "1px solid gray", } } placeholder="Search..." /></div> 
                 <div className="avatar-div" onClick={()=>{
-                    localStorage.clear();
-                    //navigate("/register")
+                    /* localStorage.clear(); */
+                    navigate("/profile");
                 }}>
                 <img className="avatar" style={{width:"42px", borderRadius: "25px", border: "1px solid #4464ad"}} src={`${imageUrl}`}/></div>
             </> : <>

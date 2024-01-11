@@ -1,14 +1,15 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext, useState, createContext } from 'react';
 import "./style.css"
 import axios from "axios";
 import { userContext } from "../../App"
 import { useNavigate } from 'react-router-dom';
 import { dataContext } from '../Home/Home';
 import { ReactSVG } from 'react-svg'
+export const postIdContext = createContext();
 function Posts() {
     const navigate = useNavigate();
-    const { token, userId } = useContext(userContext);
-    const { data, setData } = useContext(dataContext);
+    const { token, userId , postIdForComment, setPostIdForComment } = useContext(userContext);
+    const { data, setData} = useContext(dataContext);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [editAllow, setEditAllow] = useState(false);
@@ -201,7 +202,11 @@ function Posts() {
                         
                     
                     {/* Start The Comment button in the post */}
-                    <div className='interact-button comment'>
+                    <div className='interact-button comment' onClick={(e)=>{
+                        localStorage.setItem("postId", post._id);
+                        navigate(`/post/${post._id}`)
+                        
+                    }}>
                         <i className="gg-comment"></i>
                     </div>
                     {/* End The Comment button in the post */}

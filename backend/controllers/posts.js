@@ -112,9 +112,12 @@ const getAllPosts = (req, res) => {
 };
 
 const getAllPostByAuthor = (req, res) => {
-  let authorId = req.token.userId;
+  let authorId = req.params.author;
   postModel
     .find({ author: authorId })
+    .populate("likes")
+    .populate("comments")
+    .populate("author")
     .then((posts) => {
       if (!posts) {
         return res.status(404).json({

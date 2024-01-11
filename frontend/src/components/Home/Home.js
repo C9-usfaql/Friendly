@@ -7,12 +7,14 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import CreatePost from '../CreatePost/main';
 import Posts from '../Posts/Posts';
+import OnePost from '../OnePost/OnePost';
 export const dataContext = createContext();
 function Home() {
     
     const navigate = useNavigate();
-    const { token, userId, } = useContext(userContext);
+    const { token, userId} = useContext(userContext);
     const [data, setData] = useState([]);
+
     const [islike, setIsLike] = useState(false);
     const [commentData, setCommentData] = useState(null);
     const [imageUser, setImageUser] = useState(null);
@@ -43,6 +45,7 @@ function Home() {
         <CreatePost/>
 
         <Posts/>
+        
         </div>
     </dataContext.Provider>
     
