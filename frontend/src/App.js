@@ -8,6 +8,7 @@ import OnePost from "./components/OnePost/OnePost";
 import Main from "./components/Main/Main"
 import { useState , createContext} from "react";
 import Profile from "./components/Profile/Profile";
+import EditProfile from "./components/EditProfile/EditProfile";
 
 export const userContext = createContext();
 function App() {
@@ -28,6 +29,7 @@ function App() {
     <Route path="/" element={<Main/>}/>
     <Route path="/profile" element={<Profile/>}/>
     <Route path="/post/:id" element={<OnePost/>}/>
+    <Route path="/profile/edit" element={<EditProfile/>}/>
     </Routes>
     </div>
 

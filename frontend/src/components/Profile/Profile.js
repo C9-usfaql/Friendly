@@ -80,7 +80,9 @@ const closeModal = () => {
                 </div>
             </div>
 
-            {userId ? <div className='btn-open-profile'>Edit Profile</div> : <div className='btn-open-profile'>Follow</div>}
+            {userId ? <div className='btn-open-profile' onClick={()=>{
+              navigate("edit");
+            }}>Edit Profile</div> : <div className='btn-open-profile'>Follow</div>}
         </div>
       </div>
       <div className='post-content-profile'>
