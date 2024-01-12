@@ -18,12 +18,34 @@ function Profile() {
   const [editAllow, setEditAllow] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
+
+
   const config = {
       headers: { Authorization: `Bearer ${token}` }
   };
-
+  console.log(localStorage.getItem("userIdG"));
   useEffect(()=>{
-    axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+    if(localStorage.getItem("userIdG") !== userId){
+        axios.get(`http://localhost:5000/users/${localStorage.getItem("userIdG")}`, config).then((result) => {
+          setNameUser(result.data.user.firstName + " "+ result.data.user.lastName);
+          setImageUser(result.data.user.image);
+          setLengthFollower(result.data.user.follower.length);
+          setLengthFollowing(result.data.user.following.length);
+          setLengthPosts(result.data.user.posts.length);
+          axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
+            console.log("GetPost by Author ==>", result);
+            setDataPost(result.data.posts);
+          }).catch((err) => {
+            
+          });
+        }).catch((err) => {
+          if(err.response.status === 403){
+            navigate("/login");
+            localStorage.clear();
+      }
+    });
+    }else{
+      axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
         setNameUser(result.data.user.firstName + " "+ result.data.user.lastName);
         setImageUser(result.data.user.image);
         setLengthFollower(result.data.user.follower.length);
@@ -36,8 +58,12 @@ function Profile() {
           
         });
     }).catch((err) => {
-        
+      if(err.response.status === 403){
+        navigate("/login");
+        localStorage.clear();
+    }
     });
+    }
 },[])
 const openModal = (postId) => {
   setSelectedPostId(postId);
@@ -80,9 +106,13 @@ const closeModal = () => {
                 </div>
             </div>
 
-            {userId ? <div className='btn-open-profile' onClick={()=>{
+            {localStorage.getItem("userIdG") === userId ?<><div className='btn-open-profile' onClick={()=>{
               navigate("edit");
-            }}>Edit Profile</div> : <div className='btn-open-profile'>Follow</div>}
+            }}>Edit Profile</div> <div className='btn-logout-profile' onClick={()=>{
+              localStorage.clear();
+              window.location.reload();
+            }}>Logout</div>
+            </>  : <div className='btn-open-profile'>Follow</div>}
         </div>
       </div>
       <div className='post-content-profile'>
@@ -92,22 +122,17 @@ const closeModal = () => {
             setLoading(false); // Set loading to false once the image is loaded
         };
                
-            const searchid = async()=>{
-                    axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
-                        axios.get("http://localhost:5000/posts",config).then((results) => {
-                            setDataPost(results.data.posts);
-                        }).catch((err) => {
-                        });
-                     }).catch((err) => {
-                         console.log("Error", err);
-                     });
-               
-            };
+        const searchid = async()=>{
+          axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
+            axios.get("http://localhost:5000/posts",config).then((results) => {
+              setDataPost(results.data.posts);
+            }).catch((err) => {
+            });
+          }).catch((err) => {
+             console.log("Error", err);
+          });
+        };
 
-            const checkLike = async ()=>{
-                console.log(post.likes);
-            }
-        const isLiked = post.likes.includes(userId);
         return(
             <div className='contenter-post'>
                 {/* <h1>POSTS</h1> */}
@@ -124,21 +149,16 @@ const closeModal = () => {
 
                     <div style={{display : 'flex', flexDirection:"column"}}>
 
-                    
+                    {localStorage.getItem("userIdG") === userId && <>
                     <button id={`${post._id}`}  style={{width:"fit-content", height:"fit-content"}} onClick={(e)=>{
+                      if(modalVisible){
+                          closeModal()
+                      }else{
+                          openModal(post._id);
+                      }
+                    }}>Menu</button>
+                    </>}
                     
-                        if(modalVisible){
-                            closeModal()
-                        }else{
-                            openModal(post._id);
-                        }
-
-
-                    }
-                       }>
-                        Menu
-                        {/* <i class="gg-menu"></i> */}
-                       </button>
 
                 {modalVisible && selectedPostId === post._id && (
                     <div id="id01" className="w3-modal" style={{ display: 'block' }}>

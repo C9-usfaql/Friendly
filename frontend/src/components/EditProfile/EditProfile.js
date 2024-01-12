@@ -20,7 +20,10 @@ function EditProfile() {
       axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
         setDataUser(result.data.user);
       }).catch((err) => {
-          
+        if(err.response.status === 403){
+          navigate("/login");
+          localStorage.clear();
+      }
       });
     },[]);
    

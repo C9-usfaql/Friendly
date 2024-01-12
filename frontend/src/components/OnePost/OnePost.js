@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import { userContext } from "../../App";
 import "./style.css";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 function OnePost() {
+  const navigate = useNavigate();
   const { token, userId, } =
     useContext(userContext);
   const [post, setPost] = useState([]);
@@ -27,6 +28,10 @@ function OnePost() {
     })
     .catch((err) => {
       console.log("Error ==>", err);
+      if(err.response.status === 403){
+        navigate("/login");
+        localStorage.clear();
+    }
     });
   },[]);
     

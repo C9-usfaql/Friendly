@@ -82,6 +82,20 @@
     height:fit-content;
     padding:1vh
 }
+
+
+.btn-logout-profile{
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color:#c7c7c7;
+    color:red;
+    font-weight: bold;
+    border-radius:8px;
+    margin:1vh;
+    height:fit-content;
+    padding:1vh
+}
 .btn-open-profile:hover{
     -webkit-user-select: none;
     -ms-user-select: none;
