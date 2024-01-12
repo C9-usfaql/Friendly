@@ -19,4 +19,5 @@ postsRouter.get("/:id/unlike", authentication, unSetLike);
 postsRouter.post("/:id/comment", authentication, createNewComment);
 postsRouter.get("/comment/:id", authentication, getCommentById);
 
+
 module.exports = postsRouter;

@@ -151,10 +151,70 @@ const updateDataUserById = (req,res)=>{
   });
 }
 
+const followingUser = (req,res)=>{
+  const {myId, userId} = req.params;
+  userModel.findById({_id: myId}).then(async(result) => {
+    console.log("Result =>", result.following.includes(userId));
+    if(result.following.includes(userId)){
+      await userModel.updateOne({_id:myId}, {$pull : {following: userId}}).then((result) => {
+        userModel.updateOne({_id:userId}, {$pull : {follower: myId}}).then((resultEnd) => {
+          res.status(201).json({
+            success : true,
+            message: `Remove Follow`,
+            result : result
+          })
+        }).catch((err) => {
+          res.status(500).json({
+            success : false,
+            message : `Server Error`,
+            err: err.message
+        });
+        });
+      }).catch((err) => {
+        res.status(500).json({
+          success : false,
+          message : `Server Error`,
+          err: err.message
+      });
+      });
+    }else{
+      await userModel.updateOne({_id:myId}, {$push : {following: userId}}).then((result) => {
+        userModel.updateOne({_id:userId}, {$push : {follower: myId}}).then((resultEnd) => {
+          res.status(201).json({
+            success : true,
+            message: `Follow Add`,
+            result : result
+          })
+        }).catch((err) => {
+          res.status(500).json({
+            success : false,
+            message : `Server Error`,
+            err: err.message
+        });
+        });
+      }).catch((err) => {
+        res.status(500).json({
+          success : false,
+          message : `Server Error`,
+          err: err.message
+      });
+      });
+    }
+  }).catch((err) => {
+    res.status(500).json({
+      success : false,
+      message : `Server Error`,
+      err: err.message
+  });
+  });
+
+}
+
 module.exports = {
     register,
     login,
     getUserById,
-    updateDataUserById
+    updateDataUserById,
+    followingUser
   };
   
