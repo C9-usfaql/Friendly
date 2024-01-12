@@ -126,9 +126,35 @@ const getUserById = (req, res)=>{
   });
 }
 
+const updateDataUserById = (req,res)=>{
+  const id = req.params.id;
+
+  userModel.findByIdAndUpdate({_id: id}, req.body).then((result) => {
+    if(!result){
+      return res.status(404).json({
+        success: false,
+        message: `The User with id => ${id} not found`,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: `User updated`,
+      user: result,
+    });
+  }).catch((err) => {
+    res.status(500).json({
+      success: false,
+      message: `Server Error`,
+      err: err.message,
+    });
+  });
+}
+
 module.exports = {
     register,
     login,
     getUserById,
+    updateDataUserById
   };
   

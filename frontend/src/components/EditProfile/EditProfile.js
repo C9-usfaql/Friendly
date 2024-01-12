@@ -2,9 +2,16 @@ import axios from 'axios'
 import React, { useEffect, useState, useContext } from 'react'
 import { userContext } from "../../App"
 import "./style.css"
+import { useNavigate } from 'react-router-dom';
 function EditProfile() {
+  const navigate = useNavigate();
     const { token, userId } = useContext(userContext);
     const [dataUser , setDataUser] = useState([]);
+
+    const [firstName, setFirstName]= useState(dataUser.firstName);
+    const [lastName, setLastName]= useState(dataUser.lastName);
+    const [email, setEmail]= useState(dataUser.email);
+    const [phoneNumber, setPhone]= useState(dataUser.phoneNumber);
 
     const config = {
       headers: { Authorization: `Bearer ${token}` }
@@ -30,7 +37,14 @@ function EditProfile() {
             <div>{dataUser.firstName +" "+ dataUser.lastName}</div>
           </div>
           <div>
-            <button className='btn-open-profile'>Save Change</button>
+            <button className='btn-open-profile' onClick={()=>{
+              axios.put(`http://localhost:5000/users/${userId}`, {firstName, lastName,email, phoneNumber},config).then((result) => {
+                console.log("Update Data User Successfully");
+                navigate(-1)
+              }).catch((err) => {
+                console.log("Error =>", err);
+              });
+            }}>Save Change</button>
           </div>
           </div>
         </div>
@@ -43,11 +57,15 @@ function EditProfile() {
           <div className='label-and-input'>
           <div>
             <div className='label'>First Name:</div>
-            <input id='first-name' className='input-edit' defaultValue={dataUser.firstName}/>
+            <input id='first-name' className='input-edit' defaultValue={dataUser.firstName} onChange={(e)=>{
+              setFirstName(e.target.value);
+            }}/>
           </div>
           <div>
             <div className='label'>Last Name:</div>
-            <input id='last-name' className='input-edit' defaultValue={dataUser.lastName}/>
+            <input id='last-name' className='input-edit' defaultValue={dataUser.lastName} onChange={(e)=>{
+              setLastName(e.target.value);
+            }}/>
           </div>
           
         </div>
@@ -55,11 +73,15 @@ function EditProfile() {
         <div className='label-and-input'>
         <div>
           <div className='label'>Email:</div>
-          <input id='email' className='input-edit' defaultValue={dataUser.email}/>
+          <input id='email' className='input-edit' defaultValue={dataUser.email} onChange={(e)=>{
+            setEmail(e.target.value);
+          }}/>
         </div>
         <div>
           <div className='label'>Phone:</div>
-          <input id='phone' className='input-edit' defaultValue={dataUser.phoneNumber}/>
+          <input id='phone' className='input-edit' defaultValue={dataUser.phoneNumber} onChange={(e)=>{
+            setPhone(e.target.value);
+          }}/>
           </div>
         </div>
         </div>
