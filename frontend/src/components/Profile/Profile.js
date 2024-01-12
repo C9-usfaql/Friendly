@@ -18,20 +18,26 @@ function Profile() {
   const [editAllow, setEditAllow] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
-
+  const [follwing, setFollwing] = useState([]);
 
   const config = {
       headers: { Authorization: `Bearer ${token}` }
   };
   console.log(localStorage.getItem("userIdG"));
   useEffect(()=>{
-    if(localStorage.getItem("userIdG") !== userId){
+    if(localStorage.getItem("userIdG")){
+      axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+        setFollwing(result.data.user.following);
+        }).catch((err) => {
+          
+        })
         axios.get(`http://localhost:5000/users/${localStorage.getItem("userIdG")}`, config).then((result) => {
           setNameUser(result.data.user.firstName + " "+ result.data.user.lastName);
           setImageUser(result.data.user.image);
           setLengthFollower(result.data.user.follower.length);
           setLengthFollowing(result.data.user.following.length);
           setLengthPosts(result.data.user.posts.length);
+
           axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
             console.log("GetPost by Author ==>", result);
             setDataPost(result.data.posts);
@@ -65,6 +71,7 @@ function Profile() {
     });
     }
 },[])
+
 const openModal = (postId) => {
   setSelectedPostId(postId);
   setModalVisible(true);
@@ -112,7 +119,19 @@ const closeModal = () => {
               localStorage.clear();
               window.location.reload();
             }}>Logout</div>
-            </>  : <div className='btn-open-profile'>Follow</div>}
+            </>  : <>{ follwing.includes(localStorage.getItem("userIdG")) ? <div className='btn-open-profile' onClick={()=>{
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+                
+              }).catch((err) => {
+                
+              });
+            }}>unFollow</div> : <div className='btn-open-profile' onClick={()=>{
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+                
+              }).catch((err) => {
+                
+              });
+            }}>follow</div>}</>}
         </div>
       </div>
       <div className='post-content-profile'>
