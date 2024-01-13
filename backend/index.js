@@ -9,11 +9,13 @@ const PORT = process.env.PORT || 5000;
 const usersRouter = require("./routes/Users");
 const postsRouter = require("./routes/posts");
 const roleRouter = require("./routes/roles");
+const searchRouter = require("./routes/Search");
 app.use(cors());
 app.use(express.json());
 
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
+app.use("/search", searchRouter);
 app.use("/createrole", roleRouter);
 
 
