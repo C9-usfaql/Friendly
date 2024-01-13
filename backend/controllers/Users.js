@@ -210,11 +210,25 @@ const followingUser = (req,res)=>{
 
 }
 
+const getAllUser = (req,res)=>{
+
+  userModel.find().then((result) => {
+    res.status(201).json({
+      success : true,
+      message: `All User`,
+      Users : result
+    })
+  }).catch((err) => {
+    
+  });
+}
+
 module.exports = {
     register,
     login,
     getUserById,
     updateDataUserById,
-    followingUser
+    followingUser,
+    getAllUser
   };
   

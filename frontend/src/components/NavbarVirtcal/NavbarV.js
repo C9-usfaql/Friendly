@@ -2,7 +2,9 @@ import React, { useEffect, useState, useContext } from 'react'
 import "./style.css"
 import axios from 'axios';
 import { userContext } from "../../App"
+import { useNavigate } from 'react-router-dom';
 function NavbarV() {
+    const navigate = useNavigate();
     const { token, userId } = useContext(userContext);
     const [nameUser, setNameUser] = useState(null);
     const [imageUser, setImageUser] = useState(null);
@@ -54,7 +56,10 @@ function NavbarV() {
                 </div>
             </div>
 
-            <div className='btn-open-profile'>Profile</div>
+            <div className='btn-open-profile' onClick={()=>{
+                localStorage.setItem("userIdG", userId);
+                navigate("/profile");
+            }}>Profile</div>
         </div>
         <div className='nav-bar'>
             <div className='menu home'>
