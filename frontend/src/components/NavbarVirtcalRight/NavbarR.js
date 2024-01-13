@@ -5,7 +5,8 @@ import { userContext } from "../../App"
 import { useNavigate } from 'react-router-dom';
 function NavbarV() {
     const navigate = useNavigate();
-    const { token, userId } = useContext(userContext);
+    const { token, userId,  } = useContext(userContext);
+    const infoMe = JSON.parse(localStorage.getItem("InfoMe"));
     const [allUser, setAllUser] = useState(null);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -27,11 +28,12 @@ function NavbarV() {
             <div style={{borderBottom: "1px solid rgb(200,200,200)", width:"90%",marginLeft:"5%"}} ></div>
             <div>
             {allUser?.map((e,i)=>{
-                console.log("EEEEEEEEEEEEEE" , e);
+                console.log("IDDDDDDDDDDDDD", infoMe);
+                 
                 if(userId === e._id){
 
+                }else if(infoMe.following.includes(e._id)){
                 }else{
-
                 
                 return(
                     <div onClick={()=>{

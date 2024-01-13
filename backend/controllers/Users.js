@@ -239,7 +239,7 @@ const getPostByFollowing = async (req,res)=>{
     const postsArrays = await Promise.all(postsPromises);
 
     const allPosts = postsArrays.flat();
-
+    allPosts.sort((a, b) => a.datePost - b.datePost);
     res.status(200).json({
       success: true,
       message: `All posts by the people you are following`,
