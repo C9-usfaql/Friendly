@@ -2,11 +2,13 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    place-items: center;
+    place-items:inherit;
+    position:sticky;
     height: 90vh;
 }
 .contenter-one-post{
     width: 50%;
+    margin-top: 10px;
     height: fit-content;
     justify-content: center;
     background-color: white;

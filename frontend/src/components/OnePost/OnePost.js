@@ -55,8 +55,12 @@ function OnePost() {
     axios
       .get(`http://localhost:5000/posts/${post._id}/like`, config)
       .then((result) => {
-         setLikeArray(result.data.like.likes);
-        console.log("Like Api =>", result.data.like.likes);
+        console.log("Like Api =>", result);
+        if(result.data.message === "Like Added"){
+          setLikeArray([...likeArray, infoMe]);
+        }else{
+          setLikeArray(likeArray.slice(infoMe, 1))
+        }
       })
       .catch((err) => {
         console.log("Error", err);
@@ -232,7 +236,7 @@ function OnePost() {
       <div
         style={{ textAlign: "left", margin: "10px", color: "rgb(150,150,150)" }}
       >
-        {post.likes.length} Like {post.comments.length} Comments
+        {likeArray.length} Like {post.comments.length} Comments
       </div>
       {/* End Show Count Like % Comments in Post */}
 
@@ -297,14 +301,14 @@ function OnePost() {
           <div className="containing-comment-post">
           <div className="containing-photo-username">
             <img
-              style={{ width: "48px", borderRadius: "24px" }}
+              style={{ width: "48px", borderRadius: "24px",margin:"5px" }}
               src={e.commenter?.image}
             />
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div className="name-user">
                 {e.commenter?.firstName + " " + e.commenter?.lastName}
               </div>
-              <div style={{fontWeight:"bold",fontSize:"16px"}}>{e?.comment}</div>
+              <div style={{fontWeight:"bold",fontSize:"16px" ,textAlign:"start",padding:"5px"}}>{e?.comment}</div>
             </div>
           </div>
   

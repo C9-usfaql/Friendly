@@ -51,7 +51,7 @@ function Posts() {
             const checkLike = async ()=>{
                 console.log(post.likes);
             }
-        const isLiked = post.likes.includes(userId);
+            
         return(
             <div className='contenter-post'>
                 {/* <h1>POSTS</h1> */}

@@ -18,14 +18,14 @@ const createLike = (req,res)=>{
               await postModel.updateOne({ _id: id}, {$pull : {likes:admirer}});
               res.status(201).json({
                 success : true,
-                message: `Like Added`,
+                message: `Remove Like`,
                 like : result
             });
             } else{
                  await postModel.updateOne({ _id: id}, {$push : {likes:admirer}});
                  res.status(201).json({
                     success : true,
-                    message: `Remove Like`,
+                    message: `Like Added`,
                     like : result
                 });
             }

@@ -1,5 +1,5 @@
 const postModel = require("../models/Post");
-const UserModel = require("../models/Users");
+const userModel = require("../models/Users");
 const { initializeApp } = require("firebase/app");
 const {
   getStorage,
@@ -59,13 +59,19 @@ const createPost = (req, res) => {
     });
    newPost
       .save()
-      .then((result) => {
-        // console.log(result);
+      .then( async(result) => {
+        console.log("result Create Post ==>", result);
+      await userModel.updateOne({_id: author},{$push : {posts: result._id}}).then((results) => {
         res.status(201).json({
           success: true,
           message: "Post Created Successfully",
           data: result,
         });
+      }).catch((err) => {
+        
+      });
+        // console.log(result);
+        
       })
       .catch((err) => {
         res.status(500).json({
