@@ -15,10 +15,12 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [postIdForComment, setPostIdForComment] = useState(null);
+  const [profileId, setProfileId] = useState(false);
+  const [infoMe, setInfoMe] = useState(null);
   const[userId,setUserId]=useState(localStorage.getItem("userId"));
   const [data, setData] = useState([]);
   return (
-    <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId, data,setData , postIdForComment, setPostIdForComment}}>
+    <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId, data, setData,setInfoMe, infoMe , postIdForComment, setPostIdForComment, profileId, setProfileId}}>
 
     <div className="App">
     <Navbar/>

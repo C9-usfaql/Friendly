@@ -8,7 +8,7 @@ const createLike = (req,res)=>{
     const newLike = new likesModel({
         admirer
     });
-
+    
     newLike.save().then( (result) => {
         postModel.findById(
             { _id: id}

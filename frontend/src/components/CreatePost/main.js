@@ -27,6 +27,7 @@ const {
 function CreatePost() {
     const navigate = useNavigate();
     const [content,setContent] = useState("");
+    const  [postDetails, setPostDetails] = useState({})
     const [imageUser, setImageUser] = useState(null);
     const { token, userId} = useContext(userContext);
     const {  data, setData } = useContext(dataContext);
@@ -35,6 +36,7 @@ function CreatePost() {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
+    const arr = [{id:12312,content:'test',author:123123},]
     let imageFile = null;
 // const getAllposts=()=>{
 //     axios.get("http://localhost:5000/posts",config).then((result) => {

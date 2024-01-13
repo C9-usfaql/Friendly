@@ -23,9 +23,8 @@ function Profile() {
   const config = {
       headers: { Authorization: `Bearer ${token}` }
   };
-  console.log(localStorage.getItem("userIdG"));
   useEffect(()=>{
-    if(localStorage.getItem("userIdG")){
+    if(localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId){
       axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
         setFollwing(result.data.user.following);
         }).catch((err) => {
@@ -121,6 +120,14 @@ const closeModal = () => {
             }}>Logout</div>
             </>  : <>{ follwing.includes(localStorage.getItem("userIdG")) ? <div className='btn-open-profile' onClick={()=>{
               axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+
+                let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
+
+                if(indexElem !== -1){
+                const arrFollow =  follwing.slice(indexElem, -1);
+                setFollwing([arrFollow]);
+                console.log(follwing);
+                }
                 
               }).catch((err) => {
                 
@@ -128,9 +135,16 @@ const closeModal = () => {
             }}>unFollow</div> : <div className='btn-open-profile' onClick={()=>{
               axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
                 
+                
               }).catch((err) => {
                 
               });
+              let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
+                if(indexElem === -1){
+                const arrAfterPush =  follwing.push(localStorage.getItem("userIdG"));
+                setFollwing([...follwing, arrAfterPush]);
+                }
+                
             }}>follow</div>}</>}
         </div>
       </div>

@@ -85,7 +85,14 @@ const getAllPosts = (req, res) => {
   postModel
     .find()
     .populate("likes")
-    .populate("comments")
+    .populate({
+      path:"comments",
+      populate : 
+        {
+          path:"commenter"
+        }
+      
+    })
     .populate("author")
     .then((posts) => {
       if (posts.length) {
@@ -116,7 +123,14 @@ const getAllPostByAuthor = (req, res) => {
   postModel
     .find({ author: authorId })
     .populate("likes")
-    .populate("comments")
+    .populate({
+      path:"comments",
+      populate : 
+        {
+          path:"commenter"
+        }
+      
+    })
     .populate("author")
     .then((posts) => {
       if (!posts) {
@@ -144,6 +158,15 @@ const getPostById = (req, res) => {
   let idPost = req.params.id;
   postModel
     .findById(idPost)
+    .populate("likes")
+    .populate({
+      path:"comments",
+      populate : 
+        {
+          path:"commenter"
+        }
+      
+    })
     .populate("author")
     .exec()
     .then((post) => {

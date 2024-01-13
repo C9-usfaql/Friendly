@@ -8,7 +8,7 @@ import { ReactSVG } from 'react-svg'
 export const postIdContext = createContext();
 function Posts() {
     const navigate = useNavigate();
-    const { token, userId , postIdForComment, setPostIdForComment } = useContext(userContext);
+    const { token, userId , postIdForComment, setPostIdForComment , setProfileId} = useContext(userContext);
     const { data, setData} = useContext(dataContext);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
@@ -58,9 +58,8 @@ function Posts() {
                 {/* A bar containing a photo and username */}
                 <div className='containing-top-post'>
                     <div className='containing-photo-username' onClick={(e)=>{
-                        localStorage.setItem("userIdG", post.author._id);
-                        console.log("Post", post.author._id);
-                        navigate("/profile")
+                       localStorage.setItem("userIdG", post.author._id);
+                        navigate("/profile");
                     }}>
                     <img style={{width:"48px" , borderRadius:"24px"}} src={post.author.image}/>
                     <div style={{display: "flex", flexDirection:"column"}}>

@@ -1,41 +1,45 @@
 import React, { useEffect, useContext, useState } from "react";
 import { userContext } from "../../App";
 import "./style.css";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 function OnePost() {
+/*   const {data, setData} = useContext(dataContext); */
   const navigate = useNavigate();
-  const { token, userId, } =
-    useContext(userContext);
-  const [post, setPost] = useState([]);
+  const { token, userId } = useContext(userContext);
+  const infoMes = localStorage.getItem("InfoMe");
+  const infoMe = JSON.parse(infoMes)
+  const [post, setPost] = useState(null);
   const postId = localStorage.getItem("postId");
-
-  console.log(postId);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [editAllow, setEditAllow] = useState(false);
   const [contentPostAfterEdit, setContentPostAfterEdit] = useState("");
   const [loading, setLoading] = useState(true);
+  const [likeArray, setLikeArray] = useState([]);
+  const [commentData , setCommentData]= useState([]);
+  const [inputComment, setInputComment] = useState(null);
+
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
+
   useEffect(()=>{
-    axios
-    .get(`http://localhost:5000/posts/search_2/${postId}`, config)
-    .then((result) => {
-      
+    
+    axios.get(`http://localhost:5000/posts/search_2/${postId}`, config).then((result) => {
       setPost(result.data.post);
-    })
-    .catch((err) => {
+      setCommentData(result.data.post.comments);
+      setLikeArray(result.data.post.likes);
+    }).catch((err) => {
       console.log("Error ==>", err);
-      if(err.response.status === 403){
+      /* if(err.response.status === 403){
         navigate("/login");
         localStorage.clear();
-    }
-    });
+    } */
+    })
   },[]);
     
-      console.log("Result For Post By Id ==>", post);
+  console.log(likeArray);
   const openModal = (postId) => {
     setSelectedPostId(postId);
     setModalVisible(true);
@@ -47,16 +51,12 @@ function OnePost() {
   const handleImageLoad = () => {
     setLoading(false); // Set loading to false once the image is loaded
   };
-  const searchid = async () => {
+  const searchid = () => {
     axios
       .get(`http://localhost:5000/posts/${post._id}/like`, config)
       .then((result) => {
-        axios
-          .get("http://localhost:5000/posts", config)
-          .then((results) => {
-            setPost(results.data.posts);
-          })
-          .catch((err) => {});
+         setLikeArray(result.data.like.likes);
+        console.log("Like Api =>", result.data.like.likes);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -64,15 +64,18 @@ function OnePost() {
   };
   
   return (
-    <div>
-    {post.length > 0 && <><div className="contenter-one-post">
+    <div className="continer-post-comment">
+    {post && 
+      <>
+    
+    <div className="contenter-one-post">
       {/* <h1>POSTS</h1> */}
       {/* A bar containing a photo and username */}
       <div className="containing-top-post">
         <div className="containing-photo-username">
           <img
             style={{ width: "48px", borderRadius: "24px" }}
-            //src={post.author.image}
+            src={post.author.image}
           />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div className="name-user">
@@ -246,9 +249,10 @@ function OnePost() {
           className="interact-button"
           onClick={() => {
             searchid();
+            console.log(likeArray.some((e) => e._id === userId));
           }}
         >
-          {post.likes.some((e) => e._id === userId) ? (
+          {likeArray.some((e) => e._id === userId) ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -284,10 +288,54 @@ function OnePost() {
 
         {/* End The Share button in the post */}
       </div>
+      <div className="line"></div>
+        <div className="contenter-comment-array">
+
+        
+        {commentData.map((e,i)=>{
+          return(
+          <div className="containing-comment-post">
+          <div className="containing-photo-username">
+            <img
+              style={{ width: "48px", borderRadius: "24px" }}
+              src={e.commenter?.image}
+            />
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div className="name-user">
+                {e.commenter?.firstName + " " + e.commenter?.lastName}
+              </div>
+              <div style={{fontWeight:"bold",fontSize:"16px"}}>{e?.comment}</div>
+            </div>
+          </div>
+  
+        </div>
+        )
+        })}
+        </div>
+      <div className="line"></div>
+        <div className="contenter-comment-input">
+          <div className="cont-img-input-comm">
+          <img className="img-comment" src={`${infoMe.image}`}/>
+          </div>
+         
+          <input className="input-comment" placeholder="comment..." value={inputComment} onChange={(e)=>{
+            setInputComment(e.target.value);
+          }}/>
+          <button className="btn-send-comment" onClick={()=>{
+            axios.post(`http://localhost:5000/posts/${post._id}/comment`, {"comment":inputComment}, config).then((result) => {
+              setInputComment("");
+              setCommentData([...commentData, {comment: inputComment,commenter: infoMe}]) 
+            }).catch((err) => {
+              
+            });
+          }}>Send</button>
+        </div>
+ 
+
       {/*End A bar containing three buttons to interact with the post */}
-    </div></>}
     </div>
-  );
+    </>}</div>
+    )
 }
 
 export default OnePost;

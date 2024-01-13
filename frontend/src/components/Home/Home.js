@@ -35,7 +35,13 @@ function Home() {
          
     }
     useEffect(()=>{
-    getAllPosts()
+    getAllPosts();
+    axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+      console.log("userInfo", result.data.user);
+      localStorage.setItem("InfoMe",JSON.stringify(result.data.user));
+    }).catch((err) => {
+      
+    });
     },[]);
 
   return (
