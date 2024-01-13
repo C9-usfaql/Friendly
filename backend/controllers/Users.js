@@ -1,4 +1,5 @@
 const userModel = require("../models/Users");
+const postModel = require("../models/Post");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -212,7 +213,7 @@ const followingUser = (req,res)=>{
 
 const getAllUser = (req,res)=>{
 
-  userModel.find().then((result) => {
+  userModel.find().populate("posts").then((result) => {
     res.status(201).json({
       success : true,
       message: `All User`,
@@ -223,12 +224,44 @@ const getAllUser = (req,res)=>{
   });
 }
 
+const getPostByFollowing = async (req,res)=>{
+
+  try {
+    const user = await userModel.findById(req.params.id);
+    const followingIds = user.following;
+
+    // Fetch posts for each followed user
+    const postsPromises = followingIds.map((followingId) => {
+      return postModel.find({ author: followingId }).populate("author").sort({ datePost: -1 });
+    });
+
+    // Wait for all posts to be fetched
+    const postsArrays = await Promise.all(postsPromises);
+
+    // Flatten the array of arrays of posts into a single array of posts
+    const allPosts = postsArrays.flat();
+
+    res.status(200).json({
+      success: true,
+      message: `All posts by the people you are following`,
+      posts: allPosts,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: `Server Error`,
+      error: err.message,
+    });
+  }
+}
+
 module.exports = {
     register,
     login,
     getUserById,
     updateDataUserById,
     followingUser,
-    getAllUser
+    getAllUser,
+    getPostByFollowing
   };
   
