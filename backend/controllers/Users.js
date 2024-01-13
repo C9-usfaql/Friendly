@@ -230,15 +230,14 @@ const getPostByFollowing = async (req,res)=>{
     const user = await userModel.findById(req.params.id);
     const followingIds = user.following;
 
-    // Fetch posts for each followed user
+    
     const postsPromises = followingIds.map((followingId) => {
-      return postModel.find({ author: followingId }).populate("author").sort({ datePost: -1 });
+      return postModel.find({ author: followingId }).populate("author");
     });
 
-    // Wait for all posts to be fetched
+    
     const postsArrays = await Promise.all(postsPromises);
 
-    // Flatten the array of arrays of posts into a single array of posts
     const allPosts = postsArrays.flat();
 
     res.status(200).json({

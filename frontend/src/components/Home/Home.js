@@ -23,7 +23,17 @@ function Home() {
         headers: { Authorization: `Bearer ${token}` }
     };
     const getAllPosts=()=>{
-        axios.get("http://localhost:5000/posts",config).then((result) => {
+       /*  axios.get("http://localhost:5000/posts",config).then((result) => {
+            setData(result.data.posts);
+            
+        }).catch((err) => {
+            if(err.response.status === 403){
+                navigate("/login");
+                localStorage.clear();
+            }
+        }); */
+        axios.get(`http://localhost:5000/users/follow/user/${userId}`,config).then((result) => {
+            console.log("Data By ID in Following", result);
             setData(result.data.posts);
             
         }).catch((err) => {
@@ -32,6 +42,7 @@ function Home() {
                 localStorage.clear();
             }
         });
+        
          
     }
     useEffect(()=>{
