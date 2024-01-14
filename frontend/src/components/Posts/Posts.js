@@ -27,30 +27,39 @@ function Posts() {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
+    function compareDates(a, b) {
+        const dateA = new Date(convertDateFormat(a.datePost));
+        const dateB = new Date(convertDateFormat(b.datePost));
+        return dateB - dateA; // Sort in descending order (latest date first)
+    }
 
+    function convertDateFormat(dateString) {
+        const parts = dateString.split(/[\s/:\s]/);
+        return `${parts[1]}/${parts[0]}/${parts[2]} ${parts[3]}:${parts[4]}`;
+    }
+    data.sort(compareDates);
     return(
     <div>
 
     {data && data.map((post, i)=>{
+        console.log("Data in Post =>", data);
         const handleImageLoad = () => {
             setLoading(false); // Set loading to false once the image is loaded
         };
                
             const searchid = async()=>{
+                console.log();
                     axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
-                        axios.get("http://localhost:5000/posts",config).then((results) => {
+                         axios.get(`http://localhost:5000/users/follow/user/${userId}`,config).then((results) => {
+                            results.data.posts.sort(compareDates);
                             setData(results.data.posts);
                         }).catch((err) => {
-                        });
+                        }); 
                      }).catch((err) => {
                          console.log("Error", err);
                      });
                
             };
-
-            const checkLike = async ()=>{
-                console.log(post.likes);
-            }
             
         return(
             <div className={!checkValue?'contenter-post' : 'contenter-post-night'}>
@@ -187,10 +196,11 @@ function Posts() {
                     
                     <div className={!checkValue? 'interact-button': 'interact-button-night'} onClick={()=>{ 
                         searchid()
+                        console.log("Like in Post =>", post.likes);
                     }}>
 
                         {
-                        post.likes.some(e => e._id === userId) ? 
+                         post.likes.includes(userId) ? 
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#00ADB5" className="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
                         <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
                         </svg>

@@ -139,7 +139,6 @@ const getAllPostByAuthor = (req, res) => {
   let authorId = req.params.author;
   postModel
     .find({ author: authorId })
-    .populate("likes")
     .populate({
       path:"comments",
       populate : 

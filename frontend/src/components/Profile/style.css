@@ -1,6 +1,7 @@
 .contenter-profile-page{
     display: flex;
-    height: fit-content;
+    min-height: 100vh;
+    max-height: fit-content;
     padding-bottom: 25px;
 }
 

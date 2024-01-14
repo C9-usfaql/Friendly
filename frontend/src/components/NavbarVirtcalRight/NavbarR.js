@@ -14,12 +14,10 @@ function NavbarV() {
     useEffect(()=>{
         axios.get(`http://localhost:5000/users/`, config).then((result) => {
             setAllUser(result.data.Users);
-            console.log(result);
         }).catch((err) => {
             
         });
     },[])
-    console.log("allUser",allUser);
   return (
     <div className='contenter-nav'>
 
@@ -28,7 +26,6 @@ function NavbarV() {
             <div className={!checkValue? 'line': 'line-night'} ></div>
             <div>
             {allUser?.map((e,i)=>{
-                console.log("IDDDDDDDDDDDDD", infoMe);
                  
                 if(userId === e._id){
 

@@ -66,7 +66,8 @@ function CreatePost() {
     }} />
     
         <div className='contenter-input-image' style={{textAlign:"left"}}>
-            <div className='input-image'><i className="gg-image"></i> <input type="file" id="img" name="img" accept="image/*" onChange={(e)=>{
+            <div className='input-image'><i className="gg-image"></i> 
+            <input type="file" id="img" name="img" accept="image/*" onChange={(e)=>{
                 const file = e.target.files[0];
                 if (file) {
                     setImagePost(file);
