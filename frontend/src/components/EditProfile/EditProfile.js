@@ -34,6 +34,7 @@ function EditProfile() {
     const [email, setEmail]= useState(dataUser.email);
     const [imageUser, setImageUser] = useState(dataUser.image);
     const [phoneNumber, setPhone]= useState(dataUser.phoneNumber);
+    const [bio , setBio] = useState(dataUser.bio);
     const [editImage , setEditImage] = useState(null);
     const [loading, setLoading] = useState(null);
   console.log(dataUser.image);
@@ -83,7 +84,7 @@ function EditProfile() {
           </div>
           <div>
             <button className={!loading? 'btn-open-profile': 'btn-open-profile-block'} onClick={()=>{
-              if(editImage.name){
+              if(editImage){
                 console.log(editImage.type);
                 const storageRef = ref(storage, `/${userId}/profileImage`);
                 const uploadTask = uploadBytesResumable(storageRef,editImage);
@@ -94,7 +95,7 @@ function EditProfile() {
 
                 }, ()=>{
                   getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    axios.put(`http://localhost:5000/users/${userId}`, {firstName, lastName,email, phoneNumber, image:`${downloadURL}`},config).then((result) => {
+                    axios.put(`http://localhost:5000/users/${userId}`, {firstName, lastName,email, phoneNumber, image:`${downloadURL}`,bio},config).then((result) => {
                       console.log("Update Data User Successfully");
                       navigate(-1)
                     }).catch((err) => {
@@ -105,7 +106,7 @@ function EditProfile() {
                   });
                 })
               }else{
-                  axios.put(`http://localhost:5000/users/${userId}`, {firstName, lastName,email, phoneNumber},config).then((result) => { 
+                  axios.put(`http://localhost:5000/users/${userId}`, {firstName, lastName,email, phoneNumber, bio},config).then((result) => { 
                     console.log("Update Data User Successfully"); 
                     navigate(-1) 
                   }).catch((err) => { 
@@ -155,8 +156,8 @@ function EditProfile() {
         <div className='label'>Bio:</div>
         <div className='label-and-input-bio'>
            
-          <textarea type='text' id='bio' className='input-edit bio' defaultValue={dataUser.bio} onChange={(e)=>{
-            setPhone(e.target.value);
+          <textarea type='text' id='bio' className='input-edit bio' maxLength={"55"} defaultValue={dataUser.bio} onChange={(e)=>{
+            setBio(e.target.value)
           }}/>
         </div>
         </div>

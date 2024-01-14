@@ -7,6 +7,7 @@ const userModel = new mongoose.Schema({
     dataBirth : {type : String, require: true},
     phoneNumber : {type : Number},
     county : {type: String},
+    bio : {type:String},
     gender : {type: String, require: true}, 
     email : {type : String, require: true, unique: true},
     password : {type: String, require : true},
