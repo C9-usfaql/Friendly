@@ -22,6 +22,18 @@ function Home() {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
+
+    function compareDates(a, b) {
+        const dateA = new Date(convertDateFormat(a.datePost));
+        const dateB = new Date(convertDateFormat(b.datePost));
+        return dateB - dateA; // Sort in descending order (latest date first)
+    }
+
+    function convertDateFormat(dateString) {
+        const parts = dateString.split(/[\s/:\s]/);
+        return `${parts[1]}/${parts[0]}/${parts[2]} ${parts[3]}:${parts[4]}`;
+    }
+
     const getAllPosts=()=>{
        /*  axios.get("http://localhost:5000/posts",config).then((result) => {
             setData(result.data.posts);
@@ -34,8 +46,10 @@ function Home() {
         }); */
         axios.get(`http://localhost:5000/users/follow/user/${userId}`,config).then((result) => {
             console.log("Data By ID in Following", result);
+            const postData = result.data.posts.sort(compareDates);
             setData(result.data.posts);
-            
+
+            console.log("Data Post ==>", postData);
         }).catch((err) => {
             if(err.response.status === 403){
                 navigate("/login");

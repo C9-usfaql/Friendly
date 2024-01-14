@@ -1,4 +1,7 @@
 .App {
   text-align: center;
-  width: 100vw;
+}
+.AppNight{
+  text-align: center;
+  background-color: #303841;
 }

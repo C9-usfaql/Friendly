@@ -5,7 +5,7 @@ import { userContext } from "../../App"
 import { useNavigate } from 'react-router-dom';
 function NavbarV() {
     const navigate = useNavigate();
-    const { token, userId,  } = useContext(userContext);
+    const { token, userId, checkValue} = useContext(userContext);
     const infoMe = JSON.parse(localStorage.getItem("InfoMe"));
     const [allUser, setAllUser] = useState(null);
     const config = {
@@ -23,9 +23,9 @@ function NavbarV() {
   return (
     <div className='contenter-nav'>
 
-        <div className='nav-bar'>
+        <div className={!checkValue? 'nav-bar': 'nav-bar-night'}>
             <div style={{fontWeight:"bold", textAlign:"left", marginLeft:"10px", marginBottom:"10px", paddingTop:"10px"}}>Suggested For you</div>
-            <div style={{borderBottom: "1px solid rgb(200,200,200)", width:"90%",marginLeft:"5%"}} ></div>
+            <div className={!checkValue? 'line': 'line-night'} ></div>
             <div>
             {allUser?.map((e,i)=>{
                 console.log("IDDDDDDDDDDDDD", infoMe);
@@ -47,7 +47,7 @@ function NavbarV() {
                 </div>
                 <button className='btn-follow'>Follow</button>
             </div>
-            <div style={{borderBottom: "1px solid rgb(220,220,220)", width:"80%",marginLeft:"10%"}} ></div>
+            <div className={!checkValue? 'line': 'line-night'}></div>
             </div>
                 )
             }

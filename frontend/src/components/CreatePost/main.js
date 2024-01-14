@@ -29,7 +29,7 @@ function CreatePost() {
     const [content,setContent] = useState("");
     const  [postDetails, setPostDetails] = useState({})
     const [imageUser, setImageUser] = useState(null);
-    const { token, userId} = useContext(userContext);
+    const { token, userId, checkValue} = useContext(userContext);
     const {  data, setData } = useContext(dataContext);
     const [ImagePost, setImagePost] = useState({});
     const [loading, setLoading] = useState(true);
@@ -58,10 +58,10 @@ function CreatePost() {
     },[]);
     // console.log("from Main>>:",data);
   return (
-    <div style={{width: "100%",height:"fit-content", backgroundColor: "white", borderRadius:"10px" ,display:"flex", flexDirection:"row", placeItems:"center", gap:"10px"}}>
+    <div className={!checkValue? 'createPost-div': 'createPost-div-night'}>
     <img src={`${imageUser}`} style={{width:"48px", height:"48px", marginLeft:"10px",border:"0", borderRadius:"32px"}}/>
     <div style={{width:"80%",height:"100%",borderRadius:"4px", display:"flex", flexDirection:"column",padding:"10px"}}> 
-    <input  style={{width:"100%",height:"100%",borderRadius:"4px", border:"1px solid rgb(200,200,200)",marginTop:"10px"}} placeholder='what Think?' value={content} id='content' onChange={(e)=>{
+    <input className={!checkValue?'input-content':'input-content-night'} placeholder='what Think?' value={content} id='content' onChange={(e)=>{
         setContent(e.target.value);
     }} />
     
@@ -82,7 +82,7 @@ function CreatePost() {
         </div>
     </div>
     
-    <button style={{backgroundColor:"#4464AD",border:"0",color:"white", fontSize:"16px", padding:"10px", borderRadius:"5px", paddingTop:"16px",paddingBottom:"16px"}} 
+    <button style={{backgroundColor:"#00ADB5",border:"0",color:"white", fontSize:"16px", padding:"10px", borderRadius:"5px", paddingTop:"16px",paddingBottom:"16px"}} 
     onClick={(e)=>{
         e.preventDefault()
 

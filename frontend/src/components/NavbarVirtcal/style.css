@@ -13,9 +13,21 @@
     place-items: center;
     margin-bottom: 10px;
     padding-bottom: 5px;
+    
+
+}
+.nav-bar-night{
+    background-color: #3A4750;
+    border-radius: 10px; 
+    text-align: center;
+    place-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    color: white;
+    box-shadow: 0px 0px 2px 1px rgb(255, 255, 255, 0.2);
 }
 
-.container {
+.containers {
     width: 100%;
     position: relative;
     display: inline-block;
@@ -38,7 +50,7 @@
     left: 50%;
     border-radius: 27px;
     transform: translateX(-50%);
-    border: 1px solid #4464ad;
+    border: 1px solid #00ADB5;
 }
 
 .nameUser{
@@ -60,7 +72,7 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color:#4464ad;
+    background-color:#00ADB5;
     color:white;
     border-radius:8px;
     margin:1vh;

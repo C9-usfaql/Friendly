@@ -225,11 +225,11 @@ const getAllUser = (req,res)=>{
 }
 
 const getPostByFollowing = async (req,res)=>{
-
+  const idUser = req.token.userId;
   try {
     const user = await userModel.findById(req.params.id);
     const followingIds = user.following;
-
+    followingIds.push(idUser);
     
     const postsPromises = followingIds.map((followingId) => {
       return postModel.find({ author: followingId }).populate("author");
@@ -238,8 +238,10 @@ const getPostByFollowing = async (req,res)=>{
     
     const postsArrays = await Promise.all(postsPromises);
 
-    const allPosts = postsArrays.flat();
-    allPosts.sort((a, b) => a.datePost - b.datePost);
+    const allPosts = [].concat(...postsArrays.flat());
+
+  
+    
     res.status(200).json({
       success: true,
       message: `All posts by the people you are following`,

@@ -26,14 +26,24 @@ function formatDate(date) {
   let year = date.getFullYear();
   let hours = date.getHours();
   let minutes = date.getMinutes();
-
-  // Ensure leading zeros
+  let period = "AM";
   if (day < 10) {
     day = "0" + day;
   }
   if (month < 10) {
     month = "0" + month;
   }
+  
+  if(hours >= 12){
+    period = "PM";
+    if(hours > 12){
+      hours -= 12;
+    }
+  }
+  if(hours === 0){
+    hours = 12;
+  }
+
   if (hours < 10) {
     hours = "0" + hours;
   }
@@ -41,13 +51,14 @@ function formatDate(date) {
     minutes = "0" + minutes;
   }
 
-  return day + "/" + month + "/" + year + " " + hours + ":" + minutes;
+  return day + "/" + month + "/" + year + " " + hours + ":" + minutes + " " + period;
 }
 
-let now = new Date();
-let formattedDate = formatDate(now);
+
  
 const createPost = (req, res) => {
+  let now = new Date();
+  let formattedDate = formatDate(now);
   const { content,image, author } = req.body;
   // console.log("Image Path =====>", image);
   // console.log("from BE req:",content,image, author);

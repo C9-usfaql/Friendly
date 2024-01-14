@@ -14,15 +14,17 @@ export const userContext = createContext();
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkValue, setCheckValue] = useState(localStorage.getItem("day"));
   const [postIdForComment, setPostIdForComment] = useState(null);
   const [profileId, setProfileId] = useState(false);
   const [infoMe, setInfoMe] = useState(null);
   const[userId,setUserId]=useState(localStorage.getItem("userId"));
   const [data, setData] = useState([]);
   return (
-    <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId, data, setData,setInfoMe, infoMe , postIdForComment, setPostIdForComment, profileId, setProfileId}}>
+    <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId, data,
+     setData,setInfoMe, infoMe , postIdForComment, setPostIdForComment, profileId, setProfileId, checkValue, setCheckValue}}>
 
-    <div className="App">
+    <div className={!checkValue? "App": "AppNight"}>
     <Navbar/>
     <Routes>
 
