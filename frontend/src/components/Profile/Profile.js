@@ -9,6 +9,7 @@ function Profile() {
   const { token, userId,checkValue } = useContext(userContext);
   const [nameUser, setNameUser] = useState(null);
   const [imageUser, setImageUser] = useState(null);
+  const [bio, setBio]= useState(null);
   const [lengthFollower, setLengthFollower] = useState(null);
   const [lengthFollowing, setLengthFollowing] = useState(null);
   const [lengthPosts, setLengthPosts] = useState(null);
@@ -19,6 +20,7 @@ function Profile() {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
   const [follwing, setFollwing] = useState([]);
+
 
   const config = {
       headers: { Authorization: `Bearer ${token}` }
@@ -36,6 +38,7 @@ function Profile() {
           setLengthFollower(result.data.user.follower.length);
           setLengthFollowing(result.data.user.following.length);
           setLengthPosts(result.data.user.posts.length);
+          setBio(result.data.user.bio);
 
           axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
             console.log("GetPost by Author ==>", result);
@@ -56,6 +59,7 @@ function Profile() {
         setLengthFollower(result.data.user.follower.length);
         setLengthFollowing(result.data.user.following.length);
         setLengthPosts(result.data.user.posts.length);
+        setBio(result.data.user.bio);
         axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
           console.log("GetPost by Author ==>", result);
           setDataPost(result.data.posts);
@@ -94,6 +98,7 @@ const closeModal = () => {
             <div className='id-user'>{userId}</div>
             </div>
             
+            <div style={{marginTop:"5px", color:"#00adb5", whiteSpace:"pre-line"}}>{bio}</div>
 
             <div className='container-info-profile' style={{display:"flex", flexDirection:"row", margin:"20px", justifyContent:"center", textAlign:"center", gap:"15px"}}>
                 <div>

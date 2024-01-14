@@ -29,6 +29,7 @@
     place-items: center;
     margin-bottom: 10px;
     padding-bottom: 5px;
+    border: 0px 0px 2px 1px rgb(255, 255, 255, 1);
 }
 
 .nav-bar-night{

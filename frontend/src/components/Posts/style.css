@@ -126,6 +126,9 @@
     user-select: text; 
     text-align: start;
 }
+.icon{
+    transform: rotateY(180deg);
+}
 .menu{
     width:"fit-content";
     height:"fit-content";

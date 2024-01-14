@@ -22,7 +22,8 @@ const Navbar = ()=>{
 
     return(
         <div className={!checkValue? 'Nav' : 'NavNight'}>
-            <div  className="logo-div"><img  className="logo" src={require(`../Image/logo.png`)} onClick={()=>{
+            <div  className="logo-div">
+                <img  className="logo" src={require(`../Image/logo.png`)} onClick={()=>{
                 
                  navigate("/");
             }}/></div>

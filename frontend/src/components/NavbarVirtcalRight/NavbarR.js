@@ -51,6 +51,35 @@ function NavbarV() {
             })}
             </div>
             </div>
+
+            <div className={!checkValue? 'nav-bar': 'nav-bar-night'}>
+            <div style={{fontWeight:"bold", textAlign:"left", margin:"10px", paddingTop:"10px"}}>Recommended Pages</div>
+            <div className={!checkValue? 'line': 'line-night'} ></div>
+            <div style={{display: "flex", flexDirection: "row", marginTop:"5px",marginLeft:"5px" ,padding: "5px", textAlign:"center", placeItems: "center" ,gap:"10px"}}>
+                
+                <img src={require(`../Image/user.png`)} style={{width:"48px"}}/>
+                <div>Frindly inc.</div>
+            </div>
+            <div className={!checkValue? 'line': 'line-night'} ></div>
+            <div style={{display: "flex", flexDirection: "row", marginTop:"5px", marginLeft:"5px" ,padding: "5px", textAlign:"center", placeItems: "center" ,gap:"10px"}}>
+                
+                <img src={require(`../Image/user.png`)} style={{width:"48px"}}/>
+                <div>Frindly inc.</div>
+            </div>
+            <div className={!checkValue? 'line': 'line-night'} ></div>
+            <div style={{display: "flex", flexDirection: "row", marginTop:"5px",marginLeft:"5px" ,padding: "5px", textAlign:"center", placeItems: "center" ,gap:"10px"}}>
+                
+                <img src={require(`../Image/user.png`)} style={{width:"48px"}}/>
+                <div>Frindly inc.</div>
+            </div>
+            <div className={!checkValue? 'line': 'line-night'} ></div>
+            <div style={{display: "flex", flexDirection: "row", marginTop:"5px", marginLeft:"5px" ,padding: "5px", textAlign:"center", placeItems: "center" ,gap:"10px"}}>
+                
+                <img src={require(`../Image/user.png`)} style={{width:"48px"}}/>
+                <div>Frindly inc.</div>
+            </div>
+            
+            </div>
     </div>
 
     

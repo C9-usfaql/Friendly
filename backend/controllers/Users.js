@@ -144,6 +144,12 @@ const updateDataUserById = (req,res)=>{
       user: result,
     });
   }).catch((err) => {
+    if (err.keyPattern) {
+      return res.status(409).json({
+          success: false,
+          message: `The email already exists`,
+  });
+}
     res.status(500).json({
       success: false,
       message: `Server Error`,
