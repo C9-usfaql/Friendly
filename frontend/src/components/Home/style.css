@@ -27,19 +27,7 @@
     margin-bottom: 5px;
     background-color: green;
   }
-.input-image{
-    width: fit-content;
-    background-color: rgb(221, 221, 221);
-    margin: 5px;
-    padding: 5px;
-    border-radius: 8px;
-    color: black;
-    font-weight: bold;
-    gap: 10px;
-    display: flex;
-    
-    place-content: center;
-}
+
 .containing-top-post{
     display:flex;
     justify-content:space-between;
@@ -100,8 +88,6 @@
     gap:10px;
 }
 
-
-
 .comment{
     border: 0;
 }
@@ -141,43 +127,4 @@
     box-shadow: 0 4px 0 0;
     left: 4px;
     top: 4px
-}
-
-
-.gg-image {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(var(--ggs,1));
-    color: green;
-    width: 20px;
-    height: 16px;
-    overflow: hidden;
-    box-shadow: 0 0 0 2px;
-    border-radius: 2px;
-    
-}
-.gg-image::after,
-.gg-image::before {
-    content: "";
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    border: 2px solid green;
-    
-}
-.gg-image::after {
-    transform: rotate(45deg);
-    border-radius: 3px;
-    width: 16px;
-    height: 16px;
-    top: 9px;
-    left: 6px
-}
-.gg-image::before {
-    width: 6px;
-    height: 6px;
-    border-radius: 100%;
-    top: 2px;
-    left: 2px
 }

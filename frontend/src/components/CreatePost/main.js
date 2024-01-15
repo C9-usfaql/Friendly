@@ -32,23 +32,14 @@ function CreatePost() {
     const { token, userId, checkValue} = useContext(userContext);
     const {  data, setData } = useContext(dataContext);
     const [ImagePost, setImagePost] = useState({});
+    const [trundleVideo , setTrundleVideo] = useState({})
     const [loading, setLoading] = useState(true);
+    const [selectedOption, setSelectedOption] = useState('post');
+
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
-    const arr = [{id:12312,content:'test',author:123123},]
-    let imageFile = null;
-// const getAllposts=()=>{
-//     axios.get("http://localhost:5000/posts",config).then((result) => {
-//         setData(result.data.posts);
-//     }).catch((err) => {
-//         if(err.response.status === 403){
-//             navigate("/login");
-//             localStorage.clear();
-//         }
-//     });
-     
-// }
+  
     useEffect(()=>{
         axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
             setImageUser(result.data.user.image);
@@ -56,18 +47,50 @@ function CreatePost() {
             
         });
     },[]);
-    // console.log("from Main>>:",data);
+    
+    const handleOptionChange = (e) => {
+        setSelectedOption(e.target.value);
+      };
   return (
     <div className={!checkValue? 'createPost-div': 'createPost-div-night'}>
     <img src={`${imageUser}`} style={{width:"48px", height:"48px", marginLeft:"10px",border:"0", borderRadius:"32px"}}/>
-    <div style={{width:"80%",height:"100%",borderRadius:"4px", display:"flex", flexDirection:"column",padding:"10px"}}> 
-    <input className={!checkValue?'input-content':'input-content-night'} placeholder='what Think?' value={content} id='content' onChange={(e)=>{
+    <div className='contener-textarea-img'> 
+    <div style={{display:"flex",gap:"10px", justifyContent:"start", marginTop:"10px", color:"white"}}>
+      <label style={{backgroundColor:"#303841",padding:"5px" , borderRadius:"4px"}}>
+        <input
+          type="radio"
+          value="post"
+          checked={selectedOption === 'post'}
+          onChange={handleOptionChange}
+        />
+        Post
+      </label>
+      <label style={{backgroundColor:"#303841",padding:"5px" , borderRadius:"4px"}}>
+        <input
+          type="radio"
+          value="trundle"
+          checked={selectedOption === 'trundle'}
+          onChange={handleOptionChange}
+        />
+        Trundle
+      </label>
+      
+    </div>
+    <textarea className={!checkValue?'input-content':'input-content-night'} placeholder='what Think?' value={content} id='content' onChange={(e)=>{
         setContent(e.target.value);
     }} />
     
         <div className='contenter-input-image' style={{textAlign:"left"}}>
-            <div className='input-image'><i className="gg-image"></i> 
-            <input type="file" id="img" name="img" accept="image/*" onChange={(e)=>{
+            <div id='img-post-btn' style={{display:"flex", justifyContent:"space-between"}}>
+                
+           
+            <div className='input-image'>
+            
+            <label htmlFor="img" className="custom-file-input-post">
+            {selectedOption === "post"? 
+            <> 
+            <i className={ImagePost.name? 'gg-image-upload': 'gg-image'}></i>
+            <input type="file" id="img" name="img"  style={{ display: "none" }}  accept="image/*" onChange={(e)=>{
                 const file = e.target.files[0];
                 if (file) {
                     setImagePost(file);
@@ -75,19 +98,30 @@ function CreatePost() {
                 }else{
                     
                 }
-            }}></input></div>
-            <div id="myProgress">
-                <div id="myBar"></div>
-                </div>
+            }}/>
+            </>
+            : 
+            <>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zm-2 3v2h2v-2zM15 1h-2v2h2zm-2 3v2h2V4zm2 3h-2v2h2zm-2 3v2h2v-2zm2 3h-2v2h2z"/>
+            </svg>
+            <input type="file" id="img" name="img"  style={{ display: "none" }}  accept="video/*" onChange={(e)=>{
+                const file = e.target.files[0];
+                if (file) {
+                    setTrundleVideo(file);
+                }else{
+                    
+                }
+            }}/></>
+            
+            }   
 
-        </div>
-    </div>
-    
-    <button style={{backgroundColor:"#00ADB5",border:"0",color:"white", fontSize:"16px", padding:"10px", borderRadius:"5px", paddingTop:"16px",paddingBottom:"16px"}} 
+              </label>
+            </div>
+            <button className='post-btn' 
     onClick={(e)=>{
         e.preventDefault()
 
-        console.log(ImagePost.name);
        
         if(ImagePost.name){
             console.log("imageFile", ImagePost);
@@ -103,6 +137,7 @@ function CreatePost() {
                 document.querySelector("#myBar").style.width = `${progress}%`
                 document.querySelector("#img").value = "";
                 document.querySelector("#content").value = "";
+                document.querySelector("#img-post-btn").style.display = "none"
                 setContent("");
               },
               (error) => {
@@ -115,6 +150,46 @@ function CreatePost() {
                         Authorization: `Bearer ${token}`
                     }}).then((result) => {
                         document.querySelector("#myProgress").style.display = "none";
+                        document.querySelector("#img-post-btn").style.display = "block";
+                       console.log("post added successfully");
+                       console.log("result from create post", result);
+                       // ?/ spread array [result , ]
+                       setData([ ...data,result.data.data])
+  
+                }).catch((err) => {
+                    console.log("error from create post" , err);
+                });
+                setImagePost(null)
+                });
+              }
+            );
+        }else if(trundleVideo.name){
+            const storageRef = ref(storage, `/${userId}/${trundleVideo.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, trundleVideo);
+
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                document.querySelector("#myProgress").style.display = "block";
+                const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                document.querySelector("#myBar").style.width = `${progress}%`
+                document.querySelector("#img").value = "";
+                document.querySelector("#content").value = "";
+                document.querySelector("#img-post-btn").style.display = "none"
+                setContent("");
+              },
+              (error) => {
+                console.error('Error uploading file:', error);
+              },
+              () => {
+                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    axios.post("http://localhost:5000/posts/create", {content, author:userId, image: downloadURL},{
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }}).then((result) => {
+                        document.querySelector("#myProgress").style.display = "none";
+                        document.querySelector("#img-post-btn").style.display = "block";
                        console.log("post added successfully");
                        console.log("result from create post", result);
                        // ?/ spread array [result , ]
@@ -143,7 +218,17 @@ function CreatePost() {
         }
 
         
-    }}>Post</button>
+    }}>Publish</button>
+             </div>
+                <div id="myProgress">
+                <div id="myBar"></div>
+                </div>
+
+        </div>
+        
+    </div>
+    
+    
     </div>
   )
 }

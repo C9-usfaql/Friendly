@@ -51,13 +51,14 @@ function convertDateFormat(dateString) {
           setImageUser(result.data.user.image);
           setLengthFollower(result.data.user.follower.length);
           setLengthFollowing(result.data.user.following.length);
-          setLengthPosts(result.data.user.posts.length);
+          
           setBio(result.data.user.bio);
 
           axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
             console.log("GetPost by Author ==>", result);
             result.data.posts.sort(compareDates);
             setDataPost(result.data.posts);
+            setLengthPosts(result.data.posts.length);
           }).catch((err) => {
             
           });
@@ -73,12 +74,14 @@ function convertDateFormat(dateString) {
         setImageUser(result.data.user.image);
         setLengthFollower(result.data.user.follower.length);
         setLengthFollowing(result.data.user.following.length);
-        setLengthPosts(result.data.user.posts.length);
+        
         setBio(result.data.user.bio);
         axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
           console.log("GetPost by Author ==>", result);
           result.data.posts.sort(compareDates);
           setDataPost(result.data.posts);
+          setLengthPosts(result.data.posts.length);
+            console.log(result.data.posts.length);
         }).catch((err) => {
           
         });
@@ -220,11 +223,14 @@ const closeModal = () => {
                         <button onClick={()=>{
                           console.log(post.author._id);
                             axios.delete(`http://localhost:5000/posts/${post._id}/${post.author._id}` ,config).then((result) => {
-                                axios.get("http://localhost:5000/posts/", config).then((result) => {
-                                    setDataPost(result.data.posts);
-                                }).catch((err) => {
-                                    
-                                });
+                              axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
+                                console.log("GetPost by Author ==>", result);
+                                result.data.posts.sort(compareDates);
+                                setDataPost(result.data.posts);
+                                setLengthPosts(result.data.posts.length);
+                              }).catch((err) => {
+                                
+                              });
                             }).catch((err) => {
                                 
                             });
