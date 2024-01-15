@@ -26,22 +26,11 @@ function formatDate(date) {
   let year = date.getFullYear();
   let hours = date.getHours();
   let minutes = date.getMinutes();
-  let period = "AM";
   if (day < 10) {
     day = "0" + day;
   }
   if (month < 10) {
     month = "0" + month;
-  }
-  
-  if(hours >= 12){
-    period = "PM";
-    if(hours > 12){
-      hours -= 12;
-    }
-  }
-  if(hours === 0){
-    hours = 12;
   }
 
   if (hours < 10) {
@@ -50,8 +39,8 @@ function formatDate(date) {
   if (minutes < 10) {
     minutes = "0" + minutes;
   }
-
-  return day + "/" + month + "/" + year + " " + hours + ":" + minutes + " " + period;
+  console.log("hours ==>", hours);
+  return day + "/" + month + "/" + year + " " + hours + ":" + minutes;
 }
 
 
@@ -94,9 +83,6 @@ const createPost = (req, res) => {
 
 };
  
-
-
-
 const getAllPosts = (req, res) => {
   const userId = req.token.userId;
   postModel
@@ -234,7 +220,7 @@ const updatePostById = (req, res) => {
 
 const deletePostById = (req, res) => {
   const idPost = req.params.id;
-
+  const idUser = req.params.iduser;
   postModel
     .findByIdAndDelete(idPost)
     .then((post) => {
@@ -244,7 +230,7 @@ const deletePostById = (req, res) => {
           message: `The Post with id => ${idPost} not found`,
         });
       }
-
+      
       res.status(200).json({
         success: true,
         message: `Post deleted`,

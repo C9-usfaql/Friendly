@@ -12,7 +12,7 @@ postsRouter.get("/",authentication, getAllPosts);
 postsRouter.get("/search_1/:author",authentication, getAllPostByAuthor);
 postsRouter.get("/search_2/:id",authentication, getPostById);
 postsRouter.put("/:id",authentication, updatePostById);
-postsRouter.delete("/:id",authentication, deletePostById);
+postsRouter.delete("/:id/:iduser",authentication, deletePostById);
 
 postsRouter.get("/:id/like", authentication, createLike);
 postsRouter.get("/:id/unlike", authentication, unSetLike);

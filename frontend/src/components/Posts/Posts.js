@@ -1,8 +1,9 @@
 import React, { useEffect, useContext, useState, createContext } from 'react';
 import "./style.css"
 import axios from "axios";
+
 import { userContext } from "../../App"
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactSVG } from 'react-svg'
 import { dataContext } from '../Main/Main';
 export const postIdContext = createContext();
@@ -47,7 +48,7 @@ function Posts() {
         const handleImageLoad = () => {
             setLoading(false); // Set loading to false once the image is loaded
         };
-               
+        
             const searchid = async()=>{
                 if(selected === "home"){
                     axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
@@ -77,9 +78,15 @@ function Posts() {
                     
                
             };
-            
+
+        let hashtag = post.content.match(/(#)\w+/g);
+        
+        const postContentReplace= hashtag ? post.content.replace(/(#)\w+/g,(e)=> `<a id="hashtag" href='search/${e.replace("#", "")}'>${e}</a>`) : post.content;
+
+         console.log(postContentReplace);
+         
         return(
-            <div className={!checkValue?'contenter-post' : 'contenter-post-night'}>
+            <div  className={!checkValue?'contenter-post' : 'contenter-post-night'}>
                 {/* <h1>POSTS</h1> */}
                 {/* A bar containing a photo and username */}
                 <div className='containing-top-post'>
@@ -155,7 +162,10 @@ function Posts() {
                     }).catch((err) => {
                         
                     });
-                }}>Save</button></>: <div className={!checkValue? 'content-post': 'content-post-night'}>{post.content}</div>}
+                }}>Save</button></>: <div className={!checkValue? 'content-post': 'content-post-night'} dangerouslySetInnerHTML={{
+                    __html: postContentReplace
+                  }}></div>
+                   }
                 
                 <div>
                     {
@@ -185,7 +195,7 @@ function Posts() {
                           justifyContent: "center",
                           placeItems: "center",
                           maxHeight: "80%",
-                          borderRadius: "20px",
+                          borderRadius: "10px",
                         }}
                         onLoad={handleImageLoad}
                       />
@@ -197,7 +207,7 @@ function Posts() {
                 {/* End Div Content Post */}
 
                 {/* Start Show Count Like % Comments in Post */}
-                <div style={{textAlign:"left" , margin:"10px", color:"rgb(150,150,150)"}}>{post.likes.length} Like  {post.comments.length} Comments</div>
+                <div style={{textAlign:"left" , margin:"1% 0px 0px 2%", color:"rgb(150,150,150)", fontSize:"13px"}}>{post.likes.length} Like  {post.comments.length} Comments</div>
                 {/* End Show Count Like % Comments in Post */}
 
                 {/* Start line */}

@@ -18,11 +18,14 @@ body{
 
 .logo-div{
     min-width: 25%;
+    display: flex;
+    place-items: center;
+    justify-content: center;
     text-align: center;
 }
 
 .logo{
-    max-width: 50px;
+    max-width: 22%;
     text-align: center;
 }
 
@@ -70,7 +73,7 @@ a{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #6d7c73;
+    background-color: #018b92;
     transition: .4s;
     border-radius: 30px;
   }
@@ -98,7 +101,7 @@ a{
   }
   
   .moon svg {
-    fill: #73C0FC;
+    fill: #444444;
     position: absolute;
     top: 2px;
     left: 2px;
@@ -146,11 +149,11 @@ a{
   }
   
   .input:checked + .slider {
-    background-color: #183153;
+    background-color: #018b92;
   }
   
   .input:focus + .slider {
-    box-shadow: 0 0 1px #183153;
+    box-shadow: 0 0 1px #018b92;
   }
   
   .input:checked + .slider:before {

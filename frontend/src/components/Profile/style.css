@@ -25,6 +25,7 @@
     text-align: center;
 }
 .post-content-profile{
+    
     width: 50%;
 }
 
@@ -62,6 +63,7 @@
     -ms-user-select: none;
     user-select: none;
     background-color: transparent;
+    
 }
 
 .cover-image {

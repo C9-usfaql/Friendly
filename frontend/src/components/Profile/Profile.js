@@ -25,6 +25,20 @@ function Profile() {
   const config = {
       headers: { Authorization: `Bearer ${token}` }
   };
+
+  function compareDates(a, b) {
+    const dateA = new Date(convertDateFormat(a.datePost));
+    const dateB = new Date(convertDateFormat(b.datePost));
+    return dateB - dateA; // Sort in descending order (latest date first)
+}
+
+function convertDateFormat(dateString) {
+    const parts = dateString.split(/[\s/:\s]/);
+    return `${parts[1]}/${parts[0]}/${parts[2]} ${parts[3]}:${parts[4]}`;
+}
+  {dataPosts && dataPosts.sort(compareDates)};
+
+
   useEffect(()=>{
     if(localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId){
       axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
@@ -42,6 +56,7 @@ function Profile() {
 
           axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
             console.log("GetPost by Author ==>", result);
+            result.data.posts.sort(compareDates);
             setDataPost(result.data.posts);
           }).catch((err) => {
             
@@ -62,6 +77,7 @@ function Profile() {
         setBio(result.data.user.bio);
         axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
           console.log("GetPost by Author ==>", result);
+          result.data.posts.sort(compareDates);
           setDataPost(result.data.posts);
         }).catch((err) => {
           
@@ -95,7 +111,6 @@ const closeModal = () => {
             </div>
             <div className="container-userinfo">
             <div className='nameUser'>{nameUser}</div>
-            <div className='id-user'>{userId}</div>
             </div>
             
             <div style={{marginTop:"5px", color:"#00adb5", whiteSpace:"pre-line"}}>{bio}</div>
@@ -203,7 +218,8 @@ const closeModal = () => {
                             setEditAllow(true);
                         }}>Edit</button>
                         <button onClick={()=>{
-                            axios.delete(`http://localhost:5000/posts/${post._id}`,config).then((result) => {
+                          console.log(post.author._id);
+                            axios.delete(`http://localhost:5000/posts/${post._id}/${post.author._id}` ,config).then((result) => {
                                 axios.get("http://localhost:5000/posts/", config).then((result) => {
                                     setDataPost(result.data.posts);
                                 }).catch((err) => {
@@ -240,7 +256,7 @@ const closeModal = () => {
                 
                 <div>
                     {
-     post.image && <div style={{  width: "98%",backgroundColor:"#e6e6e6",marginLeft:"1%", height: "100%" }}>
+     post.image && <div style={{  width: "98%",marginLeft:"1%", height: "100%" }}>
       {loading && (
         <div
           style={{
@@ -262,12 +278,11 @@ const closeModal = () => {
         <img
           src={post.image}
           style={{
-            maxWidth: "90%",
+            maxWidth: "100%",
             justifyContent: "center",
             placeItems: "center",
             maxHeight: "80%",
-            padding: "10px",
-            borderRadius: "20px",
+            borderRadius: "10px",
           }}
           onLoad={handleImageLoad}
         />
