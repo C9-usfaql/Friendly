@@ -9,10 +9,11 @@ const searchByNameUserOrContentPost = (req, res)=>{
         if(!result.length){
               userModel.find({lastName: firstname}).then((result) => {
                 if(!result.length){
-                    postModel.find({content: firstname}).then((result) => {
+                    postModel.find({content: firstname}).populate("author").then((result) => {
                         res.status(201).json({
                             success : true,
                             message : `the Post With Content => ${firstname}`,
+                            type: "post",
                             user : result
                         })
                     }).catch((err) => {
@@ -22,6 +23,7 @@ const searchByNameUserOrContentPost = (req, res)=>{
                     res.status(201).json({
                     success : true,
                     message : `the User With LastName => ${firstname}`,
+                    type: "user",
                     user : result
                 })
                 }
@@ -33,6 +35,7 @@ const searchByNameUserOrContentPost = (req, res)=>{
             res.status(201).json({
                 success : true,
                 message : `the User With FirstName => ${firstname}`,
+                type: "user",
                 user : result
             })
         }

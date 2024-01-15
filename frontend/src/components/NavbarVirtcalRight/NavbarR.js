@@ -39,7 +39,7 @@ function NavbarV() {
                     }}>
                 <div style={{display: "flex", flexDirection: "row",justifyContent:"space-between", marginTop:"5px",marginLeft:"5px" ,padding: "5px", textAlign:"center", placeItems: "center" ,gap:"10px"}}>
                 <div style={{display:"flex", textAlign:"center", placeItems: "center" , gap:"5px"}}>
-                <img src={`${e.image}`} style={{width:"48px", borderRadius:"4px"}}/>
+                <img src={`${e.image}`} style={{width:"48px", borderRadius:"24px"}}/>
                 <div style={{fontWeight:"bold"}}>{e.firstName}</div>
                 </div>
                 <button className='btn-follow'>Follow</button>

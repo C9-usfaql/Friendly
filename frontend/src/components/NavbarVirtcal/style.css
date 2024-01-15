@@ -88,17 +88,43 @@
 .container-userinfo{
     margin-top: 3.5vh;
 }
-.menu{
+
+.home{
     display: flex;
     place-items: center;
-    margin-left: 7%;
     gap: 10px;
-    margin-bottom: 7%;
-}
-.home{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px 8px 0px 0px ;
     padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+.home-selected{
+    display: flex;
+    place-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px 8px 0px 0px ;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    background-color: #00ADB5;
+}
+.explore{
+    display: flex;
+    place-items: center;
+    gap: 10px;
+    border-radius: 0px 0px 8px 8px ;
+    padding-top: 1vh;
+    margin-bottom: 1%;
 }
 
-.profile{
-    margin-bottom: 1%;
+.explore-selected{
+    display: flex;
+    place-items: center;
+    gap: 10px;
+    border-radius: 0px 0px 8px 8px ;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    background-color: #00ADB5;
 }

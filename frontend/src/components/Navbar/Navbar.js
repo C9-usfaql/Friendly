@@ -4,10 +4,11 @@ import Toggle from "react-toggle";
 import "./style.css"
 import { userContext } from "../../App";
 import axios from "axios";
-import { dayNight } from "../Main/Main";
+import { dataContext } from "../Main/Main";
 const Navbar = ()=>{
-    const { token, userId, checkValue, setCheckValue } = useContext(userContext);
+    const { token, userId, checkValue, setCheckValue,searchValue , setSearchValue  } = useContext(userContext);
     const [imageUrl, setImageUrl] = useState("test");
+    
     const navigate = useNavigate();
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -30,7 +31,16 @@ const Navbar = ()=>{
             <div className="nav-div">
             {token ? 
             <>
-               <div style={{minWidth: "60%", minHeight: "50%"}}> <input style={{width: "50%", padding: "1%",borderRadius: "10px", border: "1px solid gray", } } placeholder="Search..." /></div> 
+               <div style={{minWidth: "60%", minHeight: "50%"}}> 
+               <input style={{width: "50%", padding: "1%",borderRadius: "10px", border: "1px solid gray", } } placeholder="Search..." onKeyPress={(e)=>{
+                if(e.key === 'Enter'){
+                    localStorage.setItem("search", e.target.value);
+                    navigate(`/search/${e.target.value}`)
+                    
+                }
+                
+               }}/>
+               </div> 
                 <div className="avatar-div" onClick={()=>{
                     localStorage.setItem("userIdG", userId);
                     navigate("/profile");
@@ -42,10 +52,14 @@ const Navbar = ()=>{
                         <span class="moon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="m223.5 32c-123.5 0-223.5 100.3-223.5 224s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"></path></svg></span>   
                         <input type="checkbox" class="input" id="checkbox-light-dark" checked={checkValue}
                         onChange={()=>{
-                            setCheckValue(prevCheckValue => !prevCheckValue);
+                            setCheckValue((prevCheckValue) => {
+                                
+                                localStorage.setItem("day", !prevCheckValue);
+                               return !prevCheckValue
+                            });
                             // You can call your CheckDayNight function here if needed
                             console.log(checkValue);
-                            localStorage.setItem("day", checkValue);
+                            
                         }}/>
                         <span class="slider"></span>
                     </label>

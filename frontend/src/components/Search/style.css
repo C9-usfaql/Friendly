@@ -1,0 +1,9 @@
+.search-page{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.search-content-v1{
+    width: 50%;
+}

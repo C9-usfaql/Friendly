@@ -70,7 +70,7 @@
 
 }
 
-input[type="file"]{
+#fileInput[type="file"]{
     display: none;
 }
 

@@ -9,6 +9,7 @@ import Main from "./components/Main/Main"
 import { useState , createContext} from "react";
 import Profile from "./components/Profile/Profile";
 import EditProfile from "./components/EditProfile/EditProfile";
+import Search from "./components/Search/Search";
 
 export const userContext = createContext();
 function App() {
@@ -20,9 +21,11 @@ function App() {
   const [infoMe, setInfoMe] = useState(null);
   const[userId,setUserId]=useState(localStorage.getItem("userId"));
   const [data, setData] = useState([]);
+  const [searchValue , setSearchValue] = useState(null);
   return (
     <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId, data,
-     setData,setInfoMe, infoMe , postIdForComment, setPostIdForComment, profileId, setProfileId, checkValue, setCheckValue}}>
+     setData,setInfoMe, infoMe , postIdForComment, setPostIdForComment, profileId, setProfileId, checkValue, setCheckValue,
+     searchValue , setSearchValue}}>
 
     <div className={!checkValue? "App": "AppNight"}>
     <Navbar/>
@@ -34,6 +37,7 @@ function App() {
     <Route path="/profile" element={<Profile/>}/>
     <Route path="/post/:id" element={<OnePost/>}/>
     <Route path="/profile/edit" element={<EditProfile/>}/>
+    <Route path="/search/:id" element={<Search/>}/>
     </Routes>
     </div>
 

@@ -3,7 +3,7 @@ import "./style.css"
 import axios from "axios";
 import { userContext } from "../../App"
 import { Navigate, useNavigate } from 'react-router-dom';
-import { dataContext } from '../Home/Home';
+import { dataContext } from '../Main/Main';
 
 const { initializeApp } = require("firebase/app");
 const {
@@ -71,7 +71,7 @@ function CreatePost() {
                 const file = e.target.files[0];
                 if (file) {
                     setImagePost(file);
-                    console.log("Image Path In Input =>", ImagePost);
+                    
                 }else{
                     
                 }
