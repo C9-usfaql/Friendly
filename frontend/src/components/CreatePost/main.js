@@ -118,12 +118,11 @@ function CreatePost() {
 
               </label>
             </div>
-            <button className='post-btn' 
-    onClick={(e)=>{
-        e.preventDefault()
-
-       
-        if(ImagePost.name){
+            <button className={ selectedOption === "post" && content || ImagePost.name || trundleVideo.name ? 'post-btn' : 'block-post-btn'}
+        onClick={(e)=>{
+          e.preventDefault()
+          if(content || ImagePost.name){
+          if(ImagePost.name){
             console.log("imageFile", ImagePost);
             const storageRef = ref(storage, `${ImagePost.name}`);
             const uploadTask = uploadBytesResumable(storageRef, ImagePost);
@@ -163,7 +162,21 @@ function CreatePost() {
                 });
               }
             );
-        }else if(trundleVideo.name){
+        }else{
+            console.log(content,userId);
+            axios.post("http://localhost:5000/posts/create", {content, author:userId, image:""},{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }}).then((result) => {
+                    console.log("result from create post", result);
+                     setData([ ...data,result.data.data ])
+                    setContent("");
+
+            }).catch((err) => {
+                console.log("error from create post" , err);
+            });
+        }
+          }else if(trundleVideo.name){
             const storageRef = ref(storage, `/${userId}/${trundleVideo.name}`);
             const uploadTask = uploadBytesResumable(storageRef, trundleVideo);
 
@@ -200,22 +213,8 @@ function CreatePost() {
                 });
               }
             );
-        }else{
-            console.log(content,userId);
-            axios.post("http://localhost:5000/posts/create", {content, author:userId, image:""},{
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }}).then((result) => {
-                    console.log("result from create post", result);
-                     setData([ ...data,result.data.data ])
-                    setContent("");
-
-            }).catch((err) => {
-                console.log("error from create post" , err);
-            });
-        }
-
         
+          }
     }}>Publish</button>
              </div>
                 <div id="myProgress">

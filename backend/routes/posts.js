@@ -1,6 +1,6 @@
 const express = require("express");
 const {createPost, getAllPosts, getAllPostByAuthor, getPostById, updatePostById, deletePostById} = require("../controllers/posts");
-const {createLike, unSetLike} = require("../controllers/likes");
+const {createLike} = require("../controllers/likes");
 const {createNewComment, getCommentById} = require("../controllers/comments");
 const authentication = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
@@ -15,7 +15,6 @@ postsRouter.put("/:id",authentication, updatePostById);
 postsRouter.delete("/:id/:iduser",authentication, deletePostById);
 
 postsRouter.get("/:id/like", authentication, createLike);
-postsRouter.get("/:id/unlike", authentication, unSetLike);
 postsRouter.post("/:id/comment", authentication, createNewComment);
 postsRouter.get("/comment/:id", authentication, getCommentById);
 

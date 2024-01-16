@@ -128,3 +128,135 @@
     left: 4px;
     top: 4px
 }
+
+.nav-bar-home{
+    display: none;
+}
+.nav-bar-home-night{
+    display: none;
+}
+@media only screen and (max-width: 600px) {
+    .home-contenter{
+        width: 100vw;
+    }
+
+    .nav-bar-home{
+        display: flex;
+        flex-direction: row;
+        background-color: white;
+        color: black;
+        border-radius: 10px; 
+        text-align: center;
+        place-items: center;
+        margin-bottom: 10px;
+        box-shadow: 0px 0px 5px 1px rgb(5, 5, 5, 0.25);
+    
+    }
+    .nav-bar-home-night{
+        display: flex;
+        flex-direction: row;
+        background-color: #3A4750;
+        border-radius: 10px; 
+        text-align: center;
+        place-items: center;
+        margin-bottom: 10px;
+        color: white;
+    }
+
+    .home-main{
+        display: flex;
+        place-items: center;
+        gap: 10px;
+        border-radius: 8px 0px 0px 8px ;
+        padding-left: 5px;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        width: 33%;
+        cursor: pointer;
+    }
+    .home-main-selected{
+        display: flex;
+        place-items: center;
+        padding-left: 5px;
+        gap: 10px;
+        width: 33%;
+        border-radius: 8px 0px 0px 8px ;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        background-color: #00ADB5;
+    }
+    .explore-main{
+        display: flex;
+        place-items: center;
+        padding-left: 5px;
+        gap: 10px;
+        padding-top: 1vh;
+        width: 33%;
+        padding-bottom: 1vh;
+        cursor: pointer;
+    }
+    
+    
+    .explore-main-selected{
+        display: flex;
+        place-items: center;
+        padding-left: 5px;
+        width: 33%;
+        gap: 10px;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        background-color: #00ADB5;
+    }
+    
+    .trundle-main{
+        display: flex;
+        place-items: center;
+        padding-left: 5px;
+        width: 33%;
+        gap: 10px;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        border-radius: 0 0 8px 8px ;
+        cursor: pointer;
+    }
+    
+    
+    .trundle-main-selected{
+        display: flex;
+        place-items: center;
+        padding-left: 5px;
+        gap: 10px;
+        padding-top: 1vh;
+        width: 33%;
+        padding-bottom: 1vh;
+        border-radius: 0 0 8px 8px ;
+        background-color: #00ADB5;
+    }
+    .trundle-main:hover,
+    .home-main:hover,
+    .explore-main:hover{
+        background-color: #505050;
+    }
+
+    
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}

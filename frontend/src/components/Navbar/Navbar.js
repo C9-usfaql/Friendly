@@ -34,9 +34,7 @@ const Navbar = ()=>{
                <div style={{minWidth: "60%", minHeight: "50%"}}> 
                <input style={{width: "50%", padding: "1%",borderRadius: "10px", border: "1px solid gray", } } placeholder="Search..." onKeyPress={(e)=>{
                 if(e.key === 'Enter'){
-                    localStorage.setItem("search", e.target.value);
                     navigate(`/search/${e.target.value}`)
-                    
                 }
                 
                }}/>

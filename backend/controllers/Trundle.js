@@ -110,14 +110,6 @@ const getAllTrundleByAuthor = (req, res) => {
   let authorId = req.params.author;
   trundleModel
     .find({ author: authorId })
-    .populate({
-      path:"comments",
-      populate : 
-        {
-          path:"commenter"
-        }
-      
-    })
     .populate("author")
     .then((trundle) => {
       if (!trundle) {

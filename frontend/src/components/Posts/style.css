@@ -1,12 +1,3 @@
-.home-contenter{
-    display: flex;
-    flex-direction: column;
-    width: 50vw;
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-}
-
 .contenter-post{
     height:fit-content;
     max-height:fit-content;

@@ -6,18 +6,17 @@ const {
     getTrundleById,
     deleteTrundleById
 } = require("../controllers/Trundle");
-const {createLike, unSetLike} = require("../controllers/likes");
+const {createLike, createLikeForTrundle} = require("../controllers/likes");
 const authentication = require("../middleware/authentication");
 
 const trundleRouter = express.Router();
 
 trundleRouter.post("/create", authentication ,createTrundle);
 trundleRouter.get("/",authentication, getAllTrundle);
-trundleRouter.get("/search_1/trundle/:author",authentication, getAllTrundleByAuthor);
-trundleRouter.get("/search_2/trundle/:id",authentication, getTrundleById);
+trundleRouter.get("/search_1/:author",authentication, getAllTrundleByAuthor);
+trundleRouter.get("/search_2/:id",authentication, getTrundleById);
 trundleRouter.delete("/trundle/:id/:iduser",authentication, deleteTrundleById);
 
-trundleRouter.get("/trundle/:id/like", authentication, createLike);
-trundleRouter.get("/trundle/:id/unlike", authentication, unSetLike);
+trundleRouter.get("/:id/like", authentication, createLikeForTrundle);
 
 module.exports = trundleRouter;

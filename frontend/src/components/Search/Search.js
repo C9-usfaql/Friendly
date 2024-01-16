@@ -17,6 +17,7 @@ function Search() {
     const {id} = useParams();
     console.log(id);
     
+    
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -35,7 +36,7 @@ function Search() {
         }).catch((err) => {
                             
         }); 
-    },[])
+    },[id])
     
     const openModal = (postId) => {
         setSelectedPostId(postId);
@@ -61,29 +62,30 @@ function Search() {
     <div className='search-page'>
 
     
-    <div className='search-content-v1'>Search {searchValue}
+    <div className='search-content-v1'> <label style={{color:"#018b92", fontWeight:"bold"}}>Result Search: </label><label style={{color:"#018b92"}}>"{id}"</label>
     
-    <div>
+    <div style={{marginTop:"10px"}}>
             {allUser?.map((e,i)=>{
                 
                 return(
-                    <div onClick={()=>{
+                    <div className={checkValue? "contenter-search-night": "contenter-search"} onClick={()=>{
                         localStorage.setItem("userIdG", e._id);
                         navigate("/profile");
                     }}>
                 <div style={{display: "flex", flexDirection: "row",justifyContent:"space-between", marginTop:"5px",marginLeft:"5px" ,padding: "5px", textAlign:"center", placeItems: "center" ,gap:"10px"}}>
                 <div style={{display:"flex", textAlign:"center", placeItems: "center" , gap:"5px"}}>
-                <img src={`${e.image}`} style={{width:"48px", borderRadius:"4px"}}/>
-                <div style={{fontWeight:"bold", color:"white"}}>{e.firstName} {e.lastName}</div>
-                <div style={{fontWeight:"lighter", color:"white"}}>{e.bio}</div>
+                <img src={`${e.image}`} style={{width:"48px", borderRadius:"24px"}}/>
+                <div style={{fontWeight:"bold", }}>{e.firstName} {e.lastName}</div>
+                <div style={{fontWeight:"lighter"}}>{e.bio}</div>
                 </div>
                 <button className='btn-follow'>Follow</button>
             </div>
-            <div className={!checkValue? 'line': 'line-night'}></div>
+            
             </div>
                 )
             
             })}
+            <div className={!checkValue? 'line': 'line-night'}></div>
             </div>
 
 

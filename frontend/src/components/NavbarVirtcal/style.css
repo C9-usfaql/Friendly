@@ -94,17 +94,18 @@
     place-items: center;
     gap: 10px;
     margin-top: 10px;
-    margin-bottom: 10px;
     border-radius: 8px 8px 0px 0px ;
+    padding-left: 5px;
     padding-top: 1vh;
     padding-bottom: 1vh;
+    cursor: pointer;
 }
 .home-selected{
     display: flex;
     place-items: center;
     gap: 10px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    padding-left: 5px;
     border-radius: 8px 8px 0px 0px ;
     padding-top: 1vh;
     padding-bottom: 1vh;
@@ -113,18 +114,79 @@
 .explore{
     display: flex;
     place-items: center;
+    padding-left: 5px;
     gap: 10px;
-    border-radius: 0px 0px 8px 8px ;
     padding-top: 1vh;
-    margin-bottom: 1%;
+    padding-bottom: 1vh;
+    cursor: pointer;
 }
+
 
 .explore-selected{
     display: flex;
     place-items: center;
+    padding-left: 5px;
     gap: 10px;
-    border-radius: 0px 0px 8px 8px ;
     padding-top: 1vh;
     padding-bottom: 1vh;
     background-color: #00ADB5;
+}
+
+.trundle{
+    display: flex;
+    place-items: center;
+    padding-left: 5px;
+    gap: 10px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    border-radius: 0 0 8px 8px ;
+    cursor: pointer;
+}
+
+
+.trundle-selected{
+    display: flex;
+    place-items: center;
+    padding-left: 5px;
+    gap: 10px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    border-radius: 0 0 8px 8px ;
+    background-color: #00ADB5;
+}
+.trundle:hover,
+.home:hover,
+.explore:hover{
+    background-color: #505050;
+}
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .contenter-nav{
+        display: none;
+    }
+
+    
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
 }

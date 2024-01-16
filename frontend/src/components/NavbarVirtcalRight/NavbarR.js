@@ -25,11 +25,11 @@ function NavbarV() {
             <div style={{fontWeight:"bold", textAlign:"left", marginLeft:"10px", marginBottom:"10px", paddingTop:"10px"}}>Suggested For you</div>
             <div className={!checkValue? 'line': 'line-night'} ></div>
             <div>
-            {allUser?.map((e,i)=>{
+            {allUser && allUser?.map((e,i)=>{
                  
-                if(userId === e._id){
+                 if(userId && e._id === userId){
 
-                }else if(infoMe.following.includes(e._id)){
+                }else  if(infoMe && infoMe.following.includes(e._id)){
                 }else{
                 
                 return(

@@ -6,7 +6,7 @@ import axios from "axios";
 function OnePost() {
 /*   const {data, setData} = useContext(dataContext); */
   const navigate = useNavigate();
-  const { token, userId } = useContext(userContext);
+  const { token, userId, checkValue } = useContext(userContext);
   const infoMes = localStorage.getItem("InfoMe");
   const infoMe = JSON.parse(infoMes)
   const [post, setPost] = useState(null);
@@ -72,7 +72,7 @@ function OnePost() {
     {post && 
       <>
     
-    <div className="contenter-one-post">
+    <div className={checkValue? "contenter-one-post-night": "contenter-one-post"}>
       {/* <h1>POSTS</h1> */}
       {/* A bar containing a photo and username */}
       <div className="containing-top-post">
@@ -179,7 +179,7 @@ function OnePost() {
           </button>
         </>
       ) : (
-        <div className="content-post">{post.content}</div>
+        <div className={!checkValue? 'content-post': 'content-post-night'}>{post.content}</div>
       )}
 
       <div>
@@ -187,7 +187,6 @@ function OnePost() {
           <div
             style={{
               width: "98%",
-              backgroundColor: "#e6e6e6",
               marginLeft: "1%",
               height: "100%",
             }}
@@ -217,10 +216,10 @@ function OnePost() {
               <img
                 src={post.image}
                 style={{
-                  maxWidth: "90%",
+                  maxWidth: "100%",
                   justifyContent: "center",
                   placeItems: "center",
-                  maxHeight: "80%",
+                  maxHeight: "100%",
                   padding: "10px",
                   borderRadius: "20px",
                 }}
@@ -293,7 +292,7 @@ function OnePost() {
         {/* End The Share button in the post */}
       </div>
       <div className="line"></div>
-        <div className="contenter-comment-array">
+        <div className={!checkValue? "contenter-comment-array" : "contenter-comment-array-night"}>
 
         
         {commentData.map((e,i)=>{
