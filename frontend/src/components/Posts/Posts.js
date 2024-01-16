@@ -58,7 +58,7 @@ function Posts() {
                        }).catch((err) => {
                        }); 
                     }).catch((err) => {
-                        console.log("Error", err);
+
                     });
                 }else{
                     axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
@@ -72,7 +72,7 @@ function Posts() {
                     }
                     });  
                     }).catch((err) => {
-                        console.log("Error", err);
+
                     });
                 }
                     
@@ -83,7 +83,7 @@ function Posts() {
         
         const postContentReplace= hashtag ? post.content.replace(/(#)\w+/g,(e)=> `<a id="hashtag" href='search/${e.replace("#", "")}'>${e}</a>`) : post.content;
 
-         console.log(postContentReplace);
+
          
         return(
             <div  className={!checkValue?'contenter-post' : 'contenter-post-night'}>
@@ -156,7 +156,6 @@ function Posts() {
                     setContentPostAfterEdit(e.target.value)
                 }} /> <button onClick={()=>{
                     axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
-                        console.log(result);
                         setModalVisible(false);
                         setEditAllow(false);
                     }).catch((err) => {
@@ -222,7 +221,6 @@ function Posts() {
                     
                     <div className={!checkValue? 'interact-button': 'interact-button-night'} onClick={()=>{ 
                         searchid()
-                        console.log("Like in Post =>", post.likes);
                     }}>
 
                         {

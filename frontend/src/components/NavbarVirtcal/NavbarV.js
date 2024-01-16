@@ -32,7 +32,6 @@ function NavbarV() {
 
         axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
           setLengthPosts(result.data.posts.length);
-            console.log(result.data.posts.length);
         }).catch((err) => {
           
         });

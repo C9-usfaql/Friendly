@@ -31,8 +31,8 @@ const Navbar = ()=>{
             <div className="nav-div">
             {token ? 
             <>
-               <div style={{minWidth: "60%", minHeight: "50%"}}> 
-               <input style={{width: "50%", padding: "1%",borderRadius: "10px", border: "1px solid gray", } } placeholder="Search..." onKeyPress={(e)=>{
+               <div style={{minWidth: "67%", minHeight: "100%", display:"flex", alignItems:"center"}}> 
+               <input className="search-bar" placeholder="Search..." onKeyPress={(e)=>{
                 if(e.key === 'Enter'){
                     navigate(`/search/${e.target.value}`)
                 }

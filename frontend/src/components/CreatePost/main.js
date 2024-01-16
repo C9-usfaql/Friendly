@@ -35,7 +35,7 @@ function CreatePost() {
     const [trundleVideo , setTrundleVideo] = useState({})
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('post');
-
+    const [limitVideo, setLimitVideo] = useState(false);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -55,6 +55,7 @@ function CreatePost() {
     <div className={!checkValue? 'createPost-div': 'createPost-div-night'}>
     <img src={`${imageUser}`} style={{width:"48px", height:"48px", marginLeft:"10px",border:"0", borderRadius:"32px"}}/>
     <div className='contener-textarea-img'> 
+    {limitVideo && <> <div className='error-video-length'>The video must be less than 31 seconds</div></>}
     <div style={{display:"flex",gap:"10px", justifyContent:"start", marginTop:"10px", color:"white"}}>
       <label style={{backgroundColor:"#303841",padding:"5px" , borderRadius:"4px"}}>
         <input
@@ -107,8 +108,22 @@ function CreatePost() {
             </svg>
             <input type="file" id="img" name="img"  style={{ display: "none" }}  accept="video/*" onChange={(e)=>{
                 const file = e.target.files[0];
+                
+
                 if (file) {
-                    setTrundleVideo(file);
+                  const video = document.createElement('video');
+                  video.src = URL.createObjectURL(file);
+                  video.onloadedmetadata = () => {
+                    console.log(video.duration);
+                    if (video.duration > 35) {
+                      setLimitVideo(true);
+                      
+                    } else {
+                      setLimitVideo(false);
+                      setTrundleVideo(file);
+                    }
+                  };
+                    
                 }else{
                     
                 }

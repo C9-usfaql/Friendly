@@ -119,8 +119,7 @@ function convertDateFormat(dateString) {
         });
 
         axios.get(`http://localhost:5000/trundle/search_1/${userId}`,config).then((result) => {
-            console.log("getTrundle by Author ==>", result);
-            setDataTrundle(result.data.trundle);
+          {result.data.trundle.length && setDataTrundle(result.data.trundle)}
           }).catch((err) => {
             
           });
@@ -131,7 +130,9 @@ function convertDateFormat(dateString) {
     }
     });
     }
-},[])
+},[]);
+
+console.log(dataTrundle);
 
 const openModal = (postId) => {
   setSelectedPostId(postId);
@@ -270,6 +271,98 @@ const back = () =>{
 
       <div className='post-content-profile'>
         
+
+      <div className='profile-info-phone'>
+      <div className={!checkValue?'nav-bar-profile': 'nav-bar-profile-night'}>
+            <div className="container" >
+                <img src={require(`../Image/cover.jpg`)} className='cover-image'/>
+                <img src={`${imageUser}`} className='user-image'/>
+            </div>
+            <div className="container-userinfo">
+            <div className='nameUser'>{nameUser}</div>
+            </div>
+            
+            <div style={{marginTop:"5px", color:"#00adb5", whiteSpace:"pre-line"}}>{bio}</div>
+
+            <div className='container-info-profile' style={{display:"flex", flexDirection:"row", margin:"20px", justifyContent:"center", textAlign:"center", gap:"15px"}}>
+                <div>
+                <div>{lengthPosts}</div>
+                <div>Post</div>
+                </div>
+
+                <div>
+                <div>{lengthFollower}</div>
+                <div>Followers</div>
+                </div>
+
+                <div>
+                <div>{lengthFollowing}</div>
+                <div>Following</div>
+                </div>
+
+                
+            </div>
+            <div className={checkValue? 'line-night': "line"}  style={{marginBottom:"10px"}}></div>
+            <div>
+              <div style={{display: 'flex',marginLeft:"10px", gap:"10px", marginBottom:"5px"}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                </svg>
+                <label>{phone}</label>
+              </div>
+              <div style={{display: 'flex',marginLeft:"10px", gap:"10px" , marginBottom:"5px"}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gender-ambiguous" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M11.5 1a.5.5 0 0 1 0-1h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-3.45 3.45A4 4 0 0 1 8.5 10.97V13H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V14H6a.5.5 0 0 1 0-1h1.5v-2.03a4 4 0 1 1 3.471-6.648L14.293 1zm-.997 4.346a3 3 0 1 0-5.006 3.309 3 3 0 0 0 5.006-3.31z"/>
+              </svg>
+                <label>{gender}</label>
+              </div>
+              <div style={{display: 'flex',marginLeft:"10px", gap:"10px", marginBottom:"5px"}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+              <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+              <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+              </svg>
+                <label>{country}</label>
+              </div>
+            </div>
+            {localStorage.getItem("userIdG") === userId ?<><div className='btn-open-profile' onClick={()=>{
+              navigate("edit");
+            }}>Edit Profile</div> <div className='btn-logout-profile' onClick={()=>{
+              localStorage.clear();
+              window.location.reload();
+            }}>Logout</div>
+            </>  : <>{ follwing.includes(localStorage.getItem("userIdG")) ? <div className='btn-open-profile' onClick={()=>{
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+
+                let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
+
+                if(indexElem !== -1){
+                const arrFollow =  follwing.slice(indexElem, -1);
+                setFollwing([arrFollow]);
+                console.log(follwing);
+                }
+                
+              }).catch((err) => {
+                
+              });
+            }}>unFollow</div> : <div className='btn-open-profile' onClick={()=>{
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+                
+                
+              }).catch((err) => {
+                
+              });
+              let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
+                if(indexElem === -1){
+                const arrAfterPush =  follwing.push(localStorage.getItem("userIdG"));
+                setFollwing([...follwing, arrAfterPush]);
+                }
+                
+            }}>follow</div>}</>}
+        </div>
+      </div>
+
+
+
       {dataPosts && dataPosts.map((post, i)=>{
         const handleImageLoad = () => {
             setLoading(false); // Set loading to false once the image is loaded
@@ -454,8 +547,8 @@ const back = () =>{
 
       </div>
 
-      {dataTrundle && <>
-      <div style={{width :"23%", height :"84vh", display:"flex", flexDirection:"column"}}>
+      {dataTrundle && dataTrundle.length && 
+      <div className='trundle-div'>
 
       
       <div>
@@ -465,7 +558,7 @@ const back = () =>{
         <div style={{backgroundColor:"white" , width :"100%", marginLeft:"10px", height:"100%",  position:"relative" }}>
           <div style={{position :"absolute", zIndex: 1, height:"1vh", width:"100%" , top:"10px", left:"10px"}}>
             <div style={{display:"flex", color:"white" ,height:"10vh" , gap:"5px", top:"10px"}}>
-              <img src={`${dataTrundle[intData].author.image}`} style={{borderRadius:"32px", width:"48px", height:"48px"}}/>
+              <img src={ dataTrundle[0].author.image} style={{borderRadius:"32px", width:"48px", height:"48px"}}/>
               <div>
                 <div>
                   <label>{dataTrundle[intData].author.firstName}</label>
@@ -519,7 +612,7 @@ const back = () =>{
         <button className={checkValue? "btn-down-night": "btn-down"} onClick={next}>Down</button>
       </div>
       </div>
-      </>}
+      }
 
     </div>
   )

@@ -145,7 +145,7 @@ function OnePost() {
 
       {/* End Bar  */}
       {/* Start line */}
-      <div className="line"></div>
+      <div className={checkValue? "line-night":"line"}></div>
       {/* End line */}
 
       {/* Start Div Content Post */}
@@ -240,7 +240,7 @@ function OnePost() {
       {/* End Show Count Like % Comments in Post */}
 
       {/* Start line */}
-      <div className="line"></div>
+      <div className={checkValue? "line-night":"line"}></div>
       {/* End line */}
 
       {/*Start A bar containing three buttons to interact with the post */}
@@ -291,7 +291,7 @@ function OnePost() {
 
         {/* End The Share button in the post */}
       </div>
-      <div className="line"></div>
+      <div className={checkValue? "line-night":"line"}></div>
         <div className={!checkValue? "contenter-comment-array" : "contenter-comment-array-night"}>
 
         
@@ -315,7 +315,7 @@ function OnePost() {
         )
         })}
         </div>
-      <div className="line"></div>
+      <div className={checkValue? "line-night":"line"}></div>
         <div className="contenter-comment-input">
           <div className="cont-img-input-comm">
           <img className="img-comment" src={`${infoMe.image}`}/>

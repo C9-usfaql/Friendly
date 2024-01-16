@@ -42,7 +42,7 @@
     color: white;
 }
 .input-image{
-    width: 2vw;
+    width: 14%;
     display:flex;
     place-items: center;
     background-color: #018b92;
@@ -187,4 +187,10 @@
     border-radius: 100%;
     top: 2px;
     left: 2px
+}
+
+.error-video-length{
+    color: red;
+    background-color: rgb(255, 0, 0, 0.2);
+    padding: 5px;
 }

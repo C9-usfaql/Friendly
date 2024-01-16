@@ -105,6 +105,7 @@
     place-items: center;
     gap: 10px;
     margin-top: 10px;
+    color: white;
     padding-left: 5px;
     border-radius: 8px 8px 0px 0px ;
     padding-top: 1vh;
@@ -127,6 +128,7 @@
     place-items: center;
     padding-left: 5px;
     gap: 10px;
+    color: white;
     padding-top: 1vh;
     padding-bottom: 1vh;
     background-color: #00ADB5;
@@ -157,7 +159,8 @@
 .trundle:hover,
 .home:hover,
 .explore:hover{
-    background-color: #505050;
+    color: white;
+    background-color: #45545f;
 }
 
 
