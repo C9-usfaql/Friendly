@@ -81,17 +81,9 @@ const getAllTrundle = (req, res) => {
   const userId = req.token.userId;
   trundleModel
     .find()
-    .populate({
-      path:"comments",
-      populate : 
-        {
-          path:"commenter"
-        }
-      
-    })
     .populate("author")
     .then((trundle) => {
-      if (posts.length) {
+      if (trundle.length) {
         res.status(200).json({
           success: true,
           message: `All the Trundle`,

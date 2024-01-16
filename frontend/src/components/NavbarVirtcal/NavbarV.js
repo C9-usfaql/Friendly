@@ -92,6 +92,7 @@ function NavbarV() {
 
             <div className={selected === "trundle" ? 'explore-selected': 'explore' } onClick={()=>{
                 setSelected("trundle");
+                navigate("/trundle")
                 
             }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">

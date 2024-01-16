@@ -184,16 +184,14 @@ function CreatePost() {
               },
               () => {
                  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    axios.post("http://localhost:5000/posts/create", {content, author:userId, image: downloadURL},{
+                    axios.post("http://localhost:5000/trundle/create", {content, author:userId, video: downloadURL},{
                     headers: {
                         Authorization: `Bearer ${token}`
                     }}).then((result) => {
                         document.querySelector("#myProgress").style.display = "none";
                         document.querySelector("#img-post-btn").style.display = "block";
-                       console.log("post added successfully");
+                       console.log("Trundle added successfully");
                        console.log("result from create post", result);
-                       // ?/ spread array [result , ]
-                       setData([ ...data,result.data.data])
   
                 }).catch((err) => {
                     console.log("error from create post" , err);
