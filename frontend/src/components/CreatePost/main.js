@@ -36,6 +36,7 @@ function CreatePost() {
     const [loading, setLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState('post');
     const [limitVideo, setLimitVideo] = useState(false);
+    const [imageUrlForIcon,setImageUrlForIcon]= useState(null);
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -80,7 +81,11 @@ function CreatePost() {
     <textarea className={!checkValue?'input-content':'input-content-night'} placeholder='what Think?' value={content} id='content' onChange={(e)=>{
         setContent(e.target.value);
     }} />
-    
+    {imageUrlForIcon && 
+      <div style={{display:"flex", justifyContent:"center" ,borderRadius:"4px", marginTop:"2px" ,height:"50vh"}}>
+        <img src={imageUrlForIcon} style={{minWidth:"100%" ,borderRadius:"4px", marginTop:"2px" ,height:"100%"}}/>
+      </div>
+    }
         <div className='contenter-input-image' style={{textAlign:"left"}}>
             <div id='img-post-btn' style={{display:"flex", justifyContent:"space-between"}}>
                 
@@ -91,15 +96,19 @@ function CreatePost() {
             {selectedOption === "post"? 
             <> 
             <i className={ImagePost.name? 'gg-image-upload': 'gg-image'}></i>
-            <input type="file" id="img" name="img"  style={{ display: "none" }}  accept="image/*" onChange={(e)=>{
+            <input type="file" id="img" name="img"  style={{ display: "none" }}   accept="image/*"  onChange={(e)=>{
                 const file = e.target.files[0];
+
                 if (file) {
                     setImagePost(file);
-                    
+                    setImageUrlForIcon(URL.createObjectURL(file));
+                    console.log(file);
                 }else{
-                    
+                  setImageUrlForIcon(null)
                 }
+                
             }}/>
+            
             </>
             : 
             <>

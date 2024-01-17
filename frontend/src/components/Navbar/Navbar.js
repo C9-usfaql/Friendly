@@ -47,9 +47,15 @@ const Navbar = ()=>{
                         <input type="checkbox" class="input" id="checkbox-light-dark" checked={checkValue}
                         onChange={()=>{
                             setCheckValue((prevCheckValue) => {
+                                if(prevCheckValue){
+                                    localStorage.setItem("day", false);
+                                    return false
+                                }else{
+                                    localStorage.setItem("day", true);
+                                    return true
+                                }
                                 
-                                localStorage.setItem("day", !prevCheckValue);
-                               return !prevCheckValue
+                               
                             });
                             // You can call your CheckDayNight function here if needed
                             console.log(checkValue);

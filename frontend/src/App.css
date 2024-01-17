@@ -14,3 +14,8 @@
   max-height: fit-content;
   user-select: none;
 }
+a{
+  cursor: pointer;
+  text-decoration: none;
+  color: #018b92;
+}

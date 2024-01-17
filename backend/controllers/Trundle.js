@@ -43,40 +43,36 @@ function formatDate(date) {
   return day + "/" + month + "/" + year + " " + hours + ":" + minutes;
 }
 
-
- 
 const createTrundle = (req, res) => {
   let now = new Date();
   let formattedDate = formatDate(now);
   const { content, video, author } = req.body;
   // console.log("Image Path =====>", image);
   // console.log("from BE req:",content,image, author);
-    const newTrundle = new trundleModel({
-      content,
-      video,
-      author,
-      dateTrundle: formattedDate,
-    });
-    newTrundle
-      .save()
-      .then( async(result) => {
-        res.status(201).json({
-            success: true,
-            message: "Trundle Created Successfully",
-            data: result,
-        });
-        
-      })
-      .catch((err) => {
-        res.status(500).json({
-          success: false,
-          message: `Server Error` + err.message,
-          err: err,
-        });
+  const newTrundle = new trundleModel({
+    content,
+    video,
+    author,
+    dateTrundle: formattedDate,
+  });
+  newTrundle
+    .save()
+    .then(async (result) => {
+      res.status(201).json({
+        success: true,
+        message: "Trundle Created Successfully",
+        data: result,
       });
-
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server Error` + err.message,
+        err: err,
+      });
+    });
 };
- 
+
 const getAllTrundle = (req, res) => {
   const userId = req.token.userId;
   trundleModel
@@ -139,12 +135,10 @@ const getTrundleById = (req, res) => {
     .findById(idTrundle)
     .populate("likes")
     .populate({
-      path:"comments",
-      populate : 
-        {
-          path:"commenter"
-        }
-      
+      path: "comments",
+      populate: {
+        path: "commenter",
+      },
     })
     .populate("author")
     .exec()
@@ -182,7 +176,7 @@ const deleteTrundleById = (req, res) => {
           message: `The trundle with id => ${idTrundle} not found`,
         });
       }
-      
+
       res.status(200).json({
         success: true,
         message: `trundle deleted`,
@@ -202,4 +196,4 @@ module.exports = {
   getAllTrundleByAuthor,
   getTrundleById,
   deleteTrundleById,
-}
+};
