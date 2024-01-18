@@ -13,10 +13,17 @@
   min-height: 100vh;
   max-height: fit-content;
   user-select: none;
+<<<<<<< HEAD
   margin: 0;
+=======
+>>>>>>> e844b7118e2f137e36fff1e5c6fd9ff1c620dda9
 }
 a{
   cursor: pointer;
   text-decoration: none;
   color: #018b92;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e844b7118e2f137e36fff1e5c6fd9ff1c620dda9

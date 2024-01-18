@@ -15,9 +15,13 @@ import Trundle from "./components/Trundle/Trundle";
 export const userContext = createContext();
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
+<<<<<<< HEAD
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
   const isRegisterPage = location.pathname === "/register";
+=======
+  
+>>>>>>> e844b7118e2f137e36fff1e5c6fd9ff1c620dda9
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [checkValue, setCheckValue] = useState(true);
   const [postIdForComment, setPostIdForComment] = useState(null);
@@ -27,7 +31,11 @@ function App() {
   const [data, setData] = useState([]);
   const [searchValue , setSearchValue] = useState(null);
 
+<<<<<<< HEAD
   console.log(location.pathname);
+=======
+  
+>>>>>>> e844b7118e2f137e36fff1e5c6fd9ff1c620dda9
 
   return (
     <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId, data,

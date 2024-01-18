@@ -272,7 +272,11 @@ function Posts() {
     }
      <div style={{padding:"10px" ,color:"#018b92",cursor:"pointer" }} onClick={() =>{
         setLimitShowPost(limitShowPost+3);
+<<<<<<< HEAD
      }}>{limitShowPost > dataPost.length -1 ? "run out" : "Load More..."}</div>
+=======
+     }}>{limitShowPost > dataPost.length -1 ? "End" : "Load More..."}</div>
+>>>>>>> e844b7118e2f137e36fff1e5c6fd9ff1c620dda9
     </div>
     )
 }

@@ -1,12 +1,22 @@
 body{
     background-color: #e6e6e6;
 }
-.contenter-content{
+.contenter-content-login-register{
     margin-top: 10px;
     height: 90vh;
     width: 100vw;
+<<<<<<< HEAD
+=======
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    justify-content: center;
+    text-align: center;
+    place-items: center;
+    background-size:80%;
+>>>>>>> e844b7118e2f137e36fff1e5c6fd9ff1c620dda9
 }
-.container{
+.container-register{
     min-height: 50%;
     max-height: max-content;
     background-color: transparent;
