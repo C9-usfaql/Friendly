@@ -16,6 +16,7 @@ function Posts() {
     const [editAllow, setEditAllow] = useState(false);
     const [selectedPostId, setSelectedPostId] = useState(null);
     const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
+    const [limitShowPost ,setLimitShowPost] = useState(3);
     const openModal = (postId) => {
         setSelectedPostId(postId);
         setModalVisible(true);
@@ -44,7 +45,9 @@ function Posts() {
     return(
     <div>
     
-    {dataPost && dataPost.map((post, i)=>{
+    {dataPost ?  dataPost.map((post, i)=>{
+        
+      if (i < limitShowPost) {
         const handleImageLoad = () => {
             setLoading(false); // Set loading to false once the image is loaded
         };
@@ -172,9 +175,7 @@ function Posts() {
                     {loading && (
                     <div
                     style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
+                    
                     width: "100%",
                     height: "100%",
                     display: "flex",
@@ -183,10 +184,10 @@ function Posts() {
                     
                     }}
                     >
-                    <img src={require('../Image/loading.gif')} style={{width:"5%"}} alt="Loading..." />
+                    <div class="loader"></div>
                 </div>
                     )}
-                    {post.image && (
+                    {post.image  && (
                       <img
                         src={post.image}
                         style={{
@@ -256,12 +257,22 @@ function Posts() {
                 
                     {/* End The Share button in the post */}
                 </div>
+               
                 {/*End A bar containing three buttons to interact with the post */}
             </div>
             
         )
+    } 
     })
+    :
+    <di style={{display:"flex", justifyContent:"center", margin:"25px"}}>
+        <div class="loader"></div>
+    </di>
+    
     }
+     <div style={{padding:"10px" ,color:"#018b92",cursor:"pointer" }} onClick={() =>{
+        setLimitShowPost(limitShowPost+3);
+     }}>{limitShowPost > dataPost.length -1 ? "run out" : "Load More..."}</div>
     </div>
     )
 }

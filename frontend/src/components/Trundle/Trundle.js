@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import axios from "axios";
 import "./trundle.css"
 import { userContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
 function Trundle() {
+    const navigate = useNavigate();
     const { token, userId, checkValue} = useContext(userContext);
     const [dataTrundle, setDataTrundle] = useState(null);
     const [controlVideo, setControlVideo] = useState("play");
@@ -45,6 +47,9 @@ function Trundle() {
             
             setDataTrundle(result.data.trundle);
         }).catch((err) => {
+            if(err.response.data.code == 2){
+                navigate("login")
+            } 
             
         });
     },[]);

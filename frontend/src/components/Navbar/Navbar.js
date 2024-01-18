@@ -29,7 +29,7 @@ const Navbar = ()=>{
                  navigate("/");
             }}/></div>
             <div className="nav-div">
-            {token ? 
+            {token && 
             <>
                <div style={{minWidth: "67%", minHeight: "100%", display:"flex", alignItems:"center"}}> 
                <input className="search-bar" placeholder="Search..." onKeyPress={(e)=>{
@@ -47,9 +47,15 @@ const Navbar = ()=>{
                         <input type="checkbox" class="input" id="checkbox-light-dark" checked={checkValue}
                         onChange={()=>{
                             setCheckValue((prevCheckValue) => {
+                                if(prevCheckValue){
+                                    localStorage.setItem("day", false);
+                                    return false
+                                }else{
+                                    localStorage.setItem("day", true);
+                                    return true
+                                }
                                 
-                                localStorage.setItem("day", !prevCheckValue);
-                               return !prevCheckValue
+                               
                             });
                             // You can call your CheckDayNight function here if needed
                             console.log(checkValue);
@@ -63,9 +69,6 @@ const Navbar = ()=>{
                     navigate("/profile");
                 }}>
                 <img className="avatar" style={{width:"42px", borderRadius: "25px", border: "1px solid #4464ad"}} src={`${imageUrl}`}/></div>
-            </> : <>
-                <Link to="/register">Register</Link>
-                <Link to="/login">Login</Link>
             </>
             }
             </div>

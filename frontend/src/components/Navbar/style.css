@@ -42,10 +42,7 @@ body{
     font-size: 19px;
     text-decoration: none;
 }
-a{
-    text-decoration: none;
-    color: #4464AD;
-}
+
 
 
 .switch {
@@ -187,17 +184,26 @@ a{
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-
+  .logo{
+    max-width: 60%;
+    text-align: center;
+}
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-
+  .logo{
+    max-width: 40%;
+    text-align: center;
+}
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-
+  .logo{
+    max-width: 22%;
+    text-align: center;
+}
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */

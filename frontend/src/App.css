@@ -13,4 +13,10 @@
   min-height: 100vh;
   max-height: fit-content;
   user-select: none;
+  margin: 0;
+}
+a{
+  cursor: pointer;
+  text-decoration: none;
+  color: #018b92;
 }

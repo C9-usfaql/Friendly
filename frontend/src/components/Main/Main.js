@@ -10,12 +10,14 @@ export const dataContext = createContext();
 const Main = ()=>{
     const {checkValue} = useContext(userContext);
     const [data, setData] = useState([]);
+    
     const [dataFollowing, setDataFollowing] = useState([]);
     const [selected, setSelected] = useState("home");
 
     return(
       <dataContext.Provider value={{data, setData, dataFollowing, setDataFollowing , selected, setSelected}}>
         <div className={!checkValue? 'main' : 'mainNight'}>
+          
         <NavbarV/>
         <Home/>
         <NavbarR/>

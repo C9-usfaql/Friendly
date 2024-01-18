@@ -368,9 +368,29 @@ const back = () =>{
             setLoading(false); // Set loading to false once the image is loaded
         };
                
-        const searchid = async()=>{
+        const searchidPost = async()=>{
           axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
             
+              if(localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId){
+                axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+                  setFollwing(result.data.user.following);
+                  }).catch((err) => {
+                    
+                  });
+                  axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
+                      result.data.posts.sort(compareDates);
+                      setDataPost(result.data.posts);
+                    }).catch((err) => {
+                      
+                    });
+                  
+              }else{
+                  axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
+                    result.data.posts.sort(compareDates);
+                    setDataPost(result.data.posts);
+                  }).catch((err) => {
+                  });
+              }
           }).catch((err) => {
              console.log("Error", err);
           });
@@ -504,7 +524,7 @@ const back = () =>{
                     {/* Start The like button in the post */}
                     
                     <div className={!checkValue? 'interact-button': 'interact-button-night'} onClick={()=>{ 
-                        searchid()
+                        searchidPost()
                         console.log("post.likes", post.likes);
                     }}>
 

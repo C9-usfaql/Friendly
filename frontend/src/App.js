@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar"
 import Login from "./components/Login/Login"
@@ -15,23 +15,28 @@ import Trundle from "./components/Trundle/Trundle";
 export const userContext = createContext();
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+  const isRegisterPage = location.pathname === "/register";
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [checkValue, setCheckValue] = useState(localStorage.getItem("day"));
+  const [checkValue, setCheckValue] = useState(true);
   const [postIdForComment, setPostIdForComment] = useState(null);
   const [profileId, setProfileId] = useState(false);
   const [infoMe, setInfoMe] = useState(null);
   const[userId,setUserId]=useState(localStorage.getItem("userId"));
   const [data, setData] = useState([]);
   const [searchValue , setSearchValue] = useState(null);
+
+  console.log(location.pathname);
+
   return (
     <userContext.Provider value={{token, setToken, isLoggedIn , setIsLoggedIn, setUserId, userId, data,
      setData,setInfoMe, infoMe , postIdForComment, setPostIdForComment, profileId, setProfileId, checkValue, setCheckValue,
      searchValue , setSearchValue}}>
 
     <div className={!checkValue? "App": "AppNight"}>
-    <Navbar/>
+    {!isLoginPage && !isRegisterPage && <Navbar />}
     <Routes>
-
     <Route path="/login" element={<Login/>}/>
     <Route path="/register" element={<Register/>}/>
     <Route path="/" element={<Main/>}/>
