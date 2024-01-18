@@ -5,8 +5,7 @@ body{
     margin-top: 10px;
     height: 90vh;
     width: 100vw;
-<<<<<<< HEAD
-=======
+
     display: flex;
     flex-direction: column;
     place-content: center;
@@ -14,7 +13,7 @@ body{
     text-align: center;
     place-items: center;
     background-size:80%;
->>>>>>> e844b7118e2f137e36fff1e5c6fd9ff1c620dda9
+
 }
 .container-register{
     min-height: 50%;
