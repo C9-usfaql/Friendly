@@ -18,10 +18,7 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
-- [Usage](#usage)
 - [Built Using](#built_using)
-- [User Story](#user_story)
-- [Data Flow](#data_flow)
 - [Guided By](#guided_by)
 
 ## 🧐 About <a name = "about"></a>
