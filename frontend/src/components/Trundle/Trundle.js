@@ -43,7 +43,7 @@ function Trundle() {
     };
 
     useEffect(()=>{
-        axios.get("http://localhost:5000/trundle/", config).then((result) => {
+        axios.get("https://friendly-29oc.onrender.com/trundle/", config).then((result) => {
             
             setDataTrundle(result.data.trundle);
         }).catch((err) => {
@@ -55,8 +55,8 @@ function Trundle() {
     },[]);
     console.log("Trundle =>", dataTrundle);
     const searchid = async()=>{
-            axios.get(`http://localhost:5000/trundle/${dataTrundle[intData]._id}/like`,config).then((result) => {
-                axios.get("http://localhost:5000/trundle/",config).then((result) => {
+            axios.get(`https://friendly-29oc.onrender.com/trundle/${dataTrundle[intData]._id}/like`,config).then((result) => {
+                axios.get("https://friendly-29oc.onrender.com/trundle/",config).then((result) => {
                 setDataTrundle(result.data.trundle);
     
             }).catch((err) => {

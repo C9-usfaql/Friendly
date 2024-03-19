@@ -35,7 +35,7 @@ function Home() {
     }
 
     const getAllPosts=()=>{
-       /*  axios.get("http://localhost:5000/posts",config).then((result) => {
+       /*  axios.get("https://friendly-29oc.onrender.com/posts",config).then((result) => {
             setData(result.data.posts);
             
         }).catch((err) => {
@@ -44,7 +44,7 @@ function Home() {
                 localStorage.clear();
             }
         }); */
-        axios.get(`http://localhost:5000/users/follow/user/${userId}`,config).then((result) => {
+        axios.get(`https://friendly-29oc.onrender.com/users/follow/user/${userId}`,config).then((result) => {
             result.data.posts.sort(compareDates);
             setDataFollowing(result.data.posts);
         }).catch((err) => {
@@ -54,7 +54,7 @@ function Home() {
             }
         });
 
-        axios.get("http://localhost:5000/posts",config).then((result) => {
+        axios.get("https://friendly-29oc.onrender.com/posts",config).then((result) => {
             result.data.posts.sort(compareDates);
             setData(result.data.posts);
             
@@ -69,7 +69,7 @@ function Home() {
     }
     useEffect(()=>{
     getAllPosts();
-    axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+    axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
       localStorage.setItem("InfoMe",JSON.stringify(result.data.user));
     }).catch((err) => {
       

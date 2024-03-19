@@ -23,7 +23,7 @@ function Search() {
     };
 
     useEffect(()=>{
-        axios.post("http://localhost:5000/search/v1", {valueSearch: id}, config).then((result) => {
+        axios.post("https://friendly-29oc.onrender.com/search/v1", {valueSearch: id}, config).then((result) => {
             if(result.data.type === "user"){
                 setAllPost(null)
                 setAllUser(result.data.user)
@@ -98,8 +98,8 @@ function Search() {
                
             const searchid = async()=>{
                 console.log();
-                    axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
-                         axios.get(`http://localhost:5000/users/follow/user/${userId}`,config).then((results) => {
+                    axios.get(`https://friendly-29oc.onrender.com/posts/${post._id}/like`,config).then((result) => {
+                         axios.get(`https://friendly-29oc.onrender.com/users/follow/user/${userId}`,config).then((results) => {
                             results.data.posts.sort(compareDates);
                             setAllPost(results.data.posts);
                         }).catch((err) => {
@@ -154,8 +154,8 @@ function Search() {
                             setEditAllow(true);
                         }}>Edit</button>
                         <button onClick={()=>{
-                            axios.delete(`http://localhost:5000/posts/${post._id}`,config).then((result) => {
-                                axios.get("http://localhost:5000/posts/", config).then((result) => {
+                            axios.delete(`https://friendly-29oc.onrender.com/posts/${post._id}`,config).then((result) => {
+                                axios.get("https://friendly-29oc.onrender.com/posts/", config).then((result) => {
                                     setAllPost(result.data.posts);
                                 }).catch((err) => {
                                     
@@ -180,7 +180,7 @@ function Search() {
                 {editAllow &&  selectedPostId === post._id ? <> <input id={post._id} defaultValue={post.content} onChange={(e)=>{
                     setContentPostAfterEdit(e.target.value)
                 }} /> <button onClick={()=>{
-                    axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
+                    axios.put(`https://friendly-29oc.onrender.com/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
                         console.log(result);
                         setModalVisible(false);
                         setEditAllow(false);
