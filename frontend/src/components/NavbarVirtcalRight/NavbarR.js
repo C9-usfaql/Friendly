@@ -12,7 +12,7 @@ function NavbarV() {
         headers: { Authorization: `Bearer ${token}` }
     };
     useEffect(()=>{
-        axios.get(`https://friendly-29oc.onrender.com/users/`, config).then((result) => {
+        axios.get(`http://localhost:5000/users/`, config).then((result) => {
             setAllUser(result.data.Users);
         }).catch((err) => {
             

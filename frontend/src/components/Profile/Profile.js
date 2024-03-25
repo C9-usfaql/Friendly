@@ -60,12 +60,12 @@ function convertDateFormat(dateString) {
 
   useEffect(()=>{
     if(localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId){
-      axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
+      axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
         setFollwing(result.data.user.following);
         }).catch((err) => {
           
         })
-        axios.get(`https://friendly-29oc.onrender.com/users/${localStorage.getItem("userIdG")}`, config).then((result) => {
+        axios.get(`http://localhost:5000/users/${localStorage.getItem("userIdG")}`, config).then((result) => {
           setNameUser(result.data.user.firstName + " "+ result.data.user.lastName);
           setImageUser(result.data.user.image);
           setLengthFollower(result.data.user.follower.length);
@@ -75,7 +75,7 @@ function convertDateFormat(dateString) {
           setGender(result.data.user.gender);
           setBio(result.data.user.bio);
 
-          axios.get(`https://friendly-29oc.onrender.com/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
+          axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
             console.log("GetPost by Author ==>", result);
             result.data.posts.sort(compareDates);
             setDataPost(result.data.posts);
@@ -84,7 +84,7 @@ function convertDateFormat(dateString) {
             
           });
 
-          axios.get(`https://friendly-29oc.onrender.com/trundle/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
+          axios.get(`http://localhost:5000/trundle/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
             console.log("GetPost by Author ==>", result);
             result.data.trundle.sort(compareDates);
             setDataTrundle(result.data.trundle);
@@ -99,7 +99,7 @@ function convertDateFormat(dateString) {
     });
     }else{
       console.log("userId");
-      axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
+      axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
         setNameUser(result.data.user.firstName + " "+ result.data.user.lastName);
         setImageUser(result.data.user.image);
         setLengthFollower(result.data.user.follower.length);
@@ -108,7 +108,7 @@ function convertDateFormat(dateString) {
         setCountry(result.data.user.country);
         setGender(result.data.user.gender);
         setBio(result.data.user.bio);
-        axios.get(`https://friendly-29oc.onrender.com/posts/search_1/${userId}`,config).then((result) => {
+        axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
           console.log("GetPost by Author ==>", result);
           result.data.posts.sort(compareDates);
           setDataPost(result.data.posts);
@@ -118,7 +118,7 @@ function convertDateFormat(dateString) {
           
         });
 
-        axios.get(`https://friendly-29oc.onrender.com/trundle/search_1/${userId}`,config).then((result) => {
+        axios.get(`http://localhost:5000/trundle/search_1/${userId}`,config).then((result) => {
           {result.data.trundle.length && setDataTrundle(result.data.trundle)}
           }).catch((err) => {
             
@@ -144,16 +144,16 @@ const closeModal = () => {
   setModalVisible(false);
 };
 const searchid = async()=>{
-  axios.get(`https://friendly-29oc.onrender.com/trundle/${dataTrundle[intData]._id}/like`,config).then((result) => {
+  axios.get(`http://localhost:5000/trundle/${dataTrundle[intData]._id}/like`,config).then((result) => {
     if(localStorage.getItem("userIdG") !== userId){
-      axios.get(`https://friendly-29oc.onrender.com/trundle/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
+      axios.get(`http://localhost:5000/trundle/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
         console.log("getTrundle by Author ==>", result);
         setDataTrundle(result.data.trundle);
       }).catch((err) => {
         
       });
     }else{
-      axios.get(`https://friendly-29oc.onrender.com/trundle/search_1/${userId}`,config).then((result) => {
+      axios.get(`http://localhost:5000/trundle/search_1/${userId}`,config).then((result) => {
         console.log("getTrundle by Author ==>", result);
         setDataTrundle(result.data.trundle);
       }).catch((err) => {
@@ -239,7 +239,7 @@ const back = () =>{
               window.location.reload();
             }}>Logout</div>
             </>  : <>{ follwing.includes(localStorage.getItem("userIdG")) ? <div className='btn-open-profile' onClick={()=>{
-              axios.get(`https://friendly-29oc.onrender.com/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
 
                 let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
 
@@ -253,7 +253,7 @@ const back = () =>{
                 
               });
             }}>unFollow</div> : <div className='btn-open-profile' onClick={()=>{
-              axios.get(`https://friendly-29oc.onrender.com/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
                 
                 
               }).catch((err) => {
@@ -331,7 +331,7 @@ const back = () =>{
               window.location.reload();
             }}>Logout</div>
             </>  : <>{ follwing.includes(localStorage.getItem("userIdG")) ? <div className='btn-open-profile' onClick={()=>{
-              axios.get(`https://friendly-29oc.onrender.com/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
 
                 let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
 
@@ -345,7 +345,7 @@ const back = () =>{
                 
               });
             }}>unFollow</div> : <div className='btn-open-profile' onClick={()=>{
-              axios.get(`https://friendly-29oc.onrender.com/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
                 
                 
               }).catch((err) => {
@@ -369,15 +369,15 @@ const back = () =>{
         };
                
         const searchidPost = async()=>{
-          axios.get(`https://friendly-29oc.onrender.com/posts/${post._id}/like`,config).then((result) => {
+          axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
             
               if(localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId){
-                axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
+                axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
                   setFollwing(result.data.user.following);
                   }).catch((err) => {
                     
                   });
-                  axios.get(`https://friendly-29oc.onrender.com/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
+                  axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
                       result.data.posts.sort(compareDates);
                       setDataPost(result.data.posts);
                     }).catch((err) => {
@@ -385,7 +385,7 @@ const back = () =>{
                     });
                   
               }else{
-                  axios.get(`https://friendly-29oc.onrender.com/posts/search_1/${userId}`,config).then((result) => {
+                  axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
                     result.data.posts.sort(compareDates);
                     setDataPost(result.data.posts);
                   }).catch((err) => {
@@ -432,8 +432,8 @@ const back = () =>{
                         }}>Edit</button>
                         <button onClick={()=>{
                           console.log(post.author._id);
-                            axios.delete(`https://friendly-29oc.onrender.com/posts/${post._id}/${post.author._id}` ,config).then((result) => {
-                              axios.get(`https://friendly-29oc.onrender.com/posts/search_1/${userId}`,config).then((result) => {
+                            axios.delete(`http://localhost:5000/posts/${post._id}/${post.author._id}` ,config).then((result) => {
+                              axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
                                 console.log("GetPost by Author ==>", result);
                                 result.data.posts.sort(compareDates);
                                 setDataPost(result.data.posts);
@@ -461,7 +461,7 @@ const back = () =>{
                 {editAllow &&  selectedPostId === post._id ? <> <input id={post._id} defaultValue={post.content} onChange={(e)=>{
                     setContentPostAfterEdit(e.target.value)
                 }} /> <button onClick={()=>{
-                    axios.put(`https://friendly-29oc.onrender.com/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
+                    axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
                         console.log(result);
                         setModalVisible(false);
                         setEditAllow(false);

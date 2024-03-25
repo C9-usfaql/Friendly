@@ -54,8 +54,8 @@ function Posts() {
         
             const searchid = async()=>{
                 if(selected === "home"){
-                    axios.get(`https://friendly-29oc.onrender.com/posts/${post._id}/like`,config).then((result) => {
-                        axios.get(`https://friendly-29oc.onrender.com/users/follow/user/${userId}`,config).then((results) => {
+                    axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
+                        axios.get(`http://localhost:5000/users/follow/user/${userId}`,config).then((results) => {
                            results.data.posts.sort(compareDates);
                            setDataFollowing(results.data.posts);
                        }).catch((err) => {
@@ -64,8 +64,8 @@ function Posts() {
 
                     });
                 }else{
-                    axios.get(`https://friendly-29oc.onrender.com/posts/${post._id}/like`,config).then((result) => {
-                        axios.get("https://friendly-29oc.onrender.com/posts",config).then((result) => {
+                    axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
+                        axios.get("http://localhost:5000/posts",config).then((result) => {
                         setData(result.data.posts);
             
                     }).catch((err) => {
@@ -132,8 +132,8 @@ function Posts() {
                             setEditAllow(true);
                         }}>Edit</button>
                         <button onClick={()=>{
-                            axios.delete(`https://friendly-29oc.onrender.com/posts/${post._id}`,config).then((result) => {
-                                axios.get("https://friendly-29oc.onrender.com/posts/", config).then((result) => {
+                            axios.delete(`http://localhost:5000/posts/${post._id}`,config).then((result) => {
+                                axios.get("http://localhost:5000/posts/", config).then((result) => {
                                     setData(result.data.posts);
                                 }).catch((err) => {
                                     
@@ -158,7 +158,7 @@ function Posts() {
                 {editAllow &&  selectedPostId === post._id ? <> <input id={post._id} defaultValue={post.content} onChange={(e)=>{
                     setContentPostAfterEdit(e.target.value)
                 }} /> <button onClick={()=>{
-                    axios.put(`https://friendly-29oc.onrender.com/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
+                    axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
                         setModalVisible(false);
                         setEditAllow(false);
                     }).catch((err) => {

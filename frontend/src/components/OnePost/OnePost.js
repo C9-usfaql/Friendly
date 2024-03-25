@@ -26,7 +26,7 @@ function OnePost() {
 
   useEffect(()=>{
     
-    axios.get(`https://friendly-29oc.onrender.com/posts/search_2/${postId}`, config).then((result) => {
+    axios.get(`http://localhost:5000/posts/search_2/${postId}`, config).then((result) => {
       setPost(result.data.post);
       setCommentData(result.data.post.comments);
       setLikeArray(result.data.post.likes);
@@ -53,7 +53,7 @@ function OnePost() {
   };
   const searchid = () => {
     axios
-      .get(`https://friendly-29oc.onrender.com/posts/${post._id}/like`, config)
+      .get(`http://localhost:5000/posts/${post._id}/like`, config)
       .then((result) => {
         console.log("Like Api =>", result);
         if(result.data.message === "Like Added"){
@@ -120,12 +120,12 @@ function OnePost() {
                     onClick={() => {
                       axios
                         .delete(
-                          `https://friendly-29oc.onrender.com/posts/${post._id}`,
+                          `http://localhost:5000/posts/${post._id}`,
                           config
                         )
                         .then((result) => {
                           axios
-                            .get("https://friendly-29oc.onrender.com/posts/", config)
+                            .get("http://localhost:5000/posts/", config)
                             .then((result) => {
                               setPost(result.data.posts);
                             })
@@ -163,7 +163,7 @@ function OnePost() {
             onClick={() => {
               axios
                 .put(
-                  `https://friendly-29oc.onrender.com/posts/${post._id}`,
+                  `http://localhost:5000/posts/${post._id}`,
                   { content: contentPostAfterEdit },
                   config
                 )
@@ -325,7 +325,7 @@ function OnePost() {
             setInputComment(e.target.value);
           }}/>
           <button className="btn-send-comment" onClick={()=>{
-            axios.post(`https://friendly-29oc.onrender.com/posts/${post._id}/comment`, {"comment":inputComment}, config).then((result) => {
+            axios.post(`http://localhost:5000/posts/${post._id}/comment`, {"comment":inputComment}, config).then((result) => {
               setInputComment("");
               setCommentData([...commentData, {comment: inputComment,commenter: infoMe}]) 
             }).catch((err) => {

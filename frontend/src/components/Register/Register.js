@@ -166,7 +166,7 @@ const Register = ()=>{
                                     setAnError(true);
                                 }else{
                                     setAnError(false);
-                                    axios.post("https://friendly-29oc.onrender.com/users/register",
+                                    axios.post("http://localhost:5000/users/register",
                                     {firstName,lastName,email,gender,country,phoneNumber , dateBrith : day +"/" + month + "/" + year, password}).then((result)=>{
                                         navigate("/login");
                                         console.log("Create Account Successfuly");            

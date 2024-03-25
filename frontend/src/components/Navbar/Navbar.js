@@ -14,7 +14,7 @@ const Navbar = ()=>{
         headers: { Authorization: `Bearer ${token}` }
     };
     useEffect(()=>{
-        axios.get(`https://friendly-29oc.onrender.com/users/${userId}`,config).then((result) => {
+        axios.get(`http://localhost:5000/users/${userId}`,config).then((result) => {
             setImageUrl(result.data.user.image)
         }).catch((err) => {
                 console.log(err);
