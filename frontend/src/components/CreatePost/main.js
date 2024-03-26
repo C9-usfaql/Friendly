@@ -57,27 +57,7 @@ function CreatePost() {
     <img src={`${imageUser}`} style={{width:"48px", height:"48px", marginLeft:"10px",border:"0", borderRadius:"32px"}}/>
     <div className='contener-textarea-img'> 
     {limitVideo && <> <div className='error-video-length'>The video must be less than 31 seconds</div></>}
-    <div style={{display:"flex",gap:"10px", justifyContent:"start", marginTop:"10px", color:"white"}}>
-      <label style={{backgroundColor:"#303841",padding:"5px" , borderRadius:"4px"}}>
-        <input
-          type="radio"
-          value="post"
-          checked={selectedOption === 'post'}
-          onChange={handleOptionChange}
-        />
-        Post
-      </label>
-      <label style={{backgroundColor:"#303841",padding:"5px" , borderRadius:"4px"}}>
-        <input
-          type="radio"
-          value="trundle"
-          checked={selectedOption === 'trundle'}
-          onChange={handleOptionChange}
-        />
-        Trundle
-      </label>
-      
-    </div>
+
     <textarea className={!checkValue?'input-content':'input-content-night'} placeholder='what Think?' value={content} id='content' onChange={(e)=>{
         setContent(e.target.value);
     }} />

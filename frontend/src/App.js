@@ -10,7 +10,6 @@ import { useState , createContext} from "react";
 import Profile from "./components/Profile/Profile";
 import EditProfile from "./components/EditProfile/EditProfile";
 import Search from "./components/Search/Search";
-import Trundle from "./components/Trundle/Trundle";
 
 export const userContext = createContext();
 function App() {
@@ -42,7 +41,6 @@ function App() {
     <Route path="/post/:id" element={<OnePost/>}/>
     <Route path="/profile/edit" element={<EditProfile/>}/>
     <Route path="/search/:id" element={<Search/>}/>
-    <Route path="/trundle" element={<Trundle/>}/>
     </Routes>
     </div>
 
