@@ -28,6 +28,8 @@ body{
 
 .avatar-div{
     min-width: 15%;
+    margin-top : 5px;
+    margin-bottom : 0;
 }
 .avatar{
     max-width: 64px;

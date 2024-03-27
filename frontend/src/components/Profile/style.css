@@ -9,10 +9,19 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
-    height: 70%;
+    background-color: #3a4750;
+    height: 80%;
+    box-shadow: 0 0 5px 10000000px rgba(0, 0, 0, 0.8);
+    width: 25%;
     padding: 10px;
     border-radius: 4px;
+    color: white;
+  }
+  .modal-content, .modal-dialog{
+    height: 100%;
+  }
+  .btn-close{
+    display: none;
   }
 .profile-info{
     display: flex;

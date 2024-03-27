@@ -92,22 +92,21 @@ function Posts() {
             <div  className={!checkValue?'contenter-post' : 'contenter-post-night'}>
                 {/* <h1>POSTS</h1> */}
                 {/* A bar containing a photo and username */}
+                {console.log(post)}
                 <div className='containing-top-post'>
                     <div className='containing-photo-username' onClick={(e)=>{
                        localStorage.setItem("userIdG", post.author._id);
                         navigate("/profile");
                     }}>
                     <img style={{width:"48px" , borderRadius:"24px"}} src={post.author.image}/>
-                    <div style={{display: "flex", flexDirection:"column"}}>
+                    <div style={{display: "flex", flexDirection:"column", justifyContent:"center", alignItems:"start"}}>
                         <div className='name-user'>{post.author.firstName + " "+ post.author.lastName}</div>
                         <div>{post.datePost}</div>
                         
                     </div>
                     </div>
 
-                    <div style={{display : 'flex', flexDirection:"column"}}>
-
-                    {post._id === userId && <button id={`${post._id}`} className={!checkValue? 'menu': 'menu-night'} onClick={(e)=>{
+                    <div style={{display : 'flex', flexDirection:"column",paddingTop:"5px", justifyContent:"start", alignItems:"center"}}  onClick={(e)=>{
                     
                     if(modalVisible){
                         closeModal()
@@ -116,22 +115,22 @@ function Posts() {
                     }
 
 
-                }
-                   }>
-                    Menu
-                    {/* <i class="gg-menu"></i> */}
+                    }}>
+
+                    {post.author._id === userId && <button id={`${post._id}`} className={!checkValue? 'menu': 'menu-night'}>
+                    <i class="gg-menu"></i> 
                    </button>
                     }
                     
 
                 {modalVisible && selectedPostId === post._id && (
-                    <div id="id01" className="w3-modal" style={{ display: 'block' }}>
+                    <div id="id01" className="w3-modal" style={{ display: 'block' ,padding:"1.5%", backgroundColor:"#303841",borderRadius:"4px",right:"-10%"}}>
                     <div className="w3-modal-content">
-                        <div className="w3-container">
-                        <button onClick={()=>{
+                        <div className="w3-container" style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+                        <button style={{backgroundColor:"#00adb5", border:"0", padding:"10px", color:"white", borderRadius:"4px"}} onClick={()=>{
                             setEditAllow(true);
                         }}>Edit</button>
-                        <button onClick={()=>{
+                        <button  style={{backgroundColor:"red", border:"0", padding:"10px", color:"white", borderRadius:"4px"}} onClick={()=>{
                             axios.delete(`http://localhost:5000/posts/${post._id}`,config).then((result) => {
                                 axios.get("http://localhost:5000/posts/", config).then((result) => {
                                     setData(result.data.posts);

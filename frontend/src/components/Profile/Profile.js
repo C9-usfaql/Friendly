@@ -16,7 +16,7 @@ function Profile() {
   const [gender,setGender] = useState(null);
   const [country, setCountry]= useState(null);
   const [followingUsers, setFollwingUsers] = useState(null);
-  const [followerUsers, setFollwerUsers] = useState(null);
+  const [followerUsers, setFollowerUsers] = useState(null);
   const [lengthFollower, setLengthFollower] = useState(null);
   const [lengthFollowing, setLengthFollowing] = useState(null);
   const [lengthPosts, setLengthPosts] = useState(null);
@@ -27,10 +27,15 @@ function Profile() {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
   const [follwing, setFollwing] = useState([]);
+  const [userObject, setUserObject] = useState(null);
   const [show, setShow] = useState(false);
+
+  const [showFollowers, setShowFollowers] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseFollower = () => setShowFollowers(false);
+  const handleShowFollower = () => setShowFollowers(true);
  
   const config = {
       headers: { Authorization: `Bearer ${token}` }
@@ -48,10 +53,22 @@ function convertDateFormat(dateString) {
 }
   {dataPosts && dataPosts.sort(compareDates)};
 
+  useEffect(() => {
+    const handleBackButton = () => {
+      localStorage.setItem("userIdG", userId)
+      window.location.reload()
+    };
 
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
   useEffect(()=>{
     if(localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId){
       axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+        setUserObject(result.data.user);
         setFollwing(result.data.user.following);
         }).catch((err) => {
           
@@ -66,8 +83,8 @@ function convertDateFormat(dateString) {
           setGender(result.data.user.gender);
           setBio(result.data.user.bio);
           setFollwingUsers(result.data.following);
+          setFollowerUsers(result.data.user.follower);
           axios.get(`http://localhost:5000/posts/search_1/${localStorage.getItem("userIdG")}`,config).then((result) => {
-            console.log("GetPost by Author ==>", result);
             result.data.posts.sort(compareDates);
             setDataPost(result.data.posts);
             setLengthPosts(result.data.posts.length);
@@ -91,13 +108,9 @@ function convertDateFormat(dateString) {
         setCountry(result.data.user.country);
         setGender(result.data.user.gender);
         setBio(result.data.user.bio);
-        console.log("User Data =>", result);
-        axios.get(`http://localhost:5000/users/following/${userId}`, config).then((result) => {
-
-          setFollwingUsers(result.data.user)
-        }).catch((err) => {
-          console.log("Error =>", err)
-        });
+        setFollwingUsers(result.data.following)
+        setFollowerUsers(result.data.follower);
+        
         axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
           result.data.posts.sort(compareDates);
           setDataPost(result.data.posts);
@@ -127,6 +140,19 @@ const closeModal = () => {
 };
 
 
+const [maxWidth, setMaxWidth] = useState('100%');
+
+  function handleImageLoad(event) {
+    setLoading(false);
+    const { naturalWidth , naturalHeight } = event.target;
+    console.log(naturalWidth, "X", naturalHeight);
+    if (naturalWidth === naturalHeight) {
+      setMaxWidth('30%');
+    }else{
+      setMaxWidth('100%')
+    }
+  }
+
   return (
     <div className='contenter-profile-page'>
 
@@ -148,7 +174,7 @@ const closeModal = () => {
                 <div>Post</div>
                 </div>
 
-                <div>
+                <div onClick={handleShowFollower}>
                 <div>{lengthFollower}</div>
                 <div>Followers</div>
                 </div>
@@ -189,134 +215,35 @@ const closeModal = () => {
               localStorage.clear();
               window.location.reload();
             }}>Logout</div>
-            </>  : <>{ follwing.includes(localStorage.getItem("userIdG")) ? <div className='btn-open-profile' onClick={()=>{
-              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
+            </>  : <>{<div className='btn-open-profile' onClick={()=>{
+              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`, config)
+              .then((result) => {
+                if (follwing.some(idUser => idUser._id === localStorage.getItem("userIdG"))) {
+                  const arrFollow = follwing.filter(idUser => idUser._id !== localStorage.getItem("userIdG"));
+                  const arrFollower = followerUsers.filter(idUser => idUser._id !== userId);
+                  setFollwing(arrFollow);
+                  setFollowerUsers(arrFollower)
+                  setLengthFollower(lengthFollower-1)
 
-                let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
+                } else {
+                  setFollwing([...follwing, { _id: localStorage.getItem("userIdG") }]);
+                  setFollowerUsers([...followerUsers, userObject]);
+                  setLengthFollower(lengthFollower+1)
 
-                if(indexElem !== -1){
-                const arrFollow =  follwing.slice(indexElem, -1);
-                setFollwing([arrFollow]);
-                console.log(follwing);
                 }
-                
-              }).catch((err) => {
-                
+              })
+              .catch((err) => {
+                console.error(err);
               });
-            }}>unFollow</div> : <div className='btn-open-profile' onClick={()=>{
-              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
-                
-                
-              }).catch((err) => {
-                
-              });
-              let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
-                if(indexElem === -1){
-                const arrAfterPush =  follwing.push(localStorage.getItem("userIdG"));
-                setFollwing([...follwing, arrAfterPush]);
-                }
-                
-            }}>follow</div>}</>}
+               
+            }}>{follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) ? "unFollow" : "follow"}</div>}</>}
         </div>
       </div>
 
       <div className='post-content-profile'>
-        
-      <div className='profile-info-phone'>
-      <div className={!checkValue?'nav-bar-profile': 'nav-bar-profile-night'}>
-            <div className="container" >
-                <img src={require(`../Image/cover.jpg`)} className='cover-image'/>
-                <img src={`${imageUser}`} className='user-image'/>
-            </div>
-            <div className="container-userinfo">
-            <div className='nameUser'>{nameUser}</div>
-            </div>
-            
-            <div style={{marginTop:"5px", color:"#00adb5", whiteSpace:"pre-line"}}>{bio}</div>
-
-            <div className='container-info-profile' style={{display:"flex", flexDirection:"row", margin:"20px", justifyContent:"center", textAlign:"center", gap:"15px"}}>
-                <div>
-                <div>{lengthPosts}</div>
-                <div>Post</div>
-                </div>
-
-                <div>
-                <div>{lengthFollower}</div>
-                <div>Followers</div>
-                </div>
-
-                <div>
-                <div>{lengthFollowing}</div>
-                <div>Following</div>
-                </div>
-
-                
-            </div>
-            <div className={checkValue? 'line-night': "line"}  style={{marginBottom:"10px"}}></div>
-            <div>
-              <div style={{display: 'flex',marginLeft:"10px", gap:"10px", marginBottom:"5px"}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
-                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
-                </svg>
-                <label>{phone}</label>
-              </div>
-              <div style={{display: 'flex',marginLeft:"10px", gap:"10px" , marginBottom:"5px"}}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gender-ambiguous" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M11.5 1a.5.5 0 0 1 0-1h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-3.45 3.45A4 4 0 0 1 8.5 10.97V13H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V14H6a.5.5 0 0 1 0-1h1.5v-2.03a4 4 0 1 1 3.471-6.648L14.293 1zm-.997 4.346a3 3 0 1 0-5.006 3.309 3 3 0 0 0 5.006-3.31z"/>
-              </svg>
-                <label>{gender}</label>
-              </div>
-              <div style={{display: 'flex',marginLeft:"10px", gap:"10px", marginBottom:"5px"}}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
-              <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
-              <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-              </svg>
-                <label>{country}</label>
-              </div>
-            </div>
-            {localStorage.getItem("userIdG") === userId ?<><div className='btn-open-profile' onClick={()=>{
-              navigate("edit");
-            }}>Edit Profile</div> <div className='btn-logout-profile' onClick={()=>{
-              localStorage.clear();
-              window.location.reload();
-            }}>Logout</div>
-            </>  : <>{ follwing.includes(localStorage.getItem("userIdG")) ? <div className='btn-open-profile' onClick={()=>{
-              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
-
-                let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
-
-                if(indexElem !== -1){
-                const arrFollow =  follwing.slice(indexElem, -1);
-                setFollwing([arrFollow]);
-                console.log(follwing);
-                }
-                
-              }).catch((err) => {
-                
-              });
-            }}>unFollow</div> : <div className='btn-open-profile' onClick={()=>{
-              axios.get(`http://localhost:5000/users/${userId}/${localStorage.getItem("userIdG")}`,config).then((result) => {
-                
-                
-              }).catch((err) => {
-                
-              });
-              let indexElem = follwing.indexOf(localStorage.getItem("userIdG"));
-                if(indexElem === -1){
-                const arrAfterPush =  follwing.push(localStorage.getItem("userIdG"));
-                setFollwing([...follwing, arrAfterPush]);
-                }
-                
-            }}>follow</div>}</>}
-        </div>
-      </div>
-
-
 
       {dataPosts && dataPosts.map((post, i)=>{
-        const handleImageLoad = () => {
-            setLoading(false); // Set loading to false once the image is loaded
-        };
+
                
         const searchidPost = async()=>{
           axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
@@ -342,7 +269,6 @@ const closeModal = () => {
                   });
               }
           }).catch((err) => {
-             console.log("Error", err);
           });
         };
 
@@ -381,10 +307,8 @@ const closeModal = () => {
                             setEditAllow(true);
                         }}>Edit</button>
                         <button onClick={()=>{
-                          console.log(post.author._id);
                             axios.delete(`http://localhost:5000/posts/${post._id}/${post.author._id}` ,config).then((result) => {
                               axios.get(`http://localhost:5000/posts/search_1/${userId}`,config).then((result) => {
-                                console.log("GetPost by Author ==>", result);
                                 result.data.posts.sort(compareDates);
                                 setDataPost(result.data.posts);
                                 setLengthPosts(result.data.posts.length);
@@ -412,7 +336,6 @@ const closeModal = () => {
                     setContentPostAfterEdit(e.target.value)
                 }} /> <button onClick={()=>{
                     axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
-                        console.log(result);
                         setModalVisible(false);
                         setEditAllow(false);
                     }).catch((err) => {
@@ -443,14 +366,15 @@ const closeModal = () => {
       {post.image && (
         <img
           src={post.image}
+          onLoad={handleImageLoad}
           style={{
-            maxWidth: "100%",
+            maxWidth: maxWidth,
             justifyContent: "center",
             placeItems: "center",
             maxHeight: "80%",
             borderRadius: "10px",
           }}
-          onLoad={handleImageLoad}
+          
         />
       )}
 
@@ -475,7 +399,6 @@ const closeModal = () => {
                     
                     <div className={!checkValue? 'interact-button': 'interact-button-night'} onClick={()=>{ 
                         searchidPost()
-                        console.log("post.likes", post.likes);
                     }}>
 
                         {
@@ -517,22 +440,74 @@ const closeModal = () => {
 
       </div>
 
-      <Modal show={show} onHide={handleClose} keyboard={false} centered>
-              <Modal.Header closeButton>
-                <Modal.Title style={{fontWeight:"bold", fontSize:"Large"}}>Following</Modal.Title>
+      <Modal show={show} onHide={handleClose} keyboard={false} >
+              <Modal.Header closeButton style={{height:"10%", display:"flex", justifyContent:"space-between",alignItems:"center", borderBottom:"1px solid gray"}}>
+                <Modal.Title style={{fontWeight:"bold", fontSize:"24px"}}>Following</Modal.Title>
+                <Button variant="secondary" onClick={handleClose} style={{width:"fit-content", height:"fit-content",padding:"5px",fontSize:"24px", borderRadius:"4px", border:"0", backgroundColor:"transparent", color:"red"}}>
+                  X
+                </Button>
               </Modal.Header>
-              <Modal.Body style={{height:"100%"}}>
-                {console.log(followingUsers)}
+              <Modal.Body style={{height:"90%"}}>
                 {followingUsers?.map((e,i)=>{
-                  return <h3>{e}</h3>
+
+                  return <div style={{display:"flex", gap:"5px", justifyContent:"space-between", alignItems:"center", borderBottom:"1px solid rgba(140, 140, 140,0.4)", padding:"5px"}}>
+                    <div style={{display:"flex", gap:"5px", alignItems:"center"}}>
+                      <img src={e.image} style={{width:"48px", height:"48px", borderRadius:"32px"}}/>
+                      <h3>{e.firstName} {e.lastName}</h3>
+                    </div>
+                    <div>
+                      {localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId ? 
+                      <button style={{padding:"5px", borderRadius:"4px", border:"0"}} onClick={()=>{
+                        localStorage.setItem("userIdG", e._id);
+                        navigate("/profile");
+                        window.location.reload()
+                      }}>Show</button>
+                      : 
+                      <button style={{padding:"5px", borderRadius:"4px", border:"0"}} onClick={()=>{
+                        axios.get(`http://localhost:5000/users/${userId}/${e._id}`,config).then((result) => {                      
+                          if(i !== -1){
+                          followingUsers.splice(i, 1);
+                          setFollwingUsers([...followingUsers]);
+                          }
+                          
+                        }).catch((err) => {
+                                      
+                        });
+                      }}>UnFollow</button>
+                      }
+                    </div>
+                  </div>
                 })}
               </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
+              
+        </Modal>
+
+
+        <Modal show={showFollowers} onHide={handleCloseFollower} keyboard={false} >
+              <Modal.Header closeButton style={{height:"10%", display:"flex", justifyContent:"space-between",alignItems:"center", borderBottom:"1px solid gray"}}>
+                <Modal.Title style={{fontWeight:"bold", fontSize:"24px"}}>Followers</Modal.Title>
+                <Button variant="secondary" onClick={handleCloseFollower} style={{width:"fit-content", height:"fit-content",padding:"5px",fontSize:"24px", borderRadius:"4px", border:"0", backgroundColor:"transparent", color:"red"}}>
+                  X
                 </Button>
-                <Button variant="primary">Understood</Button>
-              </Modal.Footer>
+              </Modal.Header>
+              <Modal.Body style={{height:"90%"}}>
+                {followerUsers?.map((e,i)=>{
+                  return <div style={{display:"flex", gap:"5px", justifyContent:"space-between", alignItems:"center", borderBottom:"1px solid rgba(140, 140, 140,0.4)", padding:"5px"}}>
+                    <div style={{display:"flex", gap:"5px", alignItems:"center"}}>
+                      <img src={e.image} style={{width:"48px", height:"48px", borderRadius:"32px"}}/>
+                      <h3>{e.firstName} {e.lastName}</h3>
+                    </div>
+                    <div>
+                      <button style={{padding:"5px", borderRadius:"4px", border:"0"}} onClick={()=>{
+                        localStorage.setItem("userIdG", e._id);
+                        navigate("/profile");
+                        window.location.reload()
+                      }}>Show</button>
+                    </div>
+                  </div>
+                })}
+              </Modal.Body>
+              
         </Modal>
     </div>
   )

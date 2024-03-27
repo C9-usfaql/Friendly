@@ -106,7 +106,13 @@ const login = (req, res) =>{
 const getUserById = (req, res)=>{
   const id = req.params.id;
 
-  userModel.findById(id).then((result) => {
+  userModel.findById(id).populate({
+    path: 'following',
+    model: 'User' 
+  }).populate({
+    path: 'follower',
+    model: 'User' 
+  }).then((result) => {
     if (!result) {
       return res.status(404).json({
         success: false,
@@ -117,6 +123,8 @@ const getUserById = (req, res)=>{
       success: true,
       message: `The User ${result} `,
       user: result,
+      following : result.following,
+      follower : result.follower,
     });
   }).catch((err) => {
     res.status(500).json({
@@ -262,33 +270,34 @@ const getPostByFollowing = async (req,res)=>{
   }
 }
 
-const getFollowingUser = (req,res)=>{
-  const {id} = req.params;
+const getFollowingUser = async (req, res) => {
+  const { id } = req.params;
 
-  userModel.findById(id).populate({
-    path: 'following',
-    model: 'User' // اسم الموديل الذي تريد البحث فيه
-  }).then((result) => {
+  try {
+    const result = await userModel.findById(id)
+
     if (!result) {
       return res.status(404).json({
         success: false,
         message: `The User with id => ${result} not found`,
       });
     }
-    console.log("Backend Get Following =>", result.following);
+
     res.status(200).json({
       success: true,
       message: `The User ${result} `,
-      user: result.following,
+      following: result.following,
+      follower : result.follower
     });
-  }).catch((err) => {
+  } catch (err) {
     res.status(500).json({
       success: false,
       message: `Server Error`,
       err: err.message,
     });
-  });
+  }
 }
+
 
 module.exports = {
     register,

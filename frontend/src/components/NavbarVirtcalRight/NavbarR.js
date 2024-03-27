@@ -9,7 +9,7 @@ function NavbarV() {
     const infoMe = JSON.parse(localStorage.getItem("InfoMe"));
     const [allUser, setAllUser] = useState(null);
     const config = {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}`}
     };
     useEffect(()=>{
         axios.get(`http://localhost:5000/users/`, config).then((result) => {
@@ -29,7 +29,7 @@ function NavbarV() {
                  
                  if(userId && e._id === userId){
 
-                }else  if(infoMe && infoMe.following.includes(e._id)){
+                }else  if(infoMe && infoMe.following.some(idUser => idUser._id === e._id)){
                 }else{
                 
                 return(
