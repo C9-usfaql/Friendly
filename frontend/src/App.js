@@ -10,6 +10,7 @@ import { useState , createContext} from "react";
 import Profile from "./components/Profile/Profile";
 import EditProfile from "./components/EditProfile/EditProfile";
 import Search from "./components/Search/Search";
+import MessagePage from "./components/MessagePage/MessagePage";
 
 export const userContext = createContext();
 function App() {
@@ -41,6 +42,7 @@ function App() {
     <Route path="/post/:id" element={<OnePost/>}/>
     <Route path="/profile/edit" element={<EditProfile/>}/>
     <Route path="/search/:id" element={<Search/>}/>
+    <Route path="/:id_user/message" element={<MessagePage/>}/>
     </Routes>
     </div>
 

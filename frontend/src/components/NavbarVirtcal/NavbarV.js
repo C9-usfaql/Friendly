@@ -43,10 +43,9 @@ function NavbarV() {
     <div className='contenter-nav'>
         <div className={!checkValue? 'nav-bar': 'nav-bar-night'}>
             <div className="containers" >
-                <img src={require(`../Image/cover.jpg`)} className='cover-image'/>
-                <img src={`${imageUser}`} className='user-image'/>
+                <img src={`${imageUser}`} className='user-image-profile'/>
             </div>
-            <div className="container-userinfo">
+            <div className="container-user-info">
             <div className='nameUser'>{nameUser}</div>
             
             </div>

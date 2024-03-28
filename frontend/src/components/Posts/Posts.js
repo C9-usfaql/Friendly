@@ -16,7 +16,6 @@ function Posts() {
     const [editAllow, setEditAllow] = useState(false);
     const [selectedPostId, setSelectedPostId] = useState(null);
     const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
-    const [limitShowPost ,setLimitShowPost] = useState(3);
     const openModal = (postId) => {
         setSelectedPostId(postId);
         setModalVisible(true);
@@ -47,7 +46,7 @@ function Posts() {
     
     {dataPost ?  dataPost.map((post, i)=>{
         
-      if (i < limitShowPost) {
+    
         const handleImageLoad = () => {
             setLoading(false); // Set loading to false once the image is loaded
         };
@@ -262,21 +261,14 @@ function Posts() {
             
         )
     } 
-    })
+    )
     :
-    <di style={{display:"flex", justifyContent:"center", margin:"25px"}}>
+    <div style={{display:"flex", justifyContent:"center", margin:"25px"}}>
         <div class="loader"></div>
-    </di>
+    </div>
     
     }
-     <div style={{padding:"10px" ,color:"#018b92",cursor:"pointer" }} onClick={() =>{
-        setLimitShowPost(limitShowPost+3);
-     
-    
 
-     }}>
-    {limitShowPost > dataPost.length -1 ? "run out" : "Load More..."}
-     </div>
     </div>
     )
 }

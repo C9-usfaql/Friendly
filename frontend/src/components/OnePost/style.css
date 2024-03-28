@@ -4,8 +4,8 @@
     justify-content: center;
     place-items:inherit;
     position:sticky;
-    height: 90vh;
     user-select: none;
+    padding-bottom: 20px;
 }
 .contenter-one-post{
     width: 50%;
@@ -38,7 +38,6 @@
     position: relative;
     text-align:center;
     margin-bottom: 10px;
-    background-color: #d3d3d3;
     border-radius: 4px;
 }
 .contenter-comment-input{

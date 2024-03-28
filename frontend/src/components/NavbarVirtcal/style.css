@@ -1,6 +1,11 @@
 .contenter-nav{
     text-align: center;
-    width: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 25%;
     border-radius: 10px;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -8,12 +13,13 @@
 }
 .nav-bar{
     background-color: white;
+    width: 95%;
     border-radius: 10px; 
     text-align: center;
     place-items: center;
     margin-bottom: 10px;
     padding-bottom: 5px;
-    box-shadow: 0px 0px 5px 1px rgb(5, 5, 5, 0.25);
+    box-shadow: 0px 0px 7px 1px rgb(5, 5, 5, 0.3);
 
 }
 .nav-bar-night{
@@ -24,6 +30,9 @@
     margin-bottom: 10px;
     padding-bottom: 5px;
     color: white;
+    width: 95%;
+    box-shadow: 0px 0px 7px 1px rgb(5, 5, 5, 0.11);
+
 }
 
 .containers {
@@ -42,14 +51,9 @@
     margin-top: 1vh;
 }
   
-  .user-image {
-    width: 54px;
-    position: absolute;
-    bottom: -2.5vh;
-    left: 50%;
-    border-radius: 27px;
-    transform: translateX(-50%);
-    border: 1px solid #00ADB5;
+.user-image {
+    width: 110px;
+    border-radius: 100%;
 }
 
 .nameUser{
@@ -85,15 +89,14 @@
     background-color: rgb(32, 49, 85);
 }
 
-.container-userinfo{
-    margin-top: 3.5vh;
+.container-user-info{
+    margin-top: 1vh;
 }
 
 .home{
     display: flex;
     place-items: center;
     gap: 10px;
-    margin-top: 10px;
     border-radius: 8px 8px 0px 0px ;
     padding-left: 5px;
     padding-top: 1vh;
@@ -104,7 +107,6 @@
     display: flex;
     place-items: center;
     gap: 10px;
-    margin-top: 10px;
     color: white;
     padding-left: 5px;
     border-radius: 8px 8px 0px 0px ;
@@ -157,7 +159,6 @@
     border-radius: 0 0 8px 8px ;
     background-color: #00ADB5;
 }
-.trundle:hover,
 .home:hover{
     color: white;
     background-color: #45545f;
@@ -169,7 +170,16 @@
     border-radius: 0 0 8px 8px;
 }
 
-
+.btn-follow{
+    background-color: 0;
+    border: 0;
+    border-radius: 4px;
+    padding: 5px;
+    color: white;
+    background-color: #00ADB5;
+    font-weight: bold;
+    margin-right: 5px;
+}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
