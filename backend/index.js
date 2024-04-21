@@ -4,7 +4,8 @@ const messageHandler = require('./controllers/Messages');
 require("dotenv").config();
 require("./models/db");
 
-const {Server} = require("socket.io");
+
+
 const {auth}=require("./middleware/authentication")
 
 const app = express();
@@ -21,18 +22,23 @@ app.use("/posts", postsRouter);
 app.use("/search", searchRouter);
 app.use("/createrole", roleRouter);
 
+const {Server} = require("socket.io");
 
+const http = require('http');
+const SocketIo = require('socket.io');
+const httpServer = http.createServer(app);
+const wsServer = SocketIo(httpServer);
 const io = new Server(8080,{cors:{origin:"*"}});
 const client = {}
 
-io.use(auth);
+wsServer.use(auth);
 
-io.on("connection",(socket)=>{
+wsServer.on("connection",(socket)=>{
 
   const user_id=socket.handshake.headers.user_id;
   client[user_id]={socket_id:socket.id,user_id};
 
-  messageHandler(socket, io);
+  messageHandler(socket, wsServer);
   
   socket.on("disconnect",()=>{
     for (const key in client) {
