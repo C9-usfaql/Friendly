@@ -8,8 +8,9 @@ const {
     getAllUser,
     getPostByFollowing, 
     getFollowingUser,
+    getMessageByPrivate,
     getFollowerUser} = require("../controllers/Users");
-const authentication = require("../middleware/authentication");
+const {authentication} = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
 const usersRouter = express.Router();
 
@@ -21,4 +22,5 @@ usersRouter.put("/:id",authentication, updateDataUserById);
 usersRouter.get("/:myId/:userId", authentication, followingUser);
 usersRouter.get("/", authentication, getAllUser);
 usersRouter.get("/follow/user/:id", authentication, getPostByFollowing);
+usersRouter.get('/message/:coach_id/:user_id',authentication,getMessageByPrivate)
 module.exports = usersRouter;

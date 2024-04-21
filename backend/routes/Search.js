@@ -1,6 +1,6 @@
 const express = require("express");
 const {searchByNameUserOrContentPost} = require("../controllers/Search");
-const authentication = require("../middleware/authentication");
+const {authentication} = require("../middleware/authentication");
 
 const searchRouter = express.Router();
 

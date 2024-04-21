@@ -1,10 +1,9 @@
 .main{
-    margin: 10px;
+    margin: 10px 0;
+    margin-bottom: 0;
     display: flex;
-    width: 100vw;
     text-align: center;
     justify-content:center;
-    margin-bottom: 10px;
 }
 .mainNight{
     margin: 10px 0;
@@ -12,6 +11,5 @@
     display: flex;
     text-align: center;
     justify-content:center;
-    padding-bottom: 10px;
     background-color: #303841;
 }

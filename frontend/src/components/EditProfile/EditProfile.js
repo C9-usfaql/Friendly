@@ -37,7 +37,6 @@ function EditProfile() {
     const [bio , setBio] = useState(dataUser.bio);
     const [editImage , setEditImage] = useState(null);
     const [loading, setLoading] = useState(null);
-  console.log(dataUser.image);
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     };
@@ -71,7 +70,6 @@ function EditProfile() {
                   const file = e.target.files[0];
                   if (file) {
                     setEditImage(file);
-                     console.log("Image Path In Input =>", file);
                   } else {
                     
                   }
@@ -85,7 +83,6 @@ function EditProfile() {
           <div>
             <button className={!loading? 'btn-open-profile': 'btn-open-profile-block'} onClick={()=>{
               if(editImage){
-                console.log(editImage.type);
                 const storageRef = ref(storage, `/${userId}/profileImage`);
                 const uploadTask = uploadBytesResumable(storageRef,editImage);
 
@@ -96,10 +93,9 @@ function EditProfile() {
                 }, ()=>{
                   getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     axios.put(`http://localhost:5000/users/${userId}`, {firstName, lastName,email, phoneNumber, image:`${downloadURL}`,bio},config).then((result) => {
-                      console.log("Update Data User Successfully");
                       navigate(-1)
                     }).catch((err) => {
-                      console.log("Error =>", err);
+                      console.error("Error =>", err);
                     });
                   }).catch((err) => {
                     
@@ -107,10 +103,9 @@ function EditProfile() {
                 })
               }else{
                   axios.put(`http://localhost:5000/users/${userId}`, {firstName, lastName,email, phoneNumber, bio},config).then((result) => { 
-                    console.log("Update Data User Successfully"); 
                     navigate(-1) 
                   }).catch((err) => { 
-                    console.log("Error =>", err);
+                    console.error("Error =>", err);
                   }); 
             }
             }}>{!loading?'Save Change': `${loading}`}</button>

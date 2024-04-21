@@ -10,6 +10,19 @@
     color: white;
     border-radius: 4px;
     padding: 5px;
+    cursor: pointer;
+}
+
+.btn-login-demo{
+  border: 0;
+  width: 90%;
+  background-color: white;
+  color: #018b92;
+  border-radius: 4px;
+  margin-top: 10px;
+  border: 1px solid gray;
+  cursor: pointer;
+  padding: 5px;
 }
 p{
     color: white;
@@ -99,9 +112,15 @@ select{
   }
   
   .errorhint{
+    display: flex;
     color:red;
-    background-color:#ffadad;
-     padding:"5px"
+     padding:5px;
+     margin: 5px auto;
+     width: 80%;
+     border-radius: 4px;
+     place-items: center;
+     justify-content: center;
+
   }
   .errorhintdis{
     display: none;

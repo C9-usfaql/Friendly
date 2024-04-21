@@ -27,13 +27,14 @@ body{
 
 
 .avatar-div{
-    min-width: 15%;
+    min-width: 5%;
     margin-top : 5px;
     margin-bottom : 0;
 }
 .avatar{
     max-width: 64px;
     place-content: right;
+    cursor: pointer;
 }
 .nav-div{
     display: flex;

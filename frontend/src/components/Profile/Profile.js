@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { userContext } from "../../App"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
+import socketInit from '../socket.server';
 function Profile() {
   const navigate = useNavigate();
   const { token, userId,checkValue } = useContext(userContext);
@@ -16,6 +16,14 @@ function Profile() {
   const [gender,setGender] = useState(null);
   const [country, setCountry]= useState(null);
   const infoMe = JSON.parse(localStorage.getItem("InfoMe"));
+
+
+  const [toId , setToId] = useState(null);
+  const [from , setFrom] = useState("");
+  const [image, setImage] = useState("")
+  const [imageMessage , setImageMessage] = useState(null);
+  const [inputMessage , setInputMessage] = useState("");
+  const reversChat = useRef(null);
 
   const [followingUsers, setFollwingUsers] = useState(null);
   const [followerUsers, setFollowerUsers] = useState(null);
@@ -32,8 +40,9 @@ function Profile() {
   const [userObject, setUserObject] = useState(null);
   const [show, setShow] = useState(false);
   const [showMessagePopup, setShowMessagePopup] = useState("none");
-
+  const [socket, setSocket] = useState(null);
   const [showFollowers, setShowFollowers] = useState(false);
+  const [allMessages, setAllMessages] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -70,6 +79,7 @@ function convertDateFormat(dateString) {
   }, []);
   useEffect(()=>{
     if(localStorage.getItem("userIdG") && localStorage.getItem("userIdG")!== userId){
+      setToId(localStorage.getItem("userIdG"));
       axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
         setUserObject(result.data.user);
         setFollwing(result.data.user.following);
@@ -148,13 +158,77 @@ const [maxWidth, setMaxWidth] = useState('100%');
   function handleImageLoad(event) {
     setLoading(false);
     const { naturalWidth , naturalHeight } = event.target;
-    console.log(naturalWidth, "X", naturalHeight);
     if (naturalWidth === naturalHeight) {
       setMaxWidth('30%');
     }else{
       setMaxWidth('100%')
     }
   }
+
+
+  useEffect(()=>{
+    socket?.on('connect', ()=>{
+        console.log(true)
+    })
+   
+    return()=>{
+        socket?.close();
+        socket?.removeAllListeners();
+    }
+  },[socket]);
+  
+  
+  useEffect(() => {
+    const handleMessagePrivate = (data) => {
+      setAllMessages(prevMessages => [...prevMessages, data]);
+    };
+    socket?.on("messagePrivate", handleMessagePrivate);
+    return()=>{
+      socket?.off("messagePrivate", handleMessagePrivate)
+    }
+  }, [socket]);
+  
+  
+  const sendMessage = ()=>{
+    const newMessage = {
+      room: toId,
+      from: userId,
+      message: inputMessage,
+      name: infoMe.firstName + " " + infoMe.lastName,
+      image : infoMe.image,
+      image_message: imageMessage,
+      created_at: new Date()
+    };
+  
+    socket?.emit("messagePrivate", newMessage);
+  }
+
+ 
+    useEffect(()=>{
+      setAllMessages([])
+      if(toId){
+      axios.get(`http://localhost:5000/users/message/${userId}/${toId}`, config).then((result)=>{
+        setAllMessages(result.data.messages)
+      }).catch((error)=>{
+        console.error(error);
+      })
+    }
+    },[toId]);
+ 
+
+  
+  const disconnectServer = ()=>{
+    socket?.disconnect();      
+  }
+
+  useEffect(()=>{
+    if(showMessagePopup === "block"){
+        if(reversChat.current){
+            reversChat.current.scrollTop = reversChat.current.scrollHeight;
+        };
+    }
+},[allMessages?.length])
+
 
   return (
     <div className='contenter-profile-page'>
@@ -163,7 +237,9 @@ const [maxWidth, setMaxWidth] = useState('100%');
             <div style={{display:"flex", alignItems:"center", color:"white"}}>
               <h4>{nameUser}</h4>
             </div>
-            <div style={{display:"flex", alignItems:"center", padding:"5px"}}>
+            <div style={{display:"flex", alignItems:"center", padding:"5px"}} onClick={()=>{
+              disconnectServer();
+            }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="red" class="bi bi-x-lg" viewBox="0 0 16 16" onClick={()=>{setShowMessagePopup("none")}}>
                 <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
               </svg>
@@ -171,42 +247,94 @@ const [maxWidth, setMaxWidth] = useState('100%');
             
           </div>
 
-          <div className='body-message'>
-            {[{id : 1, message :"Lorem ipsum dolor sit amet, consectetur adipiscing elit."},
-            {id : 2, message :"In mattis consectetur dolor a rhoncus. Etiam turpis arcu, posuere sed libero ut, lobortis porta augue."},
-            {id : 1, message :"Mauris maximus lectus bibendum bibendum tempor. Ut lectus leo, sodales id risus vel, consectetur imperdiet nisl."},
-            {id : 2, message :"Etiam fringilla nec dolor sed malesuada."},
-            {id : 2, message :"Suspendisse dapibus, nibh non vestibulum condimentum, purus dolor consequat tellus, in porttitor orci sem et risus."},
-            {id : 1, message :" Aenean in lorem risus. In aliquet augue risus, id posuere ligula tempor a. Sed varius enim nisi, id ultrices dolor rutrum at."},
-            {id : 1, message :"Suspendisse molestie urna eros, quis ultrices leo imperdiet ac."}].map((e)=>{
-              if(e.id === 1){
-                return (
-                  <div style={{display:"flex", justifyContent:"start",textAlign:"start", padding:"5px", gap:"5px", maxWidth:"100%", margin:"0"}}>
-                      <div style={{display:"flex", height:"100%",flexDirection:"column", justifyContent:"flex-start"}}>
-                      <img src={infoMe.image} style={{width:"48px",borderRadius:"100%"}}/>
-                    </div>
-                      <h4 style={{backgroundColor:"#00383b",color:"white", padding:"10px",borderRadius:"0 6px 6px 6px", maxWidth:"70%",wordWrap:"break-word"}}>{e.message}</h4>
-                    
-                  </div>
-                )
-              }
-              if(e.id === 2){
+          <div className='body-message' ref={reversChat}>
+            {allMessages?.map((e)=>{
+              if(e.from !== userId){
+                const endDate = new Date(e.created_at);
+                const now = new Date();
+                const difference = now - endDate;
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor(difference / (1000 * 60 * 60));
+                const minutes = Math.floor(difference / (1000 * 60));
+                const seconds = Math.floor(difference / 1000);
+                let dateNow = '';
+                if(days){
+                    dateNow = `${days} days ago`;
+                }else if(hours){
+                    dateNow = `${hours} hour ago`;
+                }else if(minutes){
+                    dateNow = `${minutes} minutes ago`;
+                }else if(seconds){
+                    dateNow = `just now`;
+                }else{
+                    dateNow = `just now`;
+                }
                 return(
                 <div style={{display:"flex", justifyContent:"end",textAlign:"end", padding:"5px", gap:"5px", margin:"0"}}>
-                    <h4 style={{backgroundColor:"#018b92",color:"white", padding:"10px",borderRadius:"6px 0 6px 6px", maxWidth:"70%",wordWrap:"break-word"}}>{e.message}</h4>
+                  <div style={{maxWidth:"70%"}}>
+                  <h6>{e.name}</h6>
+                  <h4 style={{backgroundColor:"#018b92",color:"white", padding:"10px",borderRadius:"6px 0 6px 6px",maxWidth:"100%",wordWrap:"break-word"}}>{e.message }</h4>
+                  <h6>{dateNow}</h6>
+                  </div>
+                    
                     <div style={{display:"flex", height:"100%",flexDirection:"column", justifyContent:"flex-start"}}>
                       <img src={imageUser} style={{width:"48px",borderRadius:"100%"}}/>
                     </div>
                   </div>
                 )
               }
+              if(e.from === userId){
+
+                const endDate = new Date(e.created_at);
+                const now = new Date();
+                const difference = now - endDate;
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor(difference / (1000 * 60 * 60));
+                const minutes = Math.floor(difference / (1000 * 60));
+                const seconds = Math.floor(difference / 1000);
+                let dateNow = '';
+                if(days){
+                    dateNow = `${days} days ago`;
+                }else if(hours){
+                    dateNow = `${hours} hour ago`;
+                }else if(minutes){
+                    dateNow = `${minutes} minutes ago`;
+                }else if(seconds){
+                    dateNow = `just now`;
+                }else{
+                    dateNow = `just now`;
+                }
+                return (
+                  <div style={{display:"flex", justifyContent:"start",textAlign:"start", padding:"5px", gap:"5px", maxWidth:"100%", margin:"0"}}>
+                      <div style={{display:"flex", height:"100%",flexDirection:"column", justifyContent:"flex-start"}}>
+                      <img src={infoMe.image} style={{width:"48px",borderRadius:"100%"}}/>
+                    </div>
+                    <div style={{maxWidth:"70%"}}>
+                    <h6>{e.name}</h6>
+                    <h4 style={{backgroundColor:"#e0e0e0",color:"black", padding:"10px",borderRadius:"0 6px 6px 6px", maxWidth:"100%",wordWrap:"break-word"}}>{e.message}</h4>
+                    
+                    <h6>{dateNow}</h6>
+                  </div>
+                    
+                  </div>
+                )
+              }
+              
              
 
             })}
           </div>
           <div className='input-box'>
-            <textarea style={{minHeight:"90%",height:"90%", maxHeight:"90%", maxWidth:"80%", width:"80%", minWidth:"80%", border:"1px solid #ADADAD",borderRadius:"4px",fontSize:"16px", fontWeight:"550"}} />
-            <button style={{border:"0", padding:"12px", width:"15%", backgroundColor:"#018b92", color:"white", borderRadius:"4px", cursor:"pointer"}}>Send</button>
+            <textarea style={{minHeight:"90%",height:"90%", maxHeight:"90%", maxWidth:"80%", width:"80%", minWidth:"80%", border:"1px solid #ADADAD",borderRadius:"4px",fontSize:"16px", fontWeight:"550"}} onChange={(e)=>{
+              setInputMessage(e.target.value);
+            }} 
+            value={inputMessage} />
+            <button style={{border:"0", padding:"12px", width:"15%", backgroundColor:"#018b92", color:"white", borderRadius:"4px", cursor:"pointer"}} onClick={()=>{
+              if(inputMessage){
+                setInputMessage("");
+                sendMessage();
+              };
+            }}>Send</button>
           </div>
       </div>
       <div className='profile-info'>
@@ -265,7 +393,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
               navigate("edit");
             }}>Edit Profile</div> <div className='btn-logout-profile' onClick={()=>{
               localStorage.clear();
-              window.location.reload();
+              navigate("/login");
             }}>Logout</div>
             </>  : <>
             <div style={{display:"flex"}}>
@@ -293,7 +421,9 @@ const [maxWidth, setMaxWidth] = useState('100%');
             }}>{follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) ? "unFollow" : "follow"} </div>}
             {follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) && <div className='message-btn' onClick={()=>{
               //navigate(`/${userId}/message/${localStorage.getItem("userIdG")}`)
+              setSocket(socketInit({user_id : userId, token :token , room : localStorage.getItem("userIdG")}));
               setShowMessagePopup("block")
+
             }}>Message</div>}
             </div>
             </>}
@@ -335,6 +465,10 @@ const [maxWidth, setMaxWidth] = useState('100%');
           });
         };
 
+        let hashtag = post.content.match(/(#)\w+/g);
+        
+        const postContentReplace= hashtag ? post.content.replace(/(#)\w+/g,(e)=> `<a id="hashtag" href='search/${e.replace("#", "")}'>${e}</a>`) : post.content;
+
         return(
             <div className={!checkValue?'contenter-post' : 'contenter-post-night'}>
                 {/* <h1>POSTS</h1> */}
@@ -354,7 +488,8 @@ const [maxWidth, setMaxWidth] = useState('100%');
                     {localStorage.getItem("userIdG") === userId && <>
                     <button id={`${post._id}`}  className={!checkValue? 'menu': 'menu-night'} onClick={(e)=>{
                       if(modalVisible){
-                          closeModal()
+                          closeModal();
+                          setEditAllow(false)
                       }else{
                           openModal(post._id);
                       }
@@ -404,7 +539,9 @@ const [maxWidth, setMaxWidth] = useState('100%');
                     }).catch((err) => {
                         
                     });
-                }}>Save</button></>: <div className={!checkValue? 'content-post': 'content-post-night'}>{post.content}</div>}
+                }}>Save</button></>: <div className={!checkValue? 'content-post': 'content-post-night'} dangerouslySetInnerHTML={{
+                  __html: postContentReplace
+                }}></div>}
                 
                 <div>
                     {

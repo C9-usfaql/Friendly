@@ -2,7 +2,7 @@ const express = require("express");
 const {createPost, getAllPosts, getAllPostByAuthor, getPostById, updatePostById, deletePostById} = require("../controllers/posts");
 const {createLike} = require("../controllers/likes");
 const {createNewComment, getCommentById} = require("../controllers/comments");
-const authentication = require("../middleware/authentication");
+const {authentication} = require("../middleware/authentication");
 const authorization = require("../middleware/authorization");
 
 const postsRouter = express.Router();

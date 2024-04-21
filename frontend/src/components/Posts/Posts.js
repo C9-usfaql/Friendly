@@ -85,13 +85,37 @@ function Posts() {
         
         const postContentReplace= hashtag ? post.content.replace(/(#)\w+/g,(e)=> `<a id="hashtag" href='search/${e.replace("#", "")}'>${e}</a>`) : post.content;
 
+        const dateParts = post.datePost.split(/[\/ :]/);
+        const endDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0], dateParts[3], dateParts[4]);
+        const now = new Date();
+        const difference = now - endDate;
 
-         
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        const months = Math.floor(days / 30);
+        const years = Math.floor(months / 12);
+        let dateNow = '';
+        if (years) {
+            dateNow = `${years} year${years > 1 ? 's' : ''} ago`;
+        } else if (months) {
+            dateNow = `${months} month${months > 1 ? 's' : ''} ago`;
+        } else if (days) {
+            dateNow = `${days} day${days > 1 ? 's' : ''} ago`;
+        } else if (hours) {
+            dateNow = `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        } else if (minutes) {
+            dateNow = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        } else if (seconds) {
+            dateNow = `just now`;
+        } else {
+            dateNow = `just now`;
+        }
+        
+
         return(
             <div  className={!checkValue?'contenter-post' : 'contenter-post-night'}>
-                {/* <h1>POSTS</h1> */}
-                {/* A bar containing a photo and username */}
-                {console.log(post)}
                 <div className='containing-top-post'>
                     <div className='containing-photo-username' onClick={(e)=>{
                        localStorage.setItem("userIdG", post.author._id);
@@ -100,51 +124,10 @@ function Posts() {
                     <img style={{width:"48px" , borderRadius:"24px"}} src={post.author.image}/>
                     <div style={{display: "flex", flexDirection:"column", justifyContent:"center", alignItems:"start"}}>
                         <div className='name-user'>{post.author.firstName + " "+ post.author.lastName}</div>
-                        <div>{post.datePost}</div>
+                        <h5 style={{opacity:"0.7", fontWeight:"normal"}}>{dateNow}</h5>
                         
                     </div>
                     </div>
-
-                    <div style={{display : 'flex', flexDirection:"column",paddingTop:"5px", justifyContent:"start", alignItems:"center"}}  onClick={(e)=>{
-                    
-                    if(modalVisible){
-                        closeModal()
-                    }else{
-                        openModal(post._id);
-                    }
-
-
-                    }}>
-
-                    {post.author._id === userId && <button id={`${post._id}`} className={!checkValue? 'menu': 'menu-night'}>
-                    <i class="gg-menu"></i> 
-                   </button>
-                    }
-                    
-
-                {modalVisible && selectedPostId === post._id && (
-                    <div id="id01" className="w3-modal" style={{ display: 'block' ,padding:"1.5%", backgroundColor:"#303841",borderRadius:"4px",right:"-10%"}}>
-                    <div className="w3-modal-content">
-                        <div className="w3-container" style={{display:"flex", flexDirection:"column", gap:"10px"}}>
-                        <button style={{backgroundColor:"#00adb5", border:"0", padding:"10px", color:"white", borderRadius:"4px"}} onClick={()=>{
-                            setEditAllow(true);
-                        }}>Edit</button>
-                        <button  style={{backgroundColor:"red", border:"0", padding:"10px", color:"white", borderRadius:"4px"}} onClick={()=>{
-                            axios.delete(`http://localhost:5000/posts/${post._id}`,config).then((result) => {
-                                axios.get("http://localhost:5000/posts/", config).then((result) => {
-                                    setData(result.data.posts);
-                                }).catch((err) => {
-                                    
-                                });
-                            }).catch((err) => {
-                                
-                            });
-                        }}>Delete</button>
-                        </div>
-                    </div>
-                    </div>
-                )}
-                </div>
                 </div>
                 
                 {/* End Bar  */}
@@ -153,19 +136,10 @@ function Posts() {
                 {/* End line */}
                 
                 {/* Start Div Content Post */}
-                {editAllow &&  selectedPostId === post._id ? <> <input id={post._id} defaultValue={post.content} onChange={(e)=>{
-                    setContentPostAfterEdit(e.target.value)
-                }} /> <button onClick={()=>{
-                    axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
-                        setModalVisible(false);
-                        setEditAllow(false);
-                    }).catch((err) => {
-                        
-                    });
-                }}>Save</button></>: <div className={!checkValue? 'content-post': 'content-post-night'} dangerouslySetInnerHTML={{
+                <div className={!checkValue? 'content-post': 'content-post-night'} dangerouslySetInnerHTML={{
                     __html: postContentReplace
                   }}></div>
-                   }
+                   
                 
                 <div>
                     {

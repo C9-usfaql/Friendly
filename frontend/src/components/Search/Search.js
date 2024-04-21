@@ -15,7 +15,6 @@ function Search() {
     const [selectedPostId, setSelectedPostId] = useState(null);
     const [contentPostAfterEdit, setContentPostAfterEdit] = useState('');
     const {id} = useParams();
-    console.log(id);
     
     
     const config = {
@@ -32,7 +31,6 @@ function Search() {
                 setAllUser(null)
                 setAllPost(result.data.user);
             }
-            console.log("Search ==>:",result);
         }).catch((err) => {
                             
         }); 
@@ -62,7 +60,7 @@ function Search() {
     <div className='search-page'>
 
     
-    <div className='search-content-v1'> <label style={{color:"#018b92", fontWeight:"bold"}}>Result Search: </label><label style={{color:"#018b92"}}>"{id}"</label>
+    <div className='search-content-v1'>
     
     <div style={{marginTop:"10px"}}>
             {allUser?.map((e,i)=>{
@@ -85,19 +83,16 @@ function Search() {
                 )
             
             })}
-            <div className={!checkValue? 'line': 'line-night'}></div>
             </div>
 
 
 
             {allPost && allPost.map((post, i)=>{
-        console.log("Data in Post =>", allPost);
         const handleImageLoad = () => {
             setLoading(false); // Set loading to false once the image is loaded
         };
                
             const searchid = async()=>{
-                console.log();
                     axios.get(`http://localhost:5000/posts/${post._id}/like`,config).then((result) => {
                          axios.get(`http://localhost:5000/users/follow/user/${userId}`,config).then((results) => {
                             results.data.posts.sort(compareDates);
@@ -105,11 +100,13 @@ function Search() {
                         }).catch((err) => {
                         }); 
                      }).catch((err) => {
-                         console.log("Error", err);
+                         console.error("Error", err);
                      });
                
             };
-            
+            let hashtag = post.content.match(/(#)\w+/g);
+        
+            const postContentReplace= hashtag ? post.content.replace(/(#)\w+/g,(e)=> `<a id="hashtag" href='/search/${e.replace("#", "")}'>${e}</a>`) : post.content;
         return(
             <div className={!checkValue?'contenter-post' : 'contenter-post-night'}>
                 {/* <h1>POSTS</h1> */}
@@ -181,13 +178,14 @@ function Search() {
                     setContentPostAfterEdit(e.target.value)
                 }} /> <button onClick={()=>{
                     axios.put(`http://localhost:5000/posts/${post._id}`, {content: contentPostAfterEdit}, config).then((result) => {
-                        console.log(result);
                         setModalVisible(false);
                         setEditAllow(false);
                     }).catch((err) => {
                         
                     });
-                }}>Save</button></>: <div className={!checkValue? 'content-post': 'content-post-night'}>{post.content}</div>}
+                }}>Save</button></>: <div className={!checkValue? 'content-post': 'content-post-night'} dangerouslySetInnerHTML={{
+                    __html: postContentReplace
+                  }}></div>}
                 
                 <div>
                     {
@@ -245,7 +243,6 @@ function Search() {
                     
                     <div className={!checkValue? 'interact-button': 'interact-button-night'} onClick={()=>{ 
                         searchid()
-                        console.log("Like in Post =>", post.likes);
                     }}>
 
                         {

@@ -2,6 +2,7 @@ const userModel = require("../models/Users");
 const postModel = require("../models/Post");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const PrivateMessagesModel = require('../models/PrivateMessage')
 
 const register = (req, res) => {
   const {
@@ -298,6 +299,29 @@ const getFollowingUser = async (req, res) => {
   }
 }
 
+const getMessageByPrivate = async (req, res) => {
+  try {
+    const { coach_id, user_id } = req.params;
+    const me = user_id;
+    const to = coach_id;
+    
+    let result = await PrivateMessagesModel.findOne({ coach_id, user_id });
+    
+    if (!result) {
+      result = await PrivateMessagesModel.findOne({ coach_id: me, user_id: to });
+    }
+
+    if (!result) {
+      return res.status(404).json({ success: false, message: 'Messages not found' });
+    }
+
+    res.status(200).json({ success: true, messages: result.messages });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
 
 module.exports = {
     register,
@@ -307,6 +331,7 @@ module.exports = {
     followingUser,
     getAllUser,
     getPostByFollowing,
-    getFollowingUser
+    getFollowingUser,
+    getMessageByPrivate
   };
   

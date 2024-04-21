@@ -20,7 +20,7 @@ const Register = ()=>{
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
     const [anError, setAnError] = useState(false)
-    const [codeCountry, setCodeCounrty] = useState("");
+    const [codeCountry, setCodeCounrty] = useState("+000");
     const daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = [
         'January', 'February', 'March', 'April',
@@ -36,22 +36,25 @@ const Register = ()=>{
     };
     return(
         <div style={{display:"flex" , width:"100vw", height:"100vh",margin:"0",padding:"0" , justifyContent:"center", alignItems:"center"}}>
-            <div style={{width:"50%", height:"70%" ,alignItems:"center", display:"flex", flexDirection:"column", justifyContent:"center"}}>
+            {/* <div style={{width:"50%", height:"70%" ,alignItems:"center", display:"flex", flexDirection:"column", justifyContent:"center"}}>
                 <div>
                 <img style={{width:"35%"}} src={require("../Image/logo.png")}/>
                 </div>
                 <p style={{fontSize:"20px"}}>Create an account in an easy and inexpensive way</p>
-            </div>
+            </div> */}
 
-            <div style={{width:"50%", display:"flex", alignItems:"center", justifyContent:"center" ,height:"70%"}}>
+            <div style={{width:"50%", display:"flex", alignItems:"center", justifyContent:"center" ,height:"fit-content"}}>
                 
-                <div style={{width:"60%", backgroundColor:"white", height:"100%", justifyContent:"center", display:"flex",borderRadius:"8px", flexDirection:"column"}}>
-                    <div style={{height:"25%", display:"flex", justifyContent:"center", alignItems:"center", color:"#018b92", fontWeight:"bold", fontSize:"23px"}}>Register</div>
+                <div style={{width:"60%", backgroundColor:"white", height:"100%", justifyContent:"center", display:"flex",borderRadius:"8px", flexDirection:"column", padding:"10px"}}>
+                    <div>
+                        <img style={{width:"30%"}} src={require("../Image/logo.png")}/>
+                    </div>
+                    <div style={{height:"25%", display:"flex", justifyContent:"center", alignItems:"center", color:"#018b92", fontWeight:"bold", fontSize:"23px",marginBottom:"10px"}}>Register</div>
                     <div style={{width:"100%", backgroundColor:"white", height:"fit-content", justifyContent:"center", display:"flex", flexDirection:"column"}}>
                         
                         <div className={anError? "errorhint" : "errorhintdis"}>One or more data is missing</div>
-                        <div style={{display:"flex", width:"100%", justifyContent:"center"}}>
-                            <div style={{display:"flex", width:"90%", justifyContent:"center"}}>
+                        <div style={{display:"flex", width:"100%",marginBottom:"20px", justifyContent:"center"}}>
+                            <div style={{display:"flex", width:"90%", justifyContent:"center", gap:"5px"}}>
                             <input style={{width:"50%"}} placeholder="First Name" onChange={(e)=>{
                                 setFirstName(e.target.value);
                             }}/>
@@ -60,7 +63,7 @@ const Register = ()=>{
                             }}/>
                             </div>
                         </div>
-                        <div style={{width:"100%",display:"flex", justifyContent:"center"}}>
+                        <div style={{width:"100%",display:"flex",marginBottom:"20px", justifyContent:"center"}}>
                             <div style={{width:"90%",display:"flex", justifyContent:"center"}}>
                                 <input style={{width:"100%"}} placeholder="Email" onChange={(e)=>{
                                 setEmail(e.target.value);
@@ -68,7 +71,7 @@ const Register = ()=>{
                             </div>
 
                         </div>
-                        <div class="container" style={{display:"flex" , justifyContent:"center"}}>
+                        <div class="container" style={{display:"flex" ,marginBottom:"20px", gap:"5px", justifyContent:"center"}}>
                             <div className="radio-div">
                                 <input type="radio" id="male" value="Male" checked={selectedValue === 'Male'} onChange={handleRadioChange}/>
                                 <span onClick={()=>{
@@ -87,8 +90,8 @@ const Register = ()=>{
 
                         </div>
 
-                        <div className="select-div">
-                            <div style={{width:"90%", display:"flex", alignItems:"center"}}>
+                        <div className="select-div" >
+                            <div style={{width:"90%", display:"flex", alignItems:"center",marginBottom:"20px"}}>
                                 <div style={{width:"25%"}}>Country</div>
                                 <div className="select">
                                     <select onChange={(e)=>{
@@ -104,7 +107,6 @@ const Register = ()=>{
                                         }else{
                                             setCodeCounrty("");
                                         }
-                                        console.log(e.target.value);
                                     }} >
                                         <option value="">Select</option>
                                         <option>Jordan</option>
@@ -117,7 +119,7 @@ const Register = ()=>{
                             
 
                         </div>
-                        <div style={{display:"flex" ,width:"100%", justifyContent:"center"}}>
+                        <div style={{display:"flex" ,width:"100%",marginBottom:"20px", justifyContent:"center"}}>
                             <div style={{display:"flex" ,width:"90%", alignItems:"center"}}>
                             <label style={{width:"25%"}}>
                                     {codeCountry}
@@ -128,7 +130,7 @@ const Register = ()=>{
                             </div>
                         </div>
 
-                        <div style={{display:"flex", width:"100%", justifyContent:"center", alignItems:"center"}}>
+                        <div style={{display:"flex", width:"100%",marginBottom:"20px", justifyContent:"center", alignItems:"center"}}>
                             <div style={{width:"22.5%", fontSize:"14px"}}>date of birth :</div>
                             <select style={{width:"22.5%", }} value={day} onChange={(e) => setDay(e.target.value)}>
                                 <option value="">Day</option>
@@ -150,8 +152,8 @@ const Register = ()=>{
                             </select>
                         </div>
 
-                        <div style={{display:"flex", width:"100%" ,justifyContent:"center"}}>
-                            <div style={{display:"flex", width:"90%" ,justifyContent:"center"}}>
+                        <div style={{display:"flex", width:"100%" ,marginBottom:"20px", justifyContent:"center"}}>
+                            <div style={{display:"flex", width:"90%" ,justifyContent:"center", gap:"5px"}}>
                                 <input style={{width:"100%"}} placeholder="Password" onChange={(e)=>{
                                     setPassword(e.target.value);
                                 }}/>
@@ -161,7 +163,7 @@ const Register = ()=>{
                             </div>
                         </div>
                         <div style={{width:"100%"}}>
-                            <button className="btn-login" onClick={()=>{
+                            <button className="btn-login" style={{padding:"10px"}} onClick={()=>{
                                 if(!firstName || !lastName || !email || !gender || !country || !phoneNumber || !day || !month || !year || !password || !rePassword){
                                     setAnError(true);
                                 }else{
@@ -169,9 +171,8 @@ const Register = ()=>{
                                     axios.post("http://localhost:5000/users/register",
                                     {firstName,lastName,email,gender,country,phoneNumber , dateBrith : day +"/" + month + "/" + year, password}).then((result)=>{
                                         navigate("/login");
-                                        console.log("Create Account Successfuly");            
                                     }).catch((err)=>{
-                                        console.log("an Error", err)
+                                        console.error("an Error", err)
                                     })
                                     
                                     
@@ -179,7 +180,7 @@ const Register = ()=>{
                             }}>Register</button>
                         </div>
                     </div>
-                    <div style={{height:"25%",display:"flex", justifyContent:"center", alignItems:"center", gap:"5px"}}> <label>Alredy have account?</label> <Link to={"/login"}> Login</Link></div>
+                    <div style={{height:"25%",display:"flex", justifyContent:"center", alignItems:"center", gap:"5px",marginTop:"10px"}}> <label>Alredy have account?</label> <Link to={"/login"}> Login</Link></div>
                 </div>
             </div>
         </div>

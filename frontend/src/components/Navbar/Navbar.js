@@ -5,6 +5,9 @@ import "./style.css"
 import { userContext } from "../../App";
 import axios from "axios";
 import { dataContext } from "../Main/Main";
+
+import messageIconDay from "../Image/email_day.png"
+import messageIconNight from "../Image/email_night.png"
 const Navbar = ()=>{
     const { token, userId, checkValue, setCheckValue,searchValue , setSearchValue  } = useContext(userContext);
     const [imageUrl, setImageUrl] = useState("test");
@@ -17,7 +20,7 @@ const Navbar = ()=>{
         axios.get(`http://localhost:5000/users/${userId}`,config).then((result) => {
             setImageUrl(result.data.user.image)
         }).catch((err) => {
-                console.log(err);
+                console.error(err);
         });
     })
 
@@ -54,11 +57,7 @@ const Navbar = ()=>{
                                     localStorage.setItem("day", true);
                                     return true
                                 }
-                                
-                               
                             });
-                            // You can call your CheckDayNight function here if needed
-                            console.log(checkValue);
                             
                         }}/>
                         <span class="slider"></span>
@@ -69,6 +68,12 @@ const Navbar = ()=>{
                     navigate("/profile");
                 }}>
                 <img className="avatar" style={{width:"42px", borderRadius: "25px"}} src={`${imageUrl}`}/></div>
+
+                <div style={{width:"32px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} onClick={()=>{
+                    navigate(`/${userId}/message`)
+                }}>
+                    <img style={{width:"100%", cursor :"pointer"}} src={checkValue ? messageIconDay : messageIconNight}/>
+                </div>
             </>
             }
             </div>

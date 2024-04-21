@@ -19,7 +19,7 @@ function OnePost() {
   const [likeArray, setLikeArray] = useState([]);
   const [commentData , setCommentData]= useState([]);
   const [inputComment, setInputComment] = useState(null);
-
+  const [dateNow , setDateNow] = useState("");
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
@@ -30,16 +30,38 @@ function OnePost() {
       setPost(result.data.post);
       setCommentData(result.data.post.comments);
       setLikeArray(result.data.post.likes);
+
+      const dateParts = result.data.post.datePost.split(/[\/ :]/);
+      const endDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0], dateParts[3], dateParts[4]);
+      const now = new Date();
+      const difference = now - endDate;
+    
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+      const months = Math.floor(days / 30);
+      const years = Math.floor(months / 12);
+      if (years) {
+          setDateNow(`${years} year${years > 1 ? 's' : ''} ago`)
+      } else if (months) {
+        setDateNow(`${months} month${months > 1 ? 's' : ''} ago`);
+      } else if (days) {
+        setDateNow(`${days} day${days > 1 ? 's' : ''} ago`);
+      } else if (hours) {
+        setDateNow(`${hours} hour${hours > 1 ? 's' : ''} ago`);
+      } else if (minutes) {
+        setDateNow (`${minutes} minute${minutes > 1 ? 's' : ''} ago`);
+      } else if (seconds) {
+        setDateNow(`just now`);
+      } else {
+        setDateNow(`just now`);
+      }
     }).catch((err) => {
-      console.log("Error ==>", err);
-      /* if(err.response.status === 403){
-        navigate("/login");
-        localStorage.clear();
-    } */
+    
     })
   },[]);
     
-  console.log(likeArray);
   const openModal = (postId) => {
     setSelectedPostId(postId);
     setModalVisible(true);
@@ -55,7 +77,6 @@ function OnePost() {
     axios
       .get(`http://localhost:5000/posts/${post._id}/like`, config)
       .then((result) => {
-        console.log("Like Api =>", result);
         if(result.data.message === "Like Added"){
           setLikeArray([...likeArray, infoMe]);
         }else{
@@ -63,15 +84,17 @@ function OnePost() {
         }
       })
       .catch((err) => {
-        console.log("Error", err);
+        console.error("Error", err);
       });
   };
-  
+
   return (
     <div className="continer-post-comment">
     {post && 
+     
       <>
-    
+      
+
     <div className={checkValue? "contenter-one-post-night": "contenter-one-post"}>
       {/* <h1>POSTS</h1> */}
       {/* A bar containing a photo and username */}
@@ -85,7 +108,7 @@ function OnePost() {
             <div className="name-user">
               {post.author.firstName + " " + post.author.lastName}
             </div>
-            <div>{post.datePost}</div>
+            <div>{dateNow}</div>
           </div>
         </div>
 
@@ -168,7 +191,6 @@ function OnePost() {
                   config
                 )
                 .then((result) => {
-                  console.log(result);
                   setModalVisible(false);
                   setEditAllow(false);
                 })
@@ -179,7 +201,9 @@ function OnePost() {
           </button>
         </>
       ) : (
-        <div className={!checkValue? 'content-post': 'content-post-night'}>{post.content}</div>
+        <div className={!checkValue? 'content-post': 'content-post-night'} dangerouslySetInnerHTML={{
+          __html: post.content.match(/(#)\w+/g) ? post.content.replace(/(#)\w+/g, (e) => `<a id="hashtag" href='/search/${e.replace("#", "")}'>${e}</a>`) : post.content
+        }}></div>
       )}
 
       <div>
@@ -252,7 +276,6 @@ function OnePost() {
           className="interact-button"
           onClick={() => {
             searchid();
-            console.log(likeArray.some((e) => e._id === userId));
           }}
         >
           

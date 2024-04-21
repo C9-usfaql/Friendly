@@ -32,4 +32,16 @@ const authentication = (req, res, next) => {
   }
 };
 
-module.exports = authentication;
+const auth=(socket,next)=>{
+  const headers = socket.handshake.headers
+  if(!headers.token){
+       next(new Error("invalid"))
+  }else{
+    const room = headers.user_id.localeCompare(headers.room) < 0 ? `room-${headers.user_id}-${headers.room}` : `room-${headers.room}-${headers.user_id}`;
+    console.log(room);
+    socket.join(room);
+    socket.user = {token:headers.token,user_id:headers.user_id}
+    next();
+  }
+}
+module.exports = {authentication, auth};

@@ -82,7 +82,6 @@ function CreatePost() {
                 if (file) {
                     setImagePost(file);
                     setImageUrlForIcon(URL.createObjectURL(file));
-                    console.log(file);
                 }else{
                   setImageUrlForIcon(null)
                 }
@@ -103,7 +102,6 @@ function CreatePost() {
                   const video = document.createElement('video');
                   video.src = URL.createObjectURL(file);
                   video.onloadedmetadata = () => {
-                    console.log(video.duration);
                     if (video.duration > 35) {
                       setLimitVideo(true);
                       
@@ -127,7 +125,6 @@ function CreatePost() {
           e.preventDefault()
           if(content || ImagePost.name){
           if(ImagePost.name){
-            console.log("imageFile", ImagePost);
             const storageRef = ref(storage, `${ImagePost.name}`);
             const uploadTask = uploadBytesResumable(storageRef, ImagePost);
 
@@ -154,30 +151,26 @@ function CreatePost() {
                     }}).then((result) => {
                         document.querySelector("#myProgress").style.display = "none";
                         document.querySelector("#img-post-btn").style.display = "block";
-                       console.log("post added successfully");
-                       console.log("result from create post", result);
                        // ?/ spread array [result , ]
                        setData([ ...data,result.data.data])
   
                 }).catch((err) => {
-                    console.log("error from create post" , err);
+                    console.error("error from create post" , err);
                 });
                 setImagePost(null)
                 });
               }
             );
         }else{
-            console.log(content,userId);
             axios.post("http://localhost:5000/posts/create", {content, author:userId, image:""},{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }}).then((result) => {
-                    console.log("result from create post", result);
                      setData([ ...data,result.data.data ])
                     setContent("");
 
             }).catch((err) => {
-                console.log("error from create post" , err);
+                console.error("error from create post" , err);
             });
         }
           }else if(trundleVideo.name){
@@ -207,11 +200,9 @@ function CreatePost() {
                     }}).then((result) => {
                         document.querySelector("#myProgress").style.display = "none";
                         document.querySelector("#img-post-btn").style.display = "block";
-                       console.log("Trundle added successfully");
-                       console.log("result from create post", result);
   
                 }).catch((err) => {
-                    console.log("error from create post" , err);
+                    console.error("error from create post" , err);
                 });
                 setImagePost(null)
                 });
