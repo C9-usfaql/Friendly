@@ -9,6 +9,7 @@ import CreatePost from '../CreatePost/main';
 import Posts from '../Posts/Posts';
 import OnePost from '../OnePost/OnePost';
 import { dataContext } from '../Main/Main';
+
 function Home() {
     
     const navigate = useNavigate();
@@ -97,7 +98,7 @@ function Home() {
         <CreatePost/>
 
         <Posts/>
-        
+
         </div>
     
 

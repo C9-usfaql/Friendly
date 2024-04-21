@@ -116,6 +116,7 @@ function Posts() {
 
         return(
             <div  className={!checkValue?'contenter-post' : 'contenter-post-night'}>
+                
                 <div className='containing-top-post'>
                     <div className='containing-photo-username' onClick={(e)=>{
                        localStorage.setItem("userIdG", post.author._id);
@@ -129,7 +130,6 @@ function Posts() {
                     </div>
                     </div>
                 </div>
-                
                 {/* End Bar  */}
                 {/* Start line */}
                 <div className={!checkValue? 'line' : 'line-night'}></div>

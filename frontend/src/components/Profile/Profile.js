@@ -468,7 +468,33 @@ const [maxWidth, setMaxWidth] = useState('100%');
         let hashtag = post.content.match(/(#)\w+/g);
         
         const postContentReplace= hashtag ? post.content.replace(/(#)\w+/g,(e)=> `<a id="hashtag" href='search/${e.replace("#", "")}'>${e}</a>`) : post.content;
+        const dateParts = post.datePost.split(/[\/ :]/);
+        const endDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0], dateParts[3], dateParts[4]);
+        const now = new Date();
+        const difference = now - endDate;
 
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        const months = Math.floor(days / 30);
+        const years = Math.floor(months / 12);
+        let dateNow = '';
+        if (years) {
+            dateNow = `${years} year${years > 1 ? 's' : ''} ago`;
+        } else if (months) {
+            dateNow = `${months} month${months > 1 ? 's' : ''} ago`;
+        } else if (days) {
+            dateNow = `${days} day${days > 1 ? 's' : ''} ago`;
+        } else if (hours) {
+            dateNow = `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        } else if (minutes) {
+            dateNow = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+        } else if (seconds) {
+            dateNow = `just now`;
+        } else {
+            dateNow = `just now`;
+        }
         return(
             <div className={!checkValue?'contenter-post' : 'contenter-post-night'}>
                 {/* <h1>POSTS</h1> */}
@@ -478,7 +504,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
                     <img style={{width:"48px" , borderRadius:"24px"}} src={post.author.image}/>
                     <div style={{display: "flex", flexDirection:"column"}}>
                         <div className='name-user'>{post.author.firstName + " "+ post.author.lastName}</div>
-                        <div>{post.datePost}</div>
+                        <div>{dateNow}</div>
                         
                     </div>
                     </div>

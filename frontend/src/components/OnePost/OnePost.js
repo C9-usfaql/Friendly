@@ -111,59 +111,7 @@ function OnePost() {
             <div>{dateNow}</div>
           </div>
         </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <button
-            id={`${post._id}`}
-            style={{ width: "fit-content", height: "fit-content" }}
-            onClick={(e) => {
-              if (modalVisible) {
-                closeModal();
-              } else {
-                openModal(post._id);
-              }
-            }}
-          >
-            Menu
-            {/* <i class="gg-menu"></i> */}
-          </button>
-
-          {modalVisible && selectedPostId === post._id && (
-            <div id="id01" className="w3-modal" style={{ display: "block" }}>
-              <div className="w3-modal-content">
-                <div className="w3-container">
-                  <button
-                    onClick={() => {
-                      setEditAllow(true);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      axios
-                        .delete(
-                          `http://localhost:5000/posts/${post._id}`,
-                          config
-                        )
-                        .then((result) => {
-                          axios
-                            .get("http://localhost:5000/posts/", config)
-                            .then((result) => {
-                              setPost(result.data.posts);
-                            })
-                            .catch((err) => {});
-                        })
-                        .catch((err) => {});
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+        
       </div>
 
       {/* End Bar  */}
@@ -172,39 +120,11 @@ function OnePost() {
       {/* End line */}
 
       {/* Start Div Content Post */}
-      {editAllow && selectedPostId === post._id ? (
-        <>
-          {" "}
-          <input
-            id={post._id}
-            defaultValue={post.content}
-            onChange={(e) => {
-              setContentPostAfterEdit(e.target.value);
-            }}
-          />{" "}
-          <button
-            onClick={() => {
-              axios
-                .put(
-                  `http://localhost:5000/posts/${post._id}`,
-                  { content: contentPostAfterEdit },
-                  config
-                )
-                .then((result) => {
-                  setModalVisible(false);
-                  setEditAllow(false);
-                })
-                .catch((err) => {});
-            }}
-          >
-            Save
-          </button>
-        </>
-      ) : (
+
         <div className={!checkValue? 'content-post': 'content-post-night'} dangerouslySetInnerHTML={{
           __html: post.content.match(/(#)\w+/g) ? post.content.replace(/(#)\w+/g, (e) => `<a id="hashtag" href='/search/${e.replace("#", "")}'>${e}</a>`) : post.content
         }}></div>
-      )}
+      
 
       <div>
         {post.image && (

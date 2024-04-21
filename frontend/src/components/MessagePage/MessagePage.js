@@ -7,7 +7,7 @@ function MessagePage() {
   const [following, setFollowing] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
 
-  const { token, userId,checkValue } = useContext(userContext);
+  const { token, userId, checkValue } = useContext(userContext);
 
   const reversChat = useRef(null);
 
@@ -127,9 +127,13 @@ const handleSearch = (e) => {
   },[toId])
 
   return (
-    <div style={{width:"100vw", height:"93vh", display:"flex", justifyContent:"center", alignItems:"center", borderRadius:"8px"}}>
-      <div style={{width:"20%", height:"95%", display:"flex", flexDirection:"column", borderRadius:"4px 0 0 4px",background:"white"}}>
-      <div style={{height:"7%", padding:"12px", textAlign:"start", fontWeight:"bold", borderBottom:"1px solid #efefef", display:"flex", 
+    <div style={{width:"100vw", height:"93vh", display:"flex", justifyContent:"center", alignItems:"center", borderRadius:"8px", color:checkValue ?  "white": "black"}}>
+      
+      
+      <div style={{width:"70%", display:"flex", height:"95%", border:checkValue ?  "1px solid #4b5053": "1px solid #e0e0e0", borderRadius:"8px", boxShadow:"0 0 5px 1px #4545451a"}}>
+      <div style={{width:"30%", height:"100%", display:"flex", flexDirection:"column",background:checkValue ?  "#3a4750": "white",borderRadius:"8px 0 0 8px", 
+      borderRight:checkValue ?  "1px solid #4b5053": "1px solid #e0e0e0"}}>
+      <div style={{height:"7%", padding:"12px", textAlign:"start", fontWeight:"bold", borderBottom:checkValue ?  "1px solid #4b5053": "1px solid #e0e0e0", display:"flex", 
       justifyContent:"center", flexDirection:"column", gap:"5px"}}>
         <h4 onClick={()=>{
           setToId(null);
@@ -139,7 +143,7 @@ const handleSearch = (e) => {
       <div style={{height:"100%"}}>
         {filteredUsers?.map((e,i)=>{
           return(
-          <div style={{display:"flex", gap:"5px",alignItems:"center", margin:"5px", padding:"5px", borderBottom:"1px solid #efefef", cursor:"pointer"}} onClick={()=>{
+          <div style={{display:"flex", gap:"5px",alignItems:"center", margin:"5px", padding:"5px", borderBottom:checkValue ?  "1px solid #4b5053": "1px solid #e0e0e0", cursor:"pointer"}} onClick={()=>{
             setToId(e._id);
             setNameUserMessage(e.firstName + " " + e.lastName);
             setImageUserMessage(e.image);
@@ -148,7 +152,7 @@ const handleSearch = (e) => {
             setSocket(socketInit({user_id : userId, token :token , room : e._id}));
           }}>
           <img src={e.image} style={{width:"48px", borderRadius:"24px"}}/>
-          <h4 style={{color:"black"}}>{e.firstName +" "+ e.lastName}</h4>
+          <h4>{e.firstName +" "+ e.lastName}</h4>
           </div>
           )
 
@@ -156,18 +160,19 @@ const handleSearch = (e) => {
         
       </div>
       </div>
-      <div style={{width:"50%", background:"red", height:"95%", borderRadius:"0 4px 4px 0",background:"white"}}>
+
+      <div style={{width:"70%", height:"100%",background:checkValue ?  "#3a4750": "white",borderRadius:"0 8px 8px 0"}}>
       
-      <div style={{textAlign:"start", fontWeight:"bold",height:"7%", borderBottom:"1px solid #efefef",borderLeft:"1px solid #efefef", display:visInput, alignItems:"center", padding:"12px", gap:"5px"}}>
+      <div style={{textAlign:"start", fontWeight:"bold",height:"7%", borderBottom:checkValue ?  "1px solid #4b5053": "1px solid #e0e0e0", display:visInput, alignItems:"center", padding:"12px", gap:"5px"}}>
         <img src={imageUserMessage} style={{width:"48px", borderRadius:"24px"}}/>
-        <h4 style={{color:"black"}}>{nameUserMessage}</h4>
+        <h4>{nameUserMessage}</h4>
         
       </div>
 
       <div style={{height:"89%"}}>
-        <div className='chat-message' style={{height:"90%", position:"relative",overflowY:"scroll"}} ref={reversChat}>
+        <div className='chat-message' style={{height:"90%", position:"relative",overflowY:"auto"}} ref={reversChat}>
           {toId && 
-          <div style={{display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", gap:"12px",padding:"12px 0",background:"white",borderBottom:"1px solid #efefef", marginBottom:"5px"}}>
+          <div style={{display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", gap:"12px",padding:"12px 0",background:checkValue ?  "#3b4852": "white",borderBottom:checkValue ?  "1px solid #4b5053": "1px solid #e0e0e0", marginBottom:"5px"}}>
             <img src={imageUserMessage} style={{width:"124px" , borderRadius:"64px"}}/>
             <h3>{nameUserMessage}</h3>
             <h5>{bioUserMessage}</h5>
@@ -273,11 +278,11 @@ const handleSearch = (e) => {
         </div>
         <div className='input-send-message' style={{height:"10%", display:visInput, alignItems:"center", gap:"5px"}}>
             <textarea placeholder='write anything' 
-            style={{height:"75%", maxHeight:"75%", minHeight:"75%", minWidth:"91%",maxWidth:"91%", width:"91%", border:"1px solid #dcdcdc", padding:"5px"}} onChange={(e)=>{
+            style={{height:"75%", maxHeight:"75%", minHeight:"75%", minWidth:"91%",maxWidth:"91%", width:"91%", border:"1px solid #dcdcdc", padding:"5px", borderRadius:"4px"}} onChange={(e)=>{
               setInputMessage(e.target.value)
             }}
             value={inputMessage}/>
-            <button style={{border:"0", height:"50%", padding:"10px", borderRadius:"4px", background:"orange"}} onClick={()=>{
+            <button style={{border:"0", height:"50%", padding:"10px", borderRadius:"4px", background:"#018b92", color:"white", fontWeight:"bold"}} onClick={()=>{
               if(inputMessage){
                 setInputMessage("");
                 sendMessage();
@@ -286,6 +291,8 @@ const handleSearch = (e) => {
         </div>
       </div>
       </div>
+      </div>
+      
     </div>
   )
 }

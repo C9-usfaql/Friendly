@@ -1,17 +1,23 @@
-import React ,{useContext, useEffect, useState}from "react";
+import React ,{useContext, useEffect, useRef, useState}from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toggle from "react-toggle";
 import "./style.css"
 import { userContext } from "../../App";
 import axios from "axios";
 import { dataContext } from "../Main/Main";
-
+import Overlay from 'react-bootstrap/Overlay';
 import messageIconDay from "../Image/email_day.png"
 import messageIconNight from "../Image/email_night.png"
+import notificationIconDay from "../Image/notification_day.png"
+import notificationIconNight from "../Image/notification_night.png"
 const Navbar = ()=>{
     const { token, userId, checkValue, setCheckValue,searchValue , setSearchValue  } = useContext(userContext);
     const [imageUrl, setImageUrl] = useState("test");
-    
+
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
+
+
     const navigate = useNavigate();
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -63,25 +69,53 @@ const Navbar = ()=>{
                         <span class="slider"></span>
                     </label>
                 </div>
+                <div style={{width:"24px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} onClick={()=>{
+                    navigate(`/${userId}/message`)
+                }}>
+                    <img style={{width:"100%", cursor :"pointer"}} src={checkValue ? messageIconDay : messageIconNight}/>
+                </div>
+                <div style={{width:"24px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} ref={target} onClick={() => setShow(!show)}>
+                    <img style={{width:"100%", cursor :"pointer"}} src={checkValue ? notificationIconDay : notificationIconNight}/>
+                </div>
                 <div className="avatar-div" onClick={()=>{
                     localStorage.setItem("userIdG", userId);
                     navigate("/profile");
                 }}>
                 <img className="avatar" style={{width:"42px", borderRadius: "25px"}} src={`${imageUrl}`}/></div>
 
-                <div style={{width:"32px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} onClick={()=>{
-                    navigate(`/${userId}/message`)
-                }}>
-                    <img style={{width:"100%", cursor :"pointer"}} src={checkValue ? messageIconDay : messageIconNight}/>
-                </div>
+
             </>
             }
             </div>
           
-        
+            <Overlay target={target.current} show={show} placement="bottom">
+              {({
+                placement: _placement,
+                arrowProps: _arrowProps,
+                show: _show,
+                popper: _popper,
+                hasDoneInitialMeasure: _hasDoneInitialMeasure,
+                ...props
+              }) => (
+                <div
+                  {...props}
+                  style={{
+                    position: 'absolute',
+                    backgroundColor: 'rgba(255, 100, 100, 0.85)',
+                    padding: '2px 10px',
+                    color: 'white',
+                    borderRadius: 3,
+                    ...props.style,
+                  }}
+                >
+                  Soon
+                </div>
+              )}
+            </Overlay>
   
   
       </div>
+
     )
 }
 
