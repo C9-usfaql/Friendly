@@ -46,7 +46,7 @@ const Login = ()=>{
                         <div style={{width:"100%" ,marginBottom:"20px"}}>
                             <button className="btn-login" style={{padding:"10px"}}
                             onClick={()=>{
-                                axios.post("http://localhost:5000/users/login", {email, password}).then((result)=>{
+                                axios.post("https://friendly-29oc.onrender.com/users/login", {email, password}).then((result)=>{
                                     setIsLoggedIn(true);
                                     setUserId(result.data.userId);
                                     setToken(result.data.token);
@@ -62,7 +62,7 @@ const Login = ()=>{
 
                             <button className="btn-login-demo" style={{padding:"10px"}}
                             onClick={()=>{
-                                axios.post("http://localhost:5000/users/login", {email :"usfaql@gmail.com", password :"1234@"}).then((result)=>{
+                                axios.post("https://friendly-29oc.onrender.com/users/login", {email :"usfaql@gmail.com", password :"1234@"}).then((result)=>{
                                     setIsLoggedIn(true);
                                     setUserId(result.data.userId);
                                     setToken(result.data.token);

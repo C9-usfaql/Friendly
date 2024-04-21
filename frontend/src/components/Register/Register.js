@@ -163,7 +163,7 @@ const Register = ()=>{
                                     setAnError(true);
                                 }else{
                                     setAnError(false);
-                                    axios.post("http://localhost:5000/users/register",
+                                    axios.post("https://friendly-29oc.onrender.com/users/register",
                                     {firstName,lastName,email,gender,country,phoneNumber , dateBrith : day +"/" + month + "/" + year, password}).then((result)=>{
                                         navigate("/login");
                                     }).catch((err)=>{

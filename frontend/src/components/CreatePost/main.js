@@ -42,7 +42,7 @@ function CreatePost() {
     };
   
     useEffect(()=>{
-        axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+        axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
             setImageUser(result.data.user.image);
         }).catch((err) => {
             
@@ -145,7 +145,7 @@ function CreatePost() {
               },
               () => {
                  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    axios.post("http://localhost:5000/posts/create", {content, author:userId, image: downloadURL},{
+                    axios.post("https://friendly-29oc.onrender.com/posts/create", {content, author:userId, image: downloadURL},{
                     headers: {
                         Authorization: `Bearer ${token}`
                     }}).then((result) => {
@@ -162,7 +162,7 @@ function CreatePost() {
               }
             );
         }else{
-            axios.post("http://localhost:5000/posts/create", {content, author:userId, image:""},{
+            axios.post("https://friendly-29oc.onrender.com/posts/create", {content, author:userId, image:""},{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }}).then((result) => {
@@ -194,7 +194,7 @@ function CreatePost() {
               },
               () => {
                  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    axios.post("http://localhost:5000/trundle/create", {content, author:userId, video: downloadURL},{
+                    axios.post("https://friendly-29oc.onrender.com/trundle/create", {content, author:userId, video: downloadURL},{
                     headers: {
                         Authorization: `Bearer ${token}`
                     }}).then((result) => {

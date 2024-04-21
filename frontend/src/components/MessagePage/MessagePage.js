@@ -32,7 +32,7 @@ function MessagePage() {
   };
 
   useEffect(()=>{
-    axios.get(`http://localhost:5000/users/${userId}`, config).then((result) => {
+    axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
       setFollowing(result.data.user.following);
       setFilteredUsers(result.data.user.following);
       }).catch((err) => {
@@ -81,7 +81,7 @@ function MessagePage() {
     useEffect(()=>{
       setAllMessages([])
       if(toId){
-      axios.get(`http://localhost:5000/users/message/${userId}/${toId}`, config).then((result)=>{
+      axios.get(`https://friendly-29oc.onrender.com/users/message/${userId}/${toId}`, config).then((result)=>{
         setAllMessages(result.data.messages)
       }).catch((error)=>{
         console.error(error);
