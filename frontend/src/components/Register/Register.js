@@ -36,16 +36,11 @@ const Register = ()=>{
     };
     return(
         <div style={{display:"flex" , width:"100vw", height:"100vh",margin:"0",padding:"0" , justifyContent:"center", alignItems:"center"}}>
-            {/* <div style={{width:"50%", height:"70%" ,alignItems:"center", display:"flex", flexDirection:"column", justifyContent:"center"}}>
-                <div>
-                <img style={{width:"35%"}} src={require("../Image/logo.png")}/>
-                </div>
-                <p style={{fontSize:"20px"}}>Create an account in an easy and inexpensive way</p>
-            </div> */}
 
-            <div style={{width:"50%", display:"flex", alignItems:"center", justifyContent:"center" ,height:"fit-content"}}>
+
+            <div className="container-register">
                 
-                <div style={{width:"60%", backgroundColor:"white", height:"100%", justifyContent:"center", display:"flex",borderRadius:"8px", flexDirection:"column", padding:"10px"}}>
+                <div className="container-register-2">
                     <div>
                         <img style={{width:"30%"}} src={require("../Image/logo.png")}/>
                     </div>
