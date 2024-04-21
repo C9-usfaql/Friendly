@@ -689,6 +689,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
                       <button style={{padding:"5px", borderRadius:"4px", border:"0"}} onClick={()=>{
                         localStorage.setItem("userIdG", e._id);
                         navigate("/profile");
+                        window.location.reload();
                       }}>Show</button>
                       : 
                       <button style={{padding:"5px", borderRadius:"4px", border:"0"}} onClick={()=>{
