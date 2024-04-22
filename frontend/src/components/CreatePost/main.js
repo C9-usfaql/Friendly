@@ -54,7 +54,7 @@ function CreatePost() {
       };
   return (
     <div className={!checkValue? 'createPost-div': 'createPost-div-night'}>
-    <img src={`${imageUser}`} style={{width:"48px", height:"48px", marginLeft:"10px",border:"0", borderRadius:"32px"}}/>
+    <img src={`${imageUser}`} style={{width:"48px", height:"48px", marginLeft:"10px",border:"0", borderRadius:"32px"}} className='image-user-create'/>
     <div className='contener-textarea-img'> 
     {limitVideo && <> <div className='error-video-length'>The video must be less than 31 seconds</div></>}
 

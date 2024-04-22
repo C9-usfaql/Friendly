@@ -249,7 +249,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
     <div className='contenter-profile-page'>
       <div className='chat-popup' style={{display: showMessagePopup, backgroundColor : checkValue? "#1e1f24" : "white", color:checkValue? "white" : "black" ,
       border:checkValue? "1px solid #c7cad0":"1px solid #2f3239", borderBottom:"0"}}>
-          <div style={{display:"flex" ,backgroundColor:"#2a86ff", borderRadius:"10px 10px 0 0", padding:"0 5px", justifyContent:"space-between",height:"10%", margin:"0"}}>
+          <div className='title-chat'>
             <div style={{display:"flex", alignItems:"center", color:"white"}}>
               <h4>{nameUser}</h4>
             </div>
@@ -448,12 +448,105 @@ const [maxWidth, setMaxWidth] = useState('100%');
             </>}
         </div>
       </div>
+
+      
       <div>
         
       </div>
       
       <div className='post-content-profile'>
+      <div className='profile-info-phone'>
+      <div className={!checkValue?'nav-bar-profile': 'nav-bar-profile-night'}>
+            <div className="container" >
+                <img src={`${imageUser}`} className='user-image-profile'/>
+            </div>
+            <div className="container-user-info">
+            <div className='nameUser'>{nameUser}</div>
+            </div>
+            
+            <div style={{marginTop:"5px", color:"#2a86ff", whiteSpace:"pre-line"}}>{bio}</div>
 
+            <div className='container-info-profile' style={{display:"flex", flexDirection:"row", margin:"20px 0 0 0", justifyContent:"center", textAlign:"center", gap:"15px"}}>
+                <div>
+                <div>{lengthPosts}</div>
+                <div>Post</div>
+                </div>
+
+                <div onClick={handleShowFollower}>
+                <div>{lengthFollower}</div>
+                <div>Followers</div>
+                </div>
+
+                <div onClick={handleShow}>
+                <div>{lengthFollowing}</div>
+                <div>Following</div>
+                </div>
+
+                
+            </div>
+
+            <div className={checkValue? 'line-night': "line"}  style={{marginBottom:"10px"}}></div>
+            <div style={{display:"flex", flexDirection:"column", gap:"5px"}}>
+              <div style={{display: 'flex',marginLeft:"10px", gap:"10px", marginBottom:"5px"}}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                </svg>
+                <label>{phone}</label>
+              </div>
+              <div style={{display: 'flex',marginLeft:"10px", gap:"10px" , marginBottom:"5px"}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gender-ambiguous" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M11.5 1a.5.5 0 0 1 0-1h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-3.45 3.45A4 4 0 0 1 8.5 10.97V13H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V14H6a.5.5 0 0 1 0-1h1.5v-2.03a4 4 0 1 1 3.471-6.648L14.293 1zm-.997 4.346a3 3 0 1 0-5.006 3.309 3 3 0 0 0 5.006-3.31z"/>
+              </svg>
+                <label>{gender}</label>
+              </div>
+              <div style={{display: 'flex',marginLeft:"10px", gap:"10px", marginBottom:"5px"}}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+              <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+              <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+              </svg>
+                <label>{country}</label>
+              </div>
+            </div>
+            {localStorage.getItem("userIdG") === userId ?<><div className={checkValue ? "btn-open-profile-night" : "btn-open-profile"} onClick={()=>{
+              navigate("edit");
+            }}>Edit Profile</div> <div className='btn-logout-profile' onClick={()=>{
+              localStorage.clear();
+              navigate("/login");
+            }}>Logout</div>
+            </>  : <>
+            <div style={{display:"flex"}}>
+            {<div className={follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) ? "btn-open-profile" : "btn-open-follow"} style={{width:"100%"}} onClick={()=>{
+              axios.get(`https://friendly-29oc.onrender.com/users/${userId}/${localStorage.getItem("userIdG")}`, config)
+              .then((result) => {
+                if (follwing.some(idUser => idUser._id === localStorage.getItem("userIdG"))) {
+                  const arrFollow = follwing.filter(idUser => idUser._id !== localStorage.getItem("userIdG"));
+                  const arrFollower = followerUsers.filter(idUser => idUser._id !== userId);
+                  setFollwing(arrFollow);
+                  setFollowerUsers(arrFollower)
+                  setLengthFollower(lengthFollower-1)
+
+                } else {
+                  setFollwing([...follwing, { _id: localStorage.getItem("userIdG") }]);
+                  setFollowerUsers([...followerUsers, userObject]);
+                  setLengthFollower(lengthFollower+1)
+
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+               
+            }}>{follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) ? "Unfollow" : "follow"} </div>}
+            {friend?.some(idUser => idUser._id === localStorage.getItem("userIdG")) && <div className='message-btn' onClick={()=>{
+              //navigate(`/${userId}/message/${localStorage.getItem("userIdG")}`)
+              setSocket(socketInit({user_id : userId, token :token , room : localStorage.getItem("userIdG")}));
+              setShowMessagePopup("block")
+
+            }}>Message</div>}
+            </div>
+            </>}
+        </div>
+      </div>
       {dataPosts && dataPosts.map((post, i)=>{
 
                

@@ -67,12 +67,12 @@ const Navbar = ()=>{
                         <span class="slider"></span>
                     </label>
                 </div>
-                <div style={{width:"24px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} onClick={()=>{
+                <div className="message-icon" onClick={()=>{
                     navigate(`/${userId}/message`)
                 }}>
                     <img style={{width:"100%", cursor :"pointer"}} src={messageIcon}/>
                 </div>
-                <div style={{width:"24px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} ref={target} onClick={() => setShow(!show)}>
+                <div className="message-icon" ref={target} onClick={() => setShow(!show)}>
                     <img style={{width:"100%", cursor :"pointer"}} src={notificationIcon}/>
                 </div>
                 <div className="avatar-div" onClick={()=>{
