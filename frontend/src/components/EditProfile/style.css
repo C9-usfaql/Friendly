@@ -188,3 +188,15 @@
     top: 4px;
     left: 8px
  }
+
+ @media only screen and (max-width: 600px) {
+    .main-edit{
+        padding: 10px;
+    }
+    .contener-edit-profile{
+        width: 100%;
+    }
+    .label-and-input{
+        width: 70%;
+    }
+ }
