@@ -29,7 +29,7 @@ const Login = ()=>{
                         
                         <div style={{width:"100%",display:"flex",marginBottom:"20px", justifyContent:"center"}}>
                             <div style={{width:"90%",display:"flex", justifyContent:"center"}}>
-                                <input style={{width:"100%"}} placeholder="Email" onChange={(e)=>{
+                                <input className="input" style={{width:"100%"}} placeholder="Email" onChange={(e)=>{
                                     setEmail(e.target.value);
                                 }}/>
                             </div>
@@ -38,7 +38,7 @@ const Login = ()=>{
 
                         <div style={{display:"flex", width:"100%" ,marginBottom:"20px",justifyContent:"center"}}>
                             <div style={{display:"flex", width:"90%" ,justifyContent:"center"}}>
-                                <input style={{width:"100%"}} type="password" placeholder="Password" onChange={(e)=>{
+                                <input className="input" style={{width:"100%"}} type="password" placeholder="Password" onChange={(e)=>{
                                     setPassword(e.target.value);
                                 }}/>
                             </div>
@@ -77,7 +77,7 @@ const Login = ()=>{
                             }}>Demo</button>
                         </div>
                     </div>
-                    <div style={{height:"25%",display:"flex", justifyContent:"center", alignItems:"flex-start", gap:"5px"}}> <label style={{color:"white"}}>Don't have an account? </label> <Link to={"/register"}> Register</Link></div>
+                    <div style={{height:"5%",display:"flex", justifyContent:"center", alignItems:"flex-start", gap:"5px"}}> <label style={{color:"white"}}>Don't have an account? </label> <Link to={"/register"}> Register</Link></div>
                 </div>
                 
             </div>

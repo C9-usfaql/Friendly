@@ -49,17 +49,17 @@ const Register = ()=>{
                         <div className={anError? "errorhint" : "errorhintdis"}>One or more data is missing</div>
                         <div style={{display:"flex", width:"100%",marginBottom:"20px", justifyContent:"center"}}>
                             <div style={{display:"flex", width:"90%", justifyContent:"center", gap:"5px"}}>
-                            <input style={{width:"50%"}} placeholder="First Name" onChange={(e)=>{
+                            <input className="input" style={{width:"50%"}} placeholder="First Name" onChange={(e)=>{
                                 setFirstName(e.target.value);
                             }}/>
-                            <input style={{width:"50%"}} placeholder="Last Name" onChange={(e)=>{
+                            <input className="input" style={{width:"50%"}} placeholder="Last Name" onChange={(e)=>{
                                 setLastName(e.target.value);
                             }}/>
                             </div>
                         </div>
                         <div style={{width:"100%",display:"flex",marginBottom:"20px", justifyContent:"center"}}>
                             <div style={{width:"90%",display:"flex", justifyContent:"center"}}>
-                                <input style={{width:"100%"}} placeholder="Email" onChange={(e)=>{
+                                <input className="input" style={{width:"100%"}} placeholder="Email" onChange={(e)=>{
                                 setEmail(e.target.value);
                                 }}/>
                             </div>
@@ -67,14 +67,14 @@ const Register = ()=>{
                         </div>
                         <div class="container" style={{display:"flex" ,marginBottom:"20px", gap:"5px", justifyContent:"center"}}>
                             <div className="radio-div">
-                                <input type="radio" id="male" value="Male" checked={selectedValue === 'Male'} onChange={handleRadioChange}/>
+                                <input className="input" type="radio" id="male" value="Male" checked={selectedValue === 'Male'} onChange={handleRadioChange}/>
                                 <span onClick={()=>{
                                     setSelectedValue("Male");
                                     setGender("male");
                                 }}>Male</span>
                             </div>
                             <div className="radio-div">
-                                <input type="radio" id="female" value="Female"  checked={selectedValue === 'Female'} onChange={handleRadioChange}/>
+                                <input className="input" type="radio" id="female" value="Female"  checked={selectedValue === 'Female'} onChange={handleRadioChange}/>
                                 <span onClick={()=>{
                                     setSelectedValue("Female");
                                     setGender("female")
@@ -118,7 +118,7 @@ const Register = ()=>{
                             <label style={{width:"25%", color:"#2a86ff"}}>
                                     {codeCountry}
                             </label>
-                            <input style={{width:"75%"}} type="tel" maxLength={9} placeholder="Phone" onChange={(e)=>{
+                            <input className="input" style={{width:"75%"}} type="tel" maxLength={9} placeholder="Phone" onChange={(e)=>{
                                 setPhone(codeCountry + e.target.value);
                             }}/>
                             </div>
@@ -148,10 +148,10 @@ const Register = ()=>{
 
                         <div style={{display:"flex", width:"100%" ,marginBottom:"20px", justifyContent:"center"}}>
                             <div style={{display:"flex", width:"90%" ,justifyContent:"center", gap:"5px"}}>
-                                <input style={{width:"100%"}} placeholder="Password" onChange={(e)=>{
+                                <input className="input" style={{width:"100%"}} placeholder="Password" onChange={(e)=>{
                                     setPassword(e.target.value);
                                 }}/>
-                                <input style={{width:"100%"}} placeholder="Re Password" onChange={(e)=>{
+                                <input className="input" style={{width:"100%"}} placeholder="Re Password" onChange={(e)=>{
                                     setRePassword(e.target.value);
                                 }}/>
                             </div>
