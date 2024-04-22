@@ -79,7 +79,9 @@ const Navbar = ()=>{
                     localStorage.setItem("userIdG", userId);
                     navigate("/profile");
                 }}>
-                <img className="avatar" style={{width:"42px", borderRadius: "25px"}} src={`${imageUrl}`}/></div>
+                <img className="avatar" style={{width:"42px", borderRadius: "25px"}} src={`${imageUrl}`}/>
+                
+                </div>
 
 
             </>
