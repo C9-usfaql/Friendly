@@ -29,7 +29,6 @@ body{
 }
 
 .email-input{
-    border: 1px solid rgb(172, 172, 172);
     border-radius: 4px;
     height: 30px;
     width: 100%;
@@ -61,12 +60,15 @@ body{
     margin-bottom: 10px;
 }
 
-select{
-    border: 0;
-    padding: 5px;
-    
-}
 
+.input{
+  border: 1px solid #2f3239;
+  border-radius: 4px;
+  padding: 7px;
+  height: 25px;
+  background-color: #27292f;
+  color: #2a86ff;
+}
 .container-register{
     width:50%;
     display:flex;

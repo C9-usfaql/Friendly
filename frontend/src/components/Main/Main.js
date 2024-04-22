@@ -17,7 +17,6 @@ const Main = ()=>{
     return(
       <dataContext.Provider value={{data, setData, dataFollowing, setDataFollowing , selected, setSelected}}>
         <div className={!checkValue? 'main' : 'mainNight'}>
-          
         <NavbarV/>
         <Home/>
         <NavbarR/>

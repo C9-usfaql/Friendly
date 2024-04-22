@@ -43,6 +43,9 @@ function Profile() {
   const [socket, setSocket] = useState(null);
   const [showFollowers, setShowFollowers] = useState(false);
   const [allMessages, setAllMessages] = useState(null);
+  const [follower, setFollower] = useState(null);
+  const [friend, setFriend] = useState(null);
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -83,6 +86,7 @@ function convertDateFormat(dateString) {
       axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
         setUserObject(result.data.user);
         setFollwing(result.data.user.following);
+        setFollower(result.data.user.follower);
         }).catch((err) => {
           
         })
@@ -229,11 +233,23 @@ const [maxWidth, setMaxWidth] = useState('100%');
     }
 },[allMessages?.length])
 
+  useEffect(() => {
+      if (follwing && follower) {
+          // قم بإنشاء قائمة جديدة للأصدقاء
+          const newFriends = follwing.filter(followingUser => {
+              // قم بالتحقق مما إذا كان المستخدم مشتركًا في قائمة 'follower'
+              return follower.some(followerUser => followingUser._id === followerUser._id);
+          });
+          // حدث مصفوفة 'friends' بالقائمة الجديدة
+          setFriend(newFriends);
+      }
+  }, [follwing, follower]);
 
   return (
     <div className='contenter-profile-page'>
-      <div className='chat-popup' style={{display: showMessagePopup}}>
-          <div style={{display:"flex" ,backgroundColor:"#00767c", borderRadius:"10px 10px 0 0", padding:"0 5px", justifyContent:"space-between",height:"10%", margin:"0"}}>
+      <div className='chat-popup' style={{display: showMessagePopup, backgroundColor : checkValue? "#1e1f24" : "white", color:checkValue? "white" : "black" ,
+      border:checkValue? "1px solid #c7cad0":"1px solid #2f3239", borderBottom:"0"}}>
+          <div style={{display:"flex" ,backgroundColor:"#2a86ff", borderRadius:"10px 10px 0 0", padding:"0 5px", justifyContent:"space-between",height:"10%", margin:"0"}}>
             <div style={{display:"flex", alignItems:"center", color:"white"}}>
               <h4>{nameUser}</h4>
             </div>
@@ -247,7 +263,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
             
           </div>
 
-          <div className='body-message' ref={reversChat}>
+          <div className='body-message'  ref={reversChat}>
             {allMessages?.map((e)=>{
               if(e.from !== userId){
                 const endDate = new Date(e.created_at);
@@ -273,8 +289,8 @@ const [maxWidth, setMaxWidth] = useState('100%');
                 <div style={{display:"flex", justifyContent:"end",textAlign:"end", padding:"5px", gap:"5px", margin:"0"}}>
                   <div style={{maxWidth:"70%"}}>
                   <h6>{e.name}</h6>
-                  <h4 style={{backgroundColor:"#018b92",color:"white", padding:"10px",borderRadius:"6px 0 6px 6px",maxWidth:"100%",wordWrap:"break-word"}}>{e.message }</h4>
-                  <h6>{dateNow}</h6>
+                  <h4 style={{backgroundColor:"#2a86ff",color:"white", padding:"10px",borderRadius:"6px 0 6px 6px",maxWidth:"100%",wordWrap:"break-word"}}>{e.message }</h4>
+                  <h5 style={{opacity:"0.7", fontWeight:"normal"}}>{dateNow}</h5>
                   </div>
                     
                     <div style={{display:"flex", height:"100%",flexDirection:"column", justifyContent:"flex-start"}}>
@@ -313,7 +329,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
                     <h6>{e.name}</h6>
                     <h4 style={{backgroundColor:"#e0e0e0",color:"black", padding:"10px",borderRadius:"0 6px 6px 6px", maxWidth:"100%",wordWrap:"break-word"}}>{e.message}</h4>
                     
-                    <h6>{dateNow}</h6>
+                    <h5 style={{opacity:"0.7", fontWeight:"normal"}}>{dateNow}</h5>
                   </div>
                     
                   </div>
@@ -325,11 +341,14 @@ const [maxWidth, setMaxWidth] = useState('100%');
             })}
           </div>
           <div className='input-box'>
-            <textarea style={{minHeight:"90%",height:"90%", maxHeight:"90%", maxWidth:"80%", width:"80%", minWidth:"80%", border:"1px solid #ADADAD",borderRadius:"4px",fontSize:"16px", fontWeight:"550"}} onChange={(e)=>{
+            <textarea style={{minHeight:"90%",height:"90%", maxHeight:"90%", maxWidth:"80%", width:"80%", minWidth:"80%", border:checkValue? "1px solid #2f3239":"1px solid #c7cad0",borderRadius:"4px",fontSize:"16px", fontWeight:"550"
+            ,backgroundColor:checkValue? "#27292f" :"white",
+            
+          }} onChange={(e)=>{
               setInputMessage(e.target.value);
             }} 
             value={inputMessage} />
-            <button style={{border:"0", padding:"12px", width:"15%", backgroundColor:"#018b92", color:"white", borderRadius:"4px", cursor:"pointer"}} onClick={()=>{
+            <button style={{border:"0", padding:"12px", width:"15%", backgroundColor:"#2a86ff", color:"white", borderRadius:"4px", cursor:"pointer"}} onClick={()=>{
               if(inputMessage){
                 setInputMessage("");
                 sendMessage();
@@ -346,7 +365,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
             <div className='nameUser'>{nameUser}</div>
             </div>
             
-            <div style={{marginTop:"5px", color:"#00adb5", whiteSpace:"pre-line"}}>{bio}</div>
+            <div style={{marginTop:"5px", color:"#2a86ff", whiteSpace:"pre-line"}}>{bio}</div>
 
             <div className='container-info-profile' style={{display:"flex", flexDirection:"row", margin:"20px 0 0 0", justifyContent:"center", textAlign:"center", gap:"15px"}}>
                 <div>
@@ -389,7 +408,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
                 <label>{country}</label>
               </div>
             </div>
-            {localStorage.getItem("userIdG") === userId ?<><div className='btn-open-profile' onClick={()=>{
+            {localStorage.getItem("userIdG") === userId ?<><div className={checkValue ? "btn-open-profile-night" : "btn-open-profile"} onClick={()=>{
               navigate("edit");
             }}>Edit Profile</div> <div className='btn-logout-profile' onClick={()=>{
               localStorage.clear();
@@ -397,7 +416,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
             }}>Logout</div>
             </>  : <>
             <div style={{display:"flex"}}>
-            {<div className='btn-open-profile' style={{width:"100%"}} onClick={()=>{
+            {<div className={follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) ? "btn-open-profile" : "btn-open-follow"} style={{width:"100%"}} onClick={()=>{
               axios.get(`https://friendly-29oc.onrender.com/users/${userId}/${localStorage.getItem("userIdG")}`, config)
               .then((result) => {
                 if (follwing.some(idUser => idUser._id === localStorage.getItem("userIdG"))) {
@@ -418,8 +437,8 @@ const [maxWidth, setMaxWidth] = useState('100%');
                 console.error(err);
               });
                
-            }}>{follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) ? "unFollow" : "follow"} </div>}
-            {follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) && <div className='message-btn' onClick={()=>{
+            }}>{follwing.some(idUser => idUser._id === localStorage.getItem("userIdG")) ? "Unfollow" : "follow"} </div>}
+            {friend?.some(idUser => idUser._id === localStorage.getItem("userIdG")) && <div className='message-btn' onClick={()=>{
               //navigate(`/${userId}/message/${localStorage.getItem("userIdG")}`)
               setSocket(socketInit({user_id : userId, token :token , room : localStorage.getItem("userIdG")}));
               setShowMessagePopup("block")
@@ -504,7 +523,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
                     <img style={{width:"48px" , borderRadius:"24px"}} src={post.author.image}/>
                     <div style={{display: "flex", flexDirection:"column"}}>
                         <div className='name-user'>{post.author.firstName + " "+ post.author.lastName}</div>
-                        <div>{dateNow}</div>
+                        <h5 style={{opacity:"0.7", fontWeight:"normal"}}>{dateNow}</h5>
                         
                     </div>
                     </div>
@@ -512,25 +531,30 @@ const [maxWidth, setMaxWidth] = useState('100%');
                     <div style={{display : 'flex', flexDirection:"column"}}>
 
                     {localStorage.getItem("userIdG") === userId && <>
-                    <button id={`${post._id}`}  className={!checkValue? 'menu': 'menu-night'} onClick={(e)=>{
+                    <div id={`${post._id}`}  className={!checkValue? 'menu': 'menu-night'} onClick={(e)=>{
                       if(modalVisible){
                           closeModal();
                           setEditAllow(false)
                       }else{
                           openModal(post._id);
                       }
-                    }}>Menu</button>
+                    }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#2a86ff" class="bi bi-three-dots" viewBox="0 0 16 16">
+                      <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                    </svg>
+
+                    </div>
                     </>}
                     
 
-                {modalVisible && selectedPostId === post._id && (
-                    <div id="id01" className="w3-modal" style={{ display: 'block' }}>
+                {selectedPostId === post._id && (
+                    <div id="id01" className="w3-modal" style={{ display: 'block', backgroundColor:"#17181c"}}>
                     <div className="w3-modal-content">
-                        <div className="w3-container">
-                        <button onClick={()=>{
+                        <div className="w3-container" style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+                        <button style={{border:"0", padding:"5px", backgroundColor:"#2a86ff",color:"white", borderRadius:"4px", cursor:"pointer"}} onClick={()=>{
                             setEditAllow(true);
                         }}>Edit</button>
-                        <button onClick={()=>{
+                        <button style={{border:"0", padding:"5px", backgroundColor:"#2a86ff",color:"white", borderRadius:"4px", cursor:"pointer"}} onClick={()=>{
                             axios.delete(`https://friendly-29oc.onrender.com/posts/${post._id}/${post.author._id}` ,config).then((result) => {
                               axios.get(`https://friendly-29oc.onrender.com/posts/search_1/${userId}`,config).then((result) => {
                                 result.data.posts.sort(compareDates);
@@ -631,13 +655,13 @@ const [maxWidth, setMaxWidth] = useState('100%');
                    post.likes.includes(userId) ? <>
                    <svg xmlns="http://www.w3.org/2000/svg" 
                    class="icon icon-tabler icon-tabler-thumb-up-filled" width="32" height="32" 
-                   viewBox="0 0 24 24" stroke-width="2" stroke="#00ADB5" fill="none" 
+                   viewBox="0 0 24 24" stroke-width="2" stroke="#2a86ff" fill="none" 
                    stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z" stroke-width="0" fill="#00ADB5" /><path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z" stroke-width="0" fill="#00ADB5" /></svg>
+                  <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z" stroke-width="0" fill="#2a86ff" /><path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z" stroke-width="0" fill="#2a86ff" /></svg>
                   </>:
                   <svg xmlns="http://www.w3.org/2000/svg" 
-                  class="icon icon-tabler icon-tabler-thumb-up" width="32" height="32" viewBox="0 0 24 24" stroke-width="2" stroke="#00ADB5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" /></svg>
+                  class="icon icon-tabler icon-tabler-thumb-up" width="32" height="32" viewBox="0 0 24 24" stroke-width="2" stroke="#2a86ff" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" /></svg>
                   }
                         
                     </div>
@@ -702,7 +726,7 @@ const [maxWidth, setMaxWidth] = useState('100%');
                         }).catch((err) => {
                                       
                         });
-                      }}>UnFollow</button>
+                      }}>Unfollow</button>
                       }
                     </div>
                   </div>

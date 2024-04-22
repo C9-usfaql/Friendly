@@ -107,7 +107,37 @@ function Search() {
             let hashtag = post.content.match(/(#)\w+/g);
         
             const postContentReplace= hashtag ? post.content.replace(/(#)\w+/g,(e)=> `<a id="hashtag" href='/search/${e.replace("#", "")}'>${e}</a>`) : post.content;
-        return(
+            const dateParts = post.datePost.split(/[\/ :]/);
+            const endDate = new Date(Date.UTC(dateParts[2], dateParts[1] - 1, dateParts[0], dateParts[3], dateParts[4]));
+            const now = new Date();
+            const difference = now - endDate;
+    
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            const months = Math.floor(days / 30);
+            const years = Math.floor(months / 12);
+            let dateNow = '';
+    
+    
+            if (years) {
+                dateNow = `${years} year${years > 1 ? 's' : ''} ago`;
+            } else if (months) {
+                dateNow = `${months} month${months > 1 ? 's' : ''} ago`;
+            } else if (days) {
+                dateNow = `${days} day${days > 1 ? 's' : ''} ago`;
+            } else if (hours) {
+                dateNow = `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            } else if (minutes) {
+                dateNow = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            } else if (seconds) {
+                dateNow = `just now`;
+            } else {
+                dateNow = `just now`;
+            }
+       
+            return(
             <div className={!checkValue?'contenter-post' : 'contenter-post-night'}>
                 {/* <h1>POSTS</h1> */}
                 {/* A bar containing a photo and username */}
@@ -119,7 +149,7 @@ function Search() {
                     <img style={{width:"48px" , borderRadius:"24px"}} src={post.author.image}/>
                     <div style={{display: "flex", flexDirection:"column"}}>
                         <div className='name-user'>{post.author.firstName + " "+ post.author.lastName}</div>
-                        <div>{post.datePost}</div>
+                        <h5 style={{opacity:"0.7", fontWeight:"normal"}}>{dateNow}</h5>
                         
                     </div>
                     </div>
@@ -189,38 +219,35 @@ function Search() {
                 
                 <div>
                     {
-     post.image && <div style={{  width: "98%",backgroundColor:"#e6e6e6",marginLeft:"1%", height: "100%" }}>
-      {loading && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(255, 255, 255, 0.8)", // Adjust the background color and opacity as needed
-          }}
-        >
-          <img src={require('../Image/loading.gif')} style={{width:"5%"}} alt="Loading..." />
-        </div>
-      )}
-      {post.image && (
-        <img
-          src={post.image}
-          style={{
-            maxWidth: "90%",
-            justifyContent: "center",
-            placeItems: "center",
-            maxHeight: "80%",
-            padding: "10px",
-            borderRadius: "20px",
-          }}
-          onLoad={handleImageLoad}
-        />
-      )}
+                    post.image && <div style={{  width: "98%",marginLeft:"1%", height: "100%" }}>
+                    {loading && (
+                    <div
+                    style={{
+                    
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    
+                    }}
+                    >
+                    <div class="loader"></div>
+                </div>
+                    )}
+                    {post.image  && (
+                      <img
+                        src={post.image}
+                        style={{
+                          maxWidth: "100%",
+                          justifyContent: "center",
+                          placeItems: "center",
+                          maxHeight: "80%",
+                          borderRadius: "10px",
+                        }}
+                        onLoad={handleImageLoad}
+                      />
+                    )}
 
     </div> }
                 
@@ -249,13 +276,13 @@ function Search() {
                          post.likes.includes(userId) ? 
                          <svg xmlns="http://www.w3.org/2000/svg" 
                          class="icon icon-tabler icon-tabler-thumb-up-filled" width="32" height="32" 
-                         viewBox="0 0 24 24" stroke-width="2" stroke="#00ADB5" fill="none" 
+                         viewBox="0 0 24 24" stroke-width="2" stroke="#2a86ff" fill="none" 
                          stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z" stroke-width="0" fill="#00ADB5" /><path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z" stroke-width="0" fill="#00ADB5" /></svg>
+                        <path d="M13 3a3 3 0 0 1 2.995 2.824l.005 .176v4h2a3 3 0 0 1 2.98 2.65l.015 .174l.005 .176l-.02 .196l-1.006 5.032c-.381 1.626 -1.502 2.796 -2.81 2.78l-.164 -.008h-8a1 1 0 0 1 -.993 -.883l-.007 -.117l.001 -9.536a1 1 0 0 1 .5 -.865a2.998 2.998 0 0 0 1.492 -2.397l.007 -.202v-1a3 3 0 0 1 3 -3z" stroke-width="0" fill="#2a86ff" /><path d="M5 10a1 1 0 0 1 .993 .883l.007 .117v9a1 1 0 0 1 -.883 .993l-.117 .007h-1a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-7a2 2 0 0 1 1.85 -1.995l.15 -.005h1z" stroke-width="0" fill="#2a86ff" /></svg>
                         :
                         <svg xmlns="http://www.w3.org/2000/svg" 
-                        class="icon icon-tabler icon-tabler-thumb-up" width="32" height="32" viewBox="0 0 24 24" stroke-width="2" stroke="#00ADB5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" /></svg>
+                        class="icon icon-tabler icon-tabler-thumb-up" width="32" height="32" viewBox="0 0 24 24" stroke-width="2" stroke="#2a86ff" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 11v8a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1v-7a1 1 0 0 1 1 -1h3a4 4 0 0 0 4 -4v-1a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1 -2 2h-7a3 3 0 0 1 -3 -3" /></svg>
                         }
                         
                     </div>

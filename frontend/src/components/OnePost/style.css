@@ -28,7 +28,7 @@
     position: static;
     padding: 1%;
     border-radius: 8px;
-    background-color: #3a4750;
+    background-color: #1e1f24;
     color: white;
 }
 
@@ -39,10 +39,14 @@
     text-align:center;
     margin-bottom: 10px;
     border-radius: 4px;
+    background-color: #27292f;
+    padding: 5px;
 }
 .contenter-comment-input{
     display: flex;
-    align-items: center
+    align-items: center;
+    margin-right: 18px;
+    margin-top: 8px;
 }
 .cont-img-input-comm{
     width: 10%;
@@ -58,11 +62,13 @@
 }
 
 .contenter-comment-array-night{
-    background-color: #3a4750;
     padding:10px 10px 1px 10px ;
+    margin-left: 18px;
+    margin-right: 18px;
+    margin-top: 8px;
 }
 .input-comment{
-    border: 1px solid gray;
+    border: 1px solid #2f3239;
     margin: 5px;
     width: 80%;
     height: 40px;
@@ -71,10 +77,9 @@
 }
 .btn-send-comment{
     border: 0;
-    background-color: #018b92;
+    background-color: #2a86ff;
     color: white;
     width: 10%;
     height: 40px;
-    box-shadow: 0px 0px 5px 1px rgb(165, 165, 165,0.2);
     border-radius: 4px;
 }

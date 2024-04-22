@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "../Login/login.css";
 
 
-
 const Register = ()=>{
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState("");
@@ -42,10 +41,10 @@ const Register = ()=>{
                 
                 <div className="container-register-2">
                     <div>
-                        <img style={{width:"30%"}} src={require("../Image/logo.png")}/>
+                        <img style={{width:"15%", borderRadius:"100%"}} src={require("../Image/logo.png")}/>
                     </div>
-                    <div style={{height:"25%", display:"flex", justifyContent:"center", alignItems:"center", color:"#018b92", fontWeight:"bold", fontSize:"23px",marginBottom:"10px"}}>Register</div>
-                    <div style={{width:"100%", backgroundColor:"white", height:"fit-content", justifyContent:"center", display:"flex", flexDirection:"column"}}>
+                    <div style={{height:"25%", display:"flex", justifyContent:"center", alignItems:"center", color:"#2a86ff", fontWeight:"bold", fontSize:"23px",marginBottom:"10px"}}>Register</div>
+                    <div style={{width:"100%", height:"fit-content", justifyContent:"center", display:"flex", flexDirection:"column"}}>
                         
                         <div className={anError? "errorhint" : "errorhintdis"}>One or more data is missing</div>
                         <div style={{display:"flex", width:"100%",marginBottom:"20px", justifyContent:"center"}}>
@@ -87,9 +86,9 @@ const Register = ()=>{
 
                         <div className="select-div" >
                             <div style={{width:"90%", display:"flex", alignItems:"center",marginBottom:"20px"}}>
-                                <div style={{width:"25%"}}>Country</div>
-                                <div className="select">
-                                    <select onChange={(e)=>{
+                                <div style={{width:"25%", color:"#2a86ff"}}>Country</div>
+                                <div className="select" >
+                                    <select className="input" onChange={(e)=>{
                                         setCountry(e.target.value);
                                         if(e.target.value === "Jordan"){
                                             setCodeCounrty("+962")
@@ -116,7 +115,7 @@ const Register = ()=>{
                         </div>
                         <div style={{display:"flex" ,width:"100%",marginBottom:"20px", justifyContent:"center"}}>
                             <div style={{display:"flex" ,width:"90%", alignItems:"center"}}>
-                            <label style={{width:"25%"}}>
+                            <label style={{width:"25%", color:"#2a86ff"}}>
                                     {codeCountry}
                             </label>
                             <input style={{width:"75%"}} type="tel" maxLength={9} placeholder="Phone" onChange={(e)=>{
@@ -125,21 +124,21 @@ const Register = ()=>{
                             </div>
                         </div>
 
-                        <div style={{display:"flex", width:"100%",marginBottom:"20px", justifyContent:"center", alignItems:"center"}}>
-                            <div style={{width:"22.5%", fontSize:"14px"}}>date of birth :</div>
-                            <select style={{width:"22.5%", }} value={day} onChange={(e) => setDay(e.target.value)}>
+                        <div style={{display:"flex", width:"98.5%",marginBottom:"20px",gap:"5px", justifyContent:"center", alignItems:"center"}}>
+                            <div style={{width:"22.5%", fontSize:"14px", color:"#2a86ff"}}>date of birth :</div>
+                            <select style={{width:"22.5%", }} className="input" value={day} onChange={(e) => setDay(e.target.value)}>
                                 <option value="">Day</option>
                                     {daysInMonth.map((d) => (
                                         <option key={d} value={d}>{d}</option>
                                     ))}
                             </select>
-                            <select style={{width:"22.5%"}} value={month} onChange={(e) => setMonth(e.target.value)}>
+                            <select style={{width:"22.5%"}} className="input" value={month} onChange={(e) => setMonth(e.target.value)}>
                                 <option value="">Month</option>
                                     {months.map((m, index) => (
                                         <option key={index} value={index + 1}>{m}</option>
                                     ))}
                             </select>
-                            <select style={{width:"22.5%"}} value={year} onChange={(e) => setYear(e.target.value)}>
+                            <select style={{width:"22.5%"}} className="input" value={year} onChange={(e) => setYear(e.target.value)}>
                             <option value="">Year</option>
                                     {years.map((y) => (
                                         <option key={y} value={y}>{y}</option>
@@ -175,7 +174,7 @@ const Register = ()=>{
                             }}>Register</button>
                         </div>
                     </div>
-                    <div style={{height:"25%",display:"flex", justifyContent:"center", alignItems:"center", gap:"5px",marginTop:"10px"}}> <label>Alredy have account?</label> <Link to={"/login"}> Login</Link></div>
+                    <div style={{height:"25%",display:"flex", justifyContent:"center", alignItems:"center", gap:"5px",marginTop:"10px"}}> <label style={{color:"white"}}>Alredy have account?</label> <Link to={"/login"}> Login</Link></div>
                 </div>
             </div>
         </div>

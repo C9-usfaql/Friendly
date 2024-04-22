@@ -18,11 +18,11 @@ const Login = ()=>{
                 
                 <div className="container-login-2">
                     <div>
-                        <img style={{width:"30%"}} src={require("../Image/logo.png")}/>
+                        <img style={{width:"15%", borderRadius:"100%"}} src={require("../Image/logo.png")}/>
                     </div>
                         
-                    <div style={{height:"15%", display:"flex", justifyContent:"center", alignItems:"center", color:"#018b92", fontWeight:"bold", fontSize:"23px"}}>Login</div>
-                    <div style={{width:"100%", backgroundColor:"white", height:"fit-content", justifyContent:"center", display:"flex", flexDirection:"column"}}>
+                    <div style={{height:"15%", display:"flex", justifyContent:"center", alignItems:"center", color:"#2a86ff", fontWeight:"bold", fontSize:"23px"}}>Login</div>
+                    <div style={{width:"100%", height:"fit-content", justifyContent:"center", display:"flex", flexDirection:"column"}}>
                         <div style={{display:"flex", justifyContent:"center"}}>
                             <div className={anError? "errorhint" : "errorhintdis"}>{contentError}</div>
                         </div>
@@ -77,7 +77,7 @@ const Login = ()=>{
                             }}>Demo</button>
                         </div>
                     </div>
-                    <div style={{height:"25%",display:"flex", justifyContent:"center", alignItems:"flex-start", gap:"5px"}}> <label>Don't have an account? </label> <Link to={"/register"}> Register</Link></div>
+                    <div style={{height:"25%",display:"flex", justifyContent:"center", alignItems:"flex-start", gap:"5px"}}> <label style={{color:"white"}}>Don't have an account? </label> <Link to={"/register"}> Register</Link></div>
                 </div>
                 
             </div>

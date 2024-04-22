@@ -49,7 +49,7 @@ function NavbarV() {
             <div className='nameUser'>{nameUser}</div>
             
             </div>
-            <div style={{marginTop:"5px", color:"#00adb5", whiteSpace:"pre-line"}}>{bio}</div>
+            <div style={{marginTop:"5px", color:"#2a86ff", whiteSpace:"pre-line"}}>{bio}</div>
 
             <div className='container-info-profile' style={{display:"flex", flexDirection:"row", margin:"20px", justifyContent:"center", textAlign:"center", gap:"15px"}}>
                 <div>
@@ -68,7 +68,7 @@ function NavbarV() {
                 </div>
             </div>
 
-            <div className='btn-open-profile' onClick={()=>{
+            <div className={checkValue ? "btn-open-profile-night" : "btn-open-profile"} onClick={()=>{
                 localStorage.setItem("userIdG", userId);
                 navigate("/profile");
             }}>Profile</div>

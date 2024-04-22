@@ -39,7 +39,6 @@ function formatDate(date) {
   if (minutes < 10) {
     minutes = "0" + minutes;
   }
-  console.log("hours ==>", hours);
   return day + "/" + month + "/" + year + " " + hours + ":" + minutes;
 }
 
@@ -61,7 +60,7 @@ const createPost = (req, res) => {
       .save()
       .then( async(result) => {
         console.log("result Create Post ==>", result);
-      await userModel.updateOne({_id: author},{$push : {posts: result._id}}).then((results) => {
+      await userModel.updateOne({_id: author},{$push : {posts: result._id}}).populate("author").then((results) => {
         res.status(201).json({
           success: true,
           message: "Post Created Successfully",

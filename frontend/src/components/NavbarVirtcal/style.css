@@ -19,11 +19,11 @@
     place-items: center;
     margin-bottom: 10px;
     padding-bottom: 5px;
-    box-shadow: 0px 0px 7px 1px rgb(5, 5, 5, 0.3);
+    border: 1px solid #c7cad0;
 
 }
 .nav-bar-night{
-    background-color: #3A4750;
+    background-color: #1e1f24;
     border-radius: 10px; 
     text-align: center;
     place-items: center;
@@ -75,18 +75,56 @@
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color:#00ADB5;
-    color:white;
+    background-color:white;
+    color:#2a86ff;
     border-radius:8px;
+    border: 1px solid #c7cad0;
     margin:1vh;
     height:fit-content;
-    padding:1vh
+    padding:1vh;
+    cursor: pointer;
 }
 .btn-open-profile:hover{
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: rgb(32, 49, 85);
+    background-color:#c7cad0;
+}
+.btn-open-follow{
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color:#2a86ff;
+    color:white;
+    border-radius:8px;
+    margin:1vh;
+    height:fit-content;
+    padding:1vh;
+    cursor: pointer;
+}
+.btn-open-follow:hover{
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color:#2679e6;
+}
+.btn-open-profile-night{
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color:#27292f;
+    color:white;
+    border-radius:8px;
+    margin:1vh;
+    height:fit-content;
+    padding:1vh;
+    cursor: pointer;
+}
+.btn-open-profile-night:hover{
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color:#17181c;
 }
 
 .container-user-info{
@@ -107,12 +145,12 @@
     display: flex;
     place-items: center;
     gap: 10px;
-    color: white;
+    color: #2a86ff;
+    background-color: #17181c;
     padding-left: 5px;
     border-radius: 8px 8px 0px 0px ;
     padding-top: 1vh;
     padding-bottom: 1vh;
-    background-color: #00ADB5;
 }
 .explore{
     display: flex;
@@ -130,10 +168,10 @@
     place-items: center;
     padding-left: 5px;
     gap: 10px;
-    color: white;
+    color: #2a86ff;
     padding-top: 1vh;
     padding-bottom: 1vh;
-    background-color: #00ADB5;
+    background-color: #17181c;
     border-radius: 0 0 8px 8px;
 }
 
@@ -157,16 +195,16 @@
     padding-top: 1vh;
     padding-bottom: 1vh;
     border-radius: 0 0 8px 8px ;
-    background-color: #00ADB5;
+    background-color: #27292f;
 }
 .home:hover{
     color: white;
-    background-color: #45545f;
+    background-color: #17181c;
     border-radius:8px 8px 0 0;
 }
 .explore:hover{
     color: white;
-    background-color: #45545f;
+    background-color: #17181c;
     border-radius: 0 0 8px 8px;
 }
 
@@ -176,7 +214,7 @@
     border-radius: 4px;
     padding: 5px;
     color: white;
-    background-color: #00ADB5;
+    background-color: #27292f;
     font-weight: bold;
     margin-right: 5px;
 }

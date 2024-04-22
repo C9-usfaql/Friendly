@@ -6,10 +6,8 @@ import { userContext } from "../../App";
 import axios from "axios";
 import { dataContext } from "../Main/Main";
 import Overlay from 'react-bootstrap/Overlay';
-import messageIconDay from "../Image/email_day.png"
-import messageIconNight from "../Image/email_night.png"
-import notificationIconDay from "../Image/notification_day.png"
-import notificationIconNight from "../Image/notification_night.png"
+import messageIcon from "../Image/email.png"
+import notificationIcon from "../Image/notification.png"
 const Navbar = ()=>{
     const { token, userId, checkValue, setCheckValue,searchValue , setSearchValue  } = useContext(userContext);
     const [imageUrl, setImageUrl] = useState("test");
@@ -32,7 +30,7 @@ const Navbar = ()=>{
 
     return(
         <div className={!checkValue? 'Nav' : 'NavNight'}>
-            <div  className="logo-div">
+            <div  className="logo-div" style={{display:"flex", gap:"10px"}}>
                 <img  className="logo" src={require(`../Image/logo.png`)} onClick={()=>{
                 
                  navigate("/");
@@ -41,7 +39,7 @@ const Navbar = ()=>{
             {token && 
             <>
                <div style={{minWidth: "67%", minHeight: "100%", display:"flex", alignItems:"center"}}> 
-               <input className="search-bar" placeholder="Search..." onKeyPress={(e)=>{
+               <input className={!checkValue? 'search-bar' : 'search-bar-night'} placeholder="Search..." onKeyPress={(e)=>{
                 if(e.key === 'Enter'){
                     navigate(`/search/${e.target.value}`)
                 }
@@ -72,10 +70,10 @@ const Navbar = ()=>{
                 <div style={{width:"24px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} onClick={()=>{
                     navigate(`/${userId}/message`)
                 }}>
-                    <img style={{width:"100%", cursor :"pointer"}} src={checkValue ? messageIconDay : messageIconNight}/>
+                    <img style={{width:"100%", cursor :"pointer"}} src={messageIcon}/>
                 </div>
                 <div style={{width:"24px", display:"flex", justifyContent:"center", alignItems:"center", padding:"10px"}} ref={target} onClick={() => setShow(!show)}>
-                    <img style={{width:"100%", cursor :"pointer"}} src={checkValue ? notificationIconDay : notificationIconNight}/>
+                    <img style={{width:"100%", cursor :"pointer"}} src={notificationIcon}/>
                 </div>
                 <div className="avatar-div" onClick={()=>{
                     localStorage.setItem("userIdG", userId);

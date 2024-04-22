@@ -6,12 +6,12 @@
     display:flex;
     flex-direction:column;
     border-radius:10px;
-    box-shadow: 0px 0px 5px 1px rgb(5, 5, 5, 0.25);
+    border: 1px solid #c7cad0;
 }
 .contenter-post-night{
     height:fit-content;
     max-height:fit-content;
-    background-color:#3A4750;
+    background-color:#1e1f24;
     color: white;
     margin-top:10px; 
     display:flex;
@@ -62,7 +62,7 @@
 }
 
 .line-night{
-    border-bottom: 1px solid #4b5053;
+    border-bottom: 1px solid #2f3239;
     width:96%;
     margin-left:2%;
     margin-top:5px;
@@ -137,7 +137,7 @@
 
 .interact-button-night{
     width:100%;
-    border-right: 1px solid #4b5053;
+    border-right: 1px solid #2f3239;
     padding:5px;
     display:flex;
     flex-direction:row;
@@ -217,7 +217,7 @@
 
 
 #hashtag{
-    color: #00ADB5;
+    color: #2a86ff;
 }
 
 .loader {

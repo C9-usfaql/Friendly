@@ -7,13 +7,13 @@
      flex-direction:row; 
      place-items:center; 
      gap:10px;
-     box-shadow: 0px 0px 5px 1px rgb(5, 5, 5, 0.25);
+     border: 1px solid #c7cad0;
 }
 
 .createPost-div-night{
     width: 100%;
     height:fit-content; 
-    background-color: #3A4750;
+    background-color: #1e1f24;
      border-radius:10px;
      display:flex; 
      flex-direction:row; 
@@ -36,17 +36,18 @@
     width: 100%;
     max-width: 100%;
     max-height: 20vh;
-    border-radius:5px;
-    border:1px solid #4b5053;
+    border-radius: 8px;
+    border: 0;
+    padding-left: 10px;
     margin-top:5px;
-    background-color: #303841;
+    background-color: #27292f;
     color: white;
 }
 .input-image{
     width: 14%;
     display:flex;
     place-items: center;
-    background-color: #018b92;
+    background-color: #27292f;
     margin: 10px;
     border-radius: 8px;
     font-weight: bold;
@@ -78,7 +79,7 @@
     padding:10px;
 }
 .post-btn{
-    background-color:#00ADB5;
+    background-color:#27292f;
     border:0;
     color:white;
     font-size:16px; 
@@ -88,7 +89,7 @@
     border-radius:5px; 
 }
 .block-post-btn{
-    background-color:#45545f;
+    background-color:#17181c;
     border:0;
     color:#868686;
     font-size:16px; 
@@ -111,7 +112,7 @@
     width: 0%;
     height: 5px;
     margin-bottom: 5px;
-    background-color: #018b92;
+    background-color: #2a86ff;
   }
 .gg-image {
     box-sizing: border-box;

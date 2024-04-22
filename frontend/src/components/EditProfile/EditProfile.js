@@ -77,10 +77,56 @@ function EditProfile() {
               />
             </label>
             </div>          
-            
-            <div>{dataUser.firstName +" "+ dataUser.lastName}</div>
+
           </div>
-          <div>
+            <div className='label-and-input-bio'>
+              <div style={{textAlign:"start", width:"70%"}}>
+              Bio:
+              </div>
+            
+              <textarea type='text' id='bio' className='input-edit bio' maxLength={"55"} defaultValue={dataUser.bio} onChange={(e)=>{
+                setBio(e.target.value)
+              }}/>
+            </div>
+
+          
+          </div>
+        </div>
+        <div style={{display:"flex", flexDirection:"column",placeItems:"center"}}>
+          <div style={{textAlign:"start", marginLeft:"20px", color:"rgb(160,160,160)",fontSize:"18px", width:"50%"}}>Personal details</div>
+          <div className='line' style={{maxWidth:"50%"}}></div>
+        </div>
+        
+        <div className='contenter-input'>
+          <div className='label-and-input'>
+            <div>
+              <div className='label'>First Name:</div>
+              <input id='first-name' className='input-edit' defaultValue={dataUser.firstName} onChange={(e)=>{
+                setFirstName(e.target.value);
+              }}/>
+            </div>
+            <div>
+              <div className='label'>Last Name:</div>
+              <input id='last-name' className='input-edit' defaultValue={dataUser.lastName} onChange={(e)=>{
+                setLastName(e.target.value);
+              }}/>
+            </div>
+            <div>
+              <div className='label'>Email:</div>
+              <input id='email' className='input-edit' defaultValue={dataUser.email} onChange={(e)=>{
+                setEmail(e.target.value);
+              }}/>
+            </div>
+            <div>
+              <div className='label'>Phone:</div>
+              <input id='phone' className='input-edit' defaultValue={dataUser.phoneNumber} onChange={(e)=>{
+                setPhone(e.target.value);
+              }}/>
+            </div>
+          </div>
+        </div>
+        
+        <div>
             <button className={!loading? 'btn-open-profile': 'btn-open-profile-block'} onClick={()=>{
               if(editImage){
                 const storageRef = ref(storage, `/${userId}/profileImage`);
@@ -110,53 +156,6 @@ function EditProfile() {
             }
             }}>{!loading?'Save Change': `${loading}`}</button>
           </div>
-          </div>
-        </div>
-        <div style={{display:"flex", flexDirection:"column",placeItems:"center"}}>
-          <div style={{textAlign:"start", marginLeft:"20px", color:"rgb(160,160,160)",fontSize:"18px", width:"50%"}}>Personal details</div>
-          <div className='line' style={{maxWidth:"50%"}}></div>
-        </div>
-        
-        <div className='contenter-input'>
-          <div className='label-and-input'>
-          <div>
-            <div className='label'>First Name:</div>
-            <input id='first-name' className='input-edit' defaultValue={dataUser.firstName} onChange={(e)=>{
-              setFirstName(e.target.value);
-            }}/>
-          </div>
-          <div>
-            <div className='label'>Last Name:</div>
-            <input id='last-name' className='input-edit' defaultValue={dataUser.lastName} onChange={(e)=>{
-              setLastName(e.target.value);
-            }}/>
-          </div>
-          
-        </div>
-
-        <div className='label-and-input'>
-        <div>
-          <div className='label'>Email:</div>
-          <input id='email' className='input-edit' defaultValue={dataUser.email} onChange={(e)=>{
-            setEmail(e.target.value);
-          }}/>
-        </div>
-        <div>
-          <div className='label'>Phone:</div>
-          <input id='phone' className='input-edit' defaultValue={dataUser.phoneNumber} onChange={(e)=>{
-            setPhone(e.target.value);
-          }}/>
-          </div>
-        </div>
-        <div className='label'>Bio:</div>
-        <div className='label-and-input-bio'>
-           
-          <textarea type='text' id='bio' className='input-edit bio' maxLength={"55"} defaultValue={dataUser.bio} onChange={(e)=>{
-            setBio(e.target.value)
-          }}/>
-        </div>
-        </div>
-
       </div>
     </div>
   )

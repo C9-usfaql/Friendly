@@ -30,7 +30,7 @@ function CreatePost() {
     const  [postDetails, setPostDetails] = useState({})
     const [imageUser, setImageUser] = useState(null);
     const { token, userId, checkValue} = useContext(userContext);
-    const {  data, setData } = useContext(dataContext);
+    const {data, setData, dataFollowing, setDataFollowing} = useContext(dataContext);
     const [ImagePost, setImagePost] = useState({});
     const [trundleVideo , setTrundleVideo] = useState({})
     const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ function CreatePost() {
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
-  
+    console.log("dataFollowing", dataFollowing);
     useEffect(()=>{
         axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
             setImageUser(result.data.user.image);
@@ -75,7 +75,7 @@ function CreatePost() {
             <label htmlFor="img" className="custom-file-input-post">
             {selectedOption === "post"? 
             <> 
-            <i className={ImagePost.name? 'gg-image-upload': 'gg-image'}></i>
+            <i className='gg-image'></i>
             <input type="file" id="img" name="img"  style={{ display: "none" }}   accept="image/*"  onChange={(e)=>{
                 const file = e.target.files[0];
 
@@ -120,97 +120,68 @@ function CreatePost() {
 
               </label>
             </div>
-            <button className={ selectedOption === "post" && content || ImagePost.name || trundleVideo.name ? 'post-btn' : 'block-post-btn'}
-        onClick={(e)=>{
-          e.preventDefault()
-          if(content || ImagePost.name){
-          if(ImagePost.name){
-            const storageRef = ref(storage, `${ImagePost.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, ImagePost);
-
-            uploadTask.on(
-              "state_changed",
-              (snapshot) => {
-                document.querySelector("#myProgress").style.display = "block";
-                const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                document.querySelector("#myBar").style.width = `${progress}%`
-                document.querySelector("#img").value = "";
-                document.querySelector("#content").value = "";
-                document.querySelector("#img-post-btn").style.display = "none"
-                setContent("");
-              },
-              (error) => {
-                console.error('Error uploading file:', error);
-              },
-              () => {
-                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    axios.post("https://friendly-29oc.onrender.com/posts/create", {content, author:userId, image: downloadURL},{
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }}).then((result) => {
-                        document.querySelector("#myProgress").style.display = "none";
-                        document.querySelector("#img-post-btn").style.display = "block";
-                       // ?/ spread array [result , ]
-                       setData([ ...data,result.data.data])
-  
-                }).catch((err) => {
-                    console.error("error from create post" , err);
-                });
-                setImagePost(null)
-                });
-              }
-            );
-        }else{
-            axios.post("https://friendly-29oc.onrender.com/posts/create", {content, author:userId, image:""},{
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }}).then((result) => {
-                     setData([ ...data,result.data.data ])
-                    setContent("");
-
-            }).catch((err) => {
-                console.error("error from create post" , err);
-            });
-        }
-          }else if(trundleVideo.name){
-            const storageRef = ref(storage, `/${userId}/${trundleVideo.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, trundleVideo);
-
-            uploadTask.on(
-              "state_changed",
-              (snapshot) => {
-                document.querySelector("#myProgress").style.display = "block";
-                const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                document.querySelector("#myBar").style.width = `${progress}%`
-                document.querySelector("#img").value = "";
-                document.querySelector("#content").value = "";
-                document.querySelector("#img-post-btn").style.display = "none"
-                setContent("");
-              },
-              (error) => {
-                console.error('Error uploading file:', error);
-              },
-              () => {
-                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    axios.post("https://friendly-29oc.onrender.com/trundle/create", {content, author:userId, video: downloadURL},{
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }}).then((result) => {
-                        document.querySelector("#myProgress").style.display = "none";
-                        document.querySelector("#img-post-btn").style.display = "block";
-  
-                }).catch((err) => {
-                    console.error("error from create post" , err);
-                });
-                setImagePost(null)
-                });
-              }
-            );
-        
-          }
-    }}>Publish</button>
+            <button className={content || ImagePost?.name ? 'post-btn' : 'block-post-btn'}
+                onClick={(e)=>{
+                  e.preventDefault()
+                  if(content || ImagePost.name){
+                  if(ImagePost.name){
+                    const storageRef = ref(storage, `${ImagePost.name}`);
+                    const uploadTask = uploadBytesResumable(storageRef, ImagePost);
+                  
+                    uploadTask.on(
+                      "state_changed",
+                      (snapshot) => {
+                        document.querySelector("#myProgress").style.display = "block";
+                        const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        document.querySelector("#myBar").style.width = `${progress}%`
+                        document.querySelector("#img").value = "";
+                        document.querySelector("#content").value = "";
+                        document.querySelector("#img-post-btn").style.display = "none"
+                        setContent("");
+                      },
+                      (error) => {
+                        console.error('Error uploading file:', error);
+                      },
+                      () => {
+                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                            axios.post("https://friendly-29oc.onrender.com/posts/create", {content, author:userId, image: downloadURL},{
+                            headers: {
+                                Authorization: `Bearer ${token}`
+                            }}).then((result) => {
+                                document.querySelector("#myProgress").style.display = "none";
+                                document.querySelector("#img-post-btn").style.display = "block";
+                               // ?/ spread array [result , ]
+                               setData([ ...data,result.data.data])
+                               console.log(data);
+                               setImageUrlForIcon(null);
+                            
+                        }).catch((err) => {
+                            console.error("error from create post" , err);
+                        });
+                        setImagePost(null)
+                        });
+                      }
+                    );
+                }else{
+                    axios.post("https://friendly-29oc.onrender.com/posts/create", {content, author:userId, image:""},{
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }}).then((result) => {
+                            result.data.data.author = JSON.parse(localStorage.getItem("InfoMe"));
+                             setData([ ...data,result.data.data ])
+                             setDataFollowing([ result.data.data, ...dataFollowing]);
+                            setContent("");
+                            setImagePost({});
+                            setImageUrlForIcon(null);
+                    }).catch((err) => {
+                        console.error("error from create post" , err);
+                    });
+                }
+                  }else{
+                    return null;
+                  }
+            }}>Post</button>
              </div>
                 <div id="myProgress">
                 <div id="myBar"></div>
