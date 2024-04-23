@@ -325,8 +325,7 @@ const getMessageByPrivate = async (req, res) => {
 const updateStatusOnline = (req,res)=>{
   const id = req.params.id;
 
-  userModel.findByIdAndUpdate({_id: id}, {isOnline : true}).then((result) => {
-
+  userModel.updateOne({_id: id}, {isOnline : true}).then((result) => {
     if(!result){
       return res.status(404).json({
         success: false,
