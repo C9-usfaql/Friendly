@@ -170,7 +170,7 @@ const updateDataUserById = (req,res)=>{
 const followingUser = (req,res)=>{
   const {myId, userId} = req.params;
   userModel.findById({_id: myId}).then(async(result) => {
-    console.log("Result =>", result.following.includes(userId));
+
     if(result.following.includes(userId)){
       await userModel.updateOne({_id:myId}, {$pull : {following: userId}}).then((result) => {
         userModel.updateOne({_id:userId}, {$pull : {follower: myId}}).then((resultEnd) => {
@@ -323,15 +323,9 @@ const getMessageByPrivate = async (req, res) => {
 };
 
 const updateStatusOnline = (req, res) => {
-  const _id = req.params.id;
+  const {id} = req.params;
 
-  userModel.findByIdAndUpdate(_id, { isOnline: true }).then((user) => {
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: `The User with id => ${_id} not found`,
-      });
-    }
+  userModel.findByIdAndUpdate({_id: id}, { isOnline: true }, { new: true }).then((user) => {
 
     res.status(200).json({
       success: true,
