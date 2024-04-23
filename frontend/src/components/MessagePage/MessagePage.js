@@ -45,7 +45,7 @@ function MessagePage() {
   useEffect(()=>{
     socket?.on('connect', ()=>{
         console.log(true)
-        axios.get(`https://friendly-29oc.onrender.com/users/${userId}/status`, config).then((result) => {
+        axios.put(`https://friendly-29oc.onrender.com/users/${userId}/status`, config).then((result) => {
           console.log("Update Status Online => ",result);
           }).catch((err) => {
             console.error(err);

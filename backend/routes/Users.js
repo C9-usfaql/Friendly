@@ -24,5 +24,5 @@ usersRouter.get("/:myId/:userId", authentication, followingUser);
 usersRouter.get("/", authentication, getAllUser);
 usersRouter.get("/follow/user/:id", authentication, getPostByFollowing);
 usersRouter.get('/message/:coach_id/:user_id',authentication,getMessageByPrivate);
-usersRouter.get('/:id/status', authentication,updateStatusOnline);
+usersRouter.put('/:id/status', authentication,updateStatusOnline);
 module.exports = usersRouter;
