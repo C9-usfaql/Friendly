@@ -14,7 +14,7 @@ const userModel = new mongoose.Schema({
     posts : [{type: mongoose.Schema.Types.ObjectId, ref: "Posts"}],
     follower : [{type: mongoose.Schema.Types.ObjectId, ref : "Follower"}],
     following : [{type: mongoose.Schema.Types.ObjectId, ref : "Following"}],
-    isOnline : [{type : Boolean, default : false}]
+    isOnline : {type : Boolean, default : false}
 })
 
 userModel.pre("save", async function () {
