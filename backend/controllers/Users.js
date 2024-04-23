@@ -322,21 +322,21 @@ const getMessageByPrivate = async (req, res) => {
   }
 };
 
-const updateStatusOnline = (req,res)=>{
-  const id = req.params.id;
+const updateStatusOnline = (req, res) => {
+  const _id = req.params.id;
 
-  userModel.updateOne({_id: id}, {isOnline : true}).then((result) => {
-    if(!result){
+  userModel.findByIdAndUpdate(_id, { isOnline: true }, { new: true }).then((user) => {
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: `The User with id => ${id} not found`,
       });
     }
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: `User Online`,
-      user: result,
+      user: user,
     });
   }).catch((err) => {
     res.status(500).json({
