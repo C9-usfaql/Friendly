@@ -68,8 +68,14 @@ const Login = ()=>{
                                     setToken(result.data.token);
                                     localStorage.setItem("token", result.data.token);
                                     localStorage.setItem("userId", result.data.userId);
-                                    navigate("/");
-                                    setAnError(false);
+                                    axios.put(`https://friendly-29oc.onrender.com/users/${result.data.userId}/status`,{isOnline : true}, {
+                                        headers: { Authorization: `Bearer ${result.data.token}` }
+                                      }).then((result) => {
+                                      navigate("/");
+                                      setAnError(false);
+                                      }).catch((err) => {
+                                        console.error(err);
+                                      });
                                 }).catch((err)=>{
                                     setAnError(true);
                                     setContentError(err.response.data.message);

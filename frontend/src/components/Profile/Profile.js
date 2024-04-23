@@ -411,8 +411,13 @@ const [maxWidth, setMaxWidth] = useState('100%');
             {localStorage.getItem("userIdG") === userId ?<><div className={checkValue ? "btn-open-profile-night" : "btn-open-profile"} onClick={()=>{
               navigate("edit");
             }}>Edit Profile</div> <div className='btn-logout-profile' onClick={()=>{
-              localStorage.clear();
-              navigate("/login");
+              axios.put(`https://friendly-29oc.onrender.com/users/${userId}/status`,{isOnline : false}, config).then((result) => {
+                localStorage.clear();
+                navigate("/login");
+              }).catch((err) => {
+                console.error(err);
+              });
+              
             }}>Logout</div>
             </>  : <>
             <div style={{display:"flex"}}>

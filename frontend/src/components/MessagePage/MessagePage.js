@@ -28,7 +28,7 @@ function MessagePage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [follower, setFollower] = useState(null);
   const [friend, setFriend] = useState(null);
-
+  const [isOnline ,setIsOnline] = useState(false);
   const config = {
     headers: { Authorization: `Bearer ${token}` }
   };
@@ -37,6 +37,7 @@ function MessagePage() {
     axios.get(`https://friendly-29oc.onrender.com/users/${userId}`, config).then((result) => {
       setFollowing(result.data.user.following);
       setFollower(result.data.user.follower);
+      console.log(result.data.user.following);
       }).catch((err) => {
         
       });
@@ -44,12 +45,7 @@ function MessagePage() {
   
   useEffect(()=>{
     socket?.on('connect', ()=>{
-        console.log(true)
-        axios.put(`https://friendly-29oc.onrender.com/users/${userId}/status`,{isOnline : true}, config).then((result) => {
-          console.log("Update Status Online => ",result);
-          }).catch((err) => {
-            console.error(err);
-          });
+        console.log(true);
     });
    
     return()=>{
@@ -100,7 +96,7 @@ function MessagePage() {
   
   const disconnectServer = ()=>{
     socket?.disconnect();      
-    
+
   }
 
   useEffect(()=>{
@@ -167,6 +163,7 @@ const handleSearch = (e) => {
             setNameUserMessage(e.firstName + " " + e.lastName);
             setImageUserMessage(e.image);
             setBioUserMessage(e.bio);
+            setIsOnline(e.isOnline);
             setCountryUserMessage(e.country);
             setSocket(socketInit({user_id : userId, token :token , room : e._id}));
           }}>
@@ -175,10 +172,10 @@ const handleSearch = (e) => {
           <div style={{display:"flex", flexDirection:"column", gap:"5px"}}>
           <h4>{e.firstName +" "+ e.lastName}</h4>
           <div style={{display:"flex", flexDirection:"row", justifyContent:"cetner", alignItems:"center", gap:"5px"}}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill={e.isOnline ? "green" : "gray"} class="bi bi-circle-fill" viewBox="0 0 16 16">
               <circle cx="8" cy="8" r="8"/>
             </svg>
-            <h6>Online</h6>
+            <h6>{e.isOnline ? "Online" : "Offline"}</h6>
           </div>
         </div>
           </div>
@@ -198,10 +195,10 @@ const handleSearch = (e) => {
         <div style={{display:"flex", flexDirection:"column", gap:"5px"}}>
           <h4>{nameUserMessage}</h4>
           <div style={{display:"flex", flexDirection:"row", justifyContent:"cetner", alignItems:"center", gap:"5px"}}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="green" class="bi bi-circle-fill" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill={isOnline ? "green" : "gray"} class="bi bi-circle-fill" viewBox="0 0 16 16">
               <circle cx="8" cy="8" r="8"/>
             </svg>
-            <h6>Online</h6>
+            <h6>{isOnline ? "Online" : "Offline"}</h6>
           </div>
         </div>
         
