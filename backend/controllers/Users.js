@@ -322,6 +322,31 @@ const getMessageByPrivate = async (req, res) => {
   }
 };
 
+const updateStatusOnline = (req,res)=>{
+  const id = req.params.id;
+
+  userModel.findByIdAndUpdate({_id: id}, {isOnline : true}).then((result) => {
+
+    if(!result){
+      return res.status(404).json({
+        success: false,
+        message: `The User with id => ${id} not found`,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: `User Online`,
+      user: result,
+    });
+  }).catch((err) => {
+    res.status(500).json({
+      success: false,
+      message: `Server Error`,
+      err: err.message,
+    });
+  });
+};
 
 module.exports = {
     register,
@@ -332,6 +357,7 @@ module.exports = {
     getAllUser,
     getPostByFollowing,
     getFollowingUser,
-    getMessageByPrivate
+    getMessageByPrivate,
+    updateStatusOnline
   };
   

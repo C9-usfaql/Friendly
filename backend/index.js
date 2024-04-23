@@ -23,7 +23,9 @@ const io = new Server(server ,{cors:{origin:"*"}});
 const client = {}
 io.use(auth);
 io.on("connection",(socket)=>{
+
   const user_id=socket.handshake.headers.user_id;
+  
   client[user_id]={socket_id:socket.id,user_id};
   messageHandler(socket, io);
   socket.on("disconnect",()=>{
