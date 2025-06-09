@@ -43,7 +43,7 @@ function NavbarV() {
         <div className={!checkValue? 'nav-bar': 'nav-bar-night'} style={{display: allUser?.length ? "block":"none"}}>
             <div style={{fontWeight:"bold", textAlign:"left", marginLeft:"10px", marginBottom:"10px", paddingTop:"10px"}}>Suggested For you</div>
             <div className={!checkValue? 'line': 'line-night'} ></div>
-            <div style="width: 100%">
+            <div style={{width: "100%"}}>
                 {allUser && allUser.length > 0 && allUser.map((user, index) => {
                     if (userId && user._id === userId) {
                         // Skip rendering if the user is the current user
@@ -78,7 +78,7 @@ function NavbarV() {
         <div className={!checkValue? 'nav-bar': 'nav-bar-night'} style={{display: friend?.length ? "block":"none"}}>
             <div style={{fontWeight:"bold", textAlign:"left", marginLeft:"10px", marginBottom:"10px", paddingTop:"10px"}}>My Friend</div>
             <div className={!checkValue? 'line': 'line-night'} ></div>
-            <div style="width: 100%">
+            <div style={{width: "100%"}}>
                 {friend && friend.length > 0 && friend.map((user, index) => {
 
                     return (
